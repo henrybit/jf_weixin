@@ -1,15 +1,22 @@
-package com.github.sd4324530.fastweixin;
+package com.github.jf.weixin;
 
-import com.github.sd4324530.fastweixin.api.*;
-import com.github.sd4324530.fastweixin.api.config.ApiConfig;
-import com.github.sd4324530.fastweixin.api.entity.*;
-import com.github.sd4324530.fastweixin.api.enums.*;
-import com.github.sd4324530.fastweixin.api.response.*;
-import com.github.sd4324530.fastweixin.message.MpNewsMsg;
-import com.github.sd4324530.fastweixin.util.StrUtil;
+import com.github.jf.weixin.api.*;
+import com.github.jf.weixin.api.customservice.CustomerServiceAPI;
+import com.github.jf.weixin.api.datacube.DataCubeAPI;
+import com.github.jf.weixin.api.material.MaterialAPI;
+import com.github.jf.weixin.api.material.MediaAPI;
+import com.github.jf.weixin.api.menu.MenuAPI;
+import com.github.jf.weixin.api.message.MessageAPI;
+import com.github.jf.weixin.api.user.UserAPI;
+import com.github.jf.weixin.api.web.OauthAPI;
+import com.github.jf.weixin.entity.*;
+import com.github.jf.weixin.enums.*;
+import com.github.jf.weixin.entity.response.*;
+import com.github.jf.weixin.entity.message.recevice.MpNewsMsg;
+import com.github.jf.weixin.config.ApiConfig;
+import com.github.jf.weixin.util.StringUtil;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
-import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -168,7 +175,7 @@ public class FastweixinTest {
     }
 
     public void addCustomAccount(ApiConfig config) {
-        CustomAPI customAPI = new CustomAPI(config);
+        CustomerServiceAPI customAPI = new CustomerServiceAPI(config);
         CustomAccount customAccount = new CustomAccount();
         customAccount.setAccountName("peiyu@i-xiaoshuo");
         customAccount.setNickName("帅哥");
@@ -197,8 +204,8 @@ public class FastweixinTest {
     }
 
     public void testGetJsApiTicket(ApiConfig config){
-        Assert.assertTrue(StrUtil.isNotBlank(config.getJsApiTicket()));
-        if(StrUtil.isNotBlank(config.getJsApiTicket())){
+        Assert.assertTrue(StringUtil.isNotBlank(config.getJsApiTicket()));
+        if(StringUtil.isNotBlank(config.getJsApiTicket())){
             LOG.debug("ok");
         }
     }
