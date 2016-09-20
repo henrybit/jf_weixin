@@ -1,5 +1,9 @@
 package com.github.jf.weixin.entity;
 
+import com.github.jf.weixin.util.JSONUtil;
+
+import java.util.HashMap;
+
 /**
  * 卡券扩展字段cardExt说明<br>
  * <table style="border:1px solid" border="1">
@@ -71,5 +75,16 @@ public class CardExt {
 
     public void setOuterId(String outerId) {
         this.outerId = outerId;
+    }
+
+    public String toJson() {
+        HashMap<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("code",this.code);
+        jsonMap.put("openid",this.openid);
+        jsonMap.put("timestamp",this.timestamp);
+        jsonMap.put("signature",this.signature);
+        jsonMap.put("nonce_str",this.nonceStr);
+        jsonMap.put("outerId",this.outerId);
+        return JSONUtil.toJson(jsonMap);
     }
 }

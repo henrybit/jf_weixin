@@ -1,16 +1,13 @@
 package com.github.jf.weixin.api.material;
 
-import com.github.jf.weixin.api.BaseAPI;
-import com.github.jf.weixin.entity.Article;
-import com.github.jf.weixin.entity.response.BaseResponse;
-import com.github.jf.weixin.entity.response.DownloadMediaResponse;
-import com.github.jf.weixin.entity.response.UploadImgResponse;
-import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.enums.MediaType;
-import com.github.jf.weixin.entity.response.UploadMediaResponse;
-import com.github.jf.weixin.util.JSONUtil;
-import com.github.jf.weixin.util.NetWorkCenter;
-import com.github.jf.weixin.util.StreamUtil;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -21,13 +18,18 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.github.jf.weixin.api.BaseAPI;
+import com.github.jf.weixin.config.APIAddress;
+import com.github.jf.weixin.config.ApiConfig;
+import com.github.jf.weixin.entity.Article;
+import com.github.jf.weixin.entity.response.BaseResponse;
+import com.github.jf.weixin.entity.response.DownloadMediaResponse;
+import com.github.jf.weixin.entity.response.UploadImgResponse;
+import com.github.jf.weixin.entity.response.UploadMediaResponse;
+import com.github.jf.weixin.enums.MediaType;
+import com.github.jf.weixin.util.JSONUtil;
+import com.github.jf.weixin.util.NetWorkCenter;
+import com.github.jf.weixin.util.StreamUtil;
 
 /**
  * 多媒体资源API
@@ -51,7 +53,8 @@ public class MediaAPI extends BaseAPI {
      */
     public UploadMediaResponse uploadMedia(MediaType type, File file) {
         UploadMediaResponse response;
-        String url = "http://file.weixin.weixin.qq.com/cgi-bin/media/upload?access_token=#&type=" + type.toString();
+        //String url = "http://file.weixin.weixin.qq.com/cgi-bin/media/upload?access_token=#&type=" + type.toString();
+        String url = APIAddress.UPLOAD_TEMP_MEDIA_API.replace("TYPE", type.toString());
         BaseResponse r = executePost(url, null, file);
         response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
         return response;
@@ -65,7 +68,8 @@ public class MediaAPI extends BaseAPI {
      */
     public UploadMediaResponse uploadNews(List<Article> articles){
         UploadMediaResponse response;
-        String url = BASE_API_URL + "cgi-bin/media/uploadnews?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/media/uploadnews?access_token=#";
+        String url = APIAddress.MASS_UPLOAD_MESSAGE_IMAGE_NEWS_API;
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("articles", articles);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
@@ -78,7 +82,8 @@ public class MediaAPI extends BaseAPI {
      */
     public UploadImgResponse uploadImg(File file){
         UploadImgResponse response;
-        String url = "https://weixin.weixin.qq.com/cgi-bin/media/uploadimg?access_token=#";
+        //String url = "https://weixin.weixin.qq.com/cgi-bin/media/uploadimg?access_token=#";
+        String url = APIAddress.MASS_UPLOAD_MESSAGE_IMAGE_API;
         BaseResponse r = executePost(url, null, file);
         response = JSONUtil.toBean(r.getErrmsg(), UploadImgResponse.class);
         return response;
@@ -92,7 +97,8 @@ public class MediaAPI extends BaseAPI {
      */
     public DownloadMediaResponse downloadMedia(String mediaId) {
         DownloadMediaResponse response = new DownloadMediaResponse();
-        String url = "http://file.weixin.weixin.qq.com/cgi-bin/media/get?access_token=" + this.config.getAccessToken() + "&media_id=" + mediaId;
+        //String url = "http://file.weixin.weixin.qq.com/cgi-bin/media/get?access_token=" + this.config.getAccessToken() + "&media_id=" + mediaId;
+        String url = APIAddress.GET_TEMP_MEDIA_API.replace("ACCESS_TOKEN", this.config.getAccessToken()).replace("MEDIA_ID", mediaId);
         RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(NetWorkCenter.CONNECT_TIMEOUT).setConnectTimeout(NetWorkCenter.CONNECT_TIMEOUT).setSocketTimeout(NetWorkCenter.CONNECT_TIMEOUT).build();
         CloseableHttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
         HttpGet get = new HttpGet(url);

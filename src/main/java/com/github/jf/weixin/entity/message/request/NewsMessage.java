@@ -2,6 +2,7 @@ package com.github.jf.weixin.entity.message.request;
 
 import com.github.jf.weixin.util.JSONUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,8 +31,23 @@ public class NewsMessage extends BaseReqMsg{
      * @param desciption 文章描述
      * @return Article
      */
-    protected Article createArticle(String title, String picUrl, String url, String desciption) {
+    public Article createArticle(String title, String picUrl, String url, String desciption) {
         return new Article(title, picUrl, url, desciption);
+    }
+
+    /**
+     * 添加一个文章实体到NewsMessage对象中<br>
+     * @param article 文章实体（通过createArticle方法创建）
+     * @return int-返回该文章对应的位置信息
+     */
+    public int addArticle(Article article) {
+        if (article == null) return -1;
+        if (articles != null) {
+            int size = articles.size();
+            articles.add(article);
+            return size;
+        }
+        return 0;
     }
 
     /**
@@ -40,7 +56,7 @@ public class NewsMessage extends BaseReqMsg{
      * @since 1.3
      * @version 2.0
      */
-    public class Article {
+    public static class Article {
         private String title;
         private String description;
         private String picUrl;
@@ -127,5 +143,22 @@ public class NewsMessage extends BaseReqMsg{
         HashMap<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("articles",this.articles);
         return JSONUtil.toJson(jsonMap);
+    }
+
+    public static void main(String[] args) {
+        List<Article> articles = new ArrayList<Article>();
+        for (int i=0; i<10; i++) {
+            String title = i+"";
+            String description = "说明";
+            String picUrl = "http://www.baidu.com/1.png";
+            String url = "http://www.baidu.com";
+            Article article = new Article(title, description, picUrl, url);
+            articles.add(article);
+        }
+        HashMap<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("articles",articles);
+        String result = JSONUtil.toJson(jsonMap);
+
+        System.out.println(result);
     }
 }

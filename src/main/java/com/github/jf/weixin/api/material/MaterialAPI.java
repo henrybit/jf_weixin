@@ -1,14 +1,13 @@
 package com.github.jf.weixin.api.material;
 
-import com.github.jf.weixin.api.BaseAPI;
-import com.github.jf.weixin.entity.Article;
-import com.github.jf.weixin.enums.ResultType;
-import com.github.jf.weixin.entity.response.*;
-import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.enums.MaterialType;
-import com.github.jf.weixin.util.JSONUtil;
-import com.github.jf.weixin.util.NetWorkCenter;
-import com.github.jf.weixin.util.StringUtil;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -24,13 +23,20 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.github.jf.weixin.api.BaseAPI;
+import com.github.jf.weixin.config.APIAddress;
+import com.github.jf.weixin.config.ApiConfig;
+import com.github.jf.weixin.entity.Article;
+import com.github.jf.weixin.entity.response.BaseResponse;
+import com.github.jf.weixin.entity.response.DownloadMaterialResponse;
+import com.github.jf.weixin.entity.response.GetMaterialListResponse;
+import com.github.jf.weixin.entity.response.GetMaterialTotalCountResponse;
+import com.github.jf.weixin.entity.response.UploadMaterialResponse;
+import com.github.jf.weixin.enums.MaterialType;
+import com.github.jf.weixin.enums.ResultType;
+import com.github.jf.weixin.util.JSONUtil;
+import com.github.jf.weixin.util.NetWorkCenter;
+import com.github.jf.weixin.util.StringUtil;
 
 /**
  *  
@@ -66,7 +72,8 @@ public class MaterialAPI extends BaseAPI {
      */
     public UploadMaterialResponse uploadMaterialFile(File file, String title, String introduction){
         UploadMaterialResponse response;
-        String url = "http://weixin.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
+        //String url = "http://weixin.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
+        String url = APIAddress.UPLOAD_MATERIAL_OTHER_API;
         BaseResponse r;
         if(StringUtil.isBlank(title)) {
             r = executePost(url, null, file);
@@ -88,7 +95,8 @@ public class MaterialAPI extends BaseAPI {
      */
     public UploadMaterialResponse uploadMaterialNews(List<Article> articles){
         UploadMaterialResponse response;
-        String url = BASE_API_URL + "cgi-bin/material/add_news?access_token=#";
+//        String url = BASE_API_URL + "cgi-bin/material/add_news?access_token=#";
+        String url = APIAddress.UPLOAD_MATERIAL_NEWS_API;
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("articles", articles);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
@@ -105,7 +113,8 @@ public class MaterialAPI extends BaseAPI {
      */
     public DownloadMaterialResponse downloadMaterial(String mediaId, MaterialType type){
         DownloadMaterialResponse response = new DownloadMaterialResponse();
-        String url = BASE_API_URL + "cgi-bin/material/get_material?access_token=" + config.getAccessToken();
+        //String url = BASE_API_URL + "cgi-bin/material/get_material?access_token=" + config.getAccessToken();
+        String url = APIAddress.GET_MATERIAL_API; 
         RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(NetWorkCenter.CONNECT_TIMEOUT).setConnectTimeout(NetWorkCenter.CONNECT_TIMEOUT).setSocketTimeout(NetWorkCenter.CONNECT_TIMEOUT).build();
         CloseableHttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
         HttpPost request = new HttpPost(url);
@@ -170,7 +179,8 @@ public class MaterialAPI extends BaseAPI {
      */
     public GetMaterialTotalCountResponse countMaterial(){
         GetMaterialTotalCountResponse response = null;
-        String url = BASE_API_URL + "cgi-bin/material/get_materialcount?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/material/get_materialcount?access_token=#";
+        String url = APIAddress.GET_MATERIAL_COUNT_API;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetMaterialTotalCountResponse.class);
@@ -190,7 +200,8 @@ public class MaterialAPI extends BaseAPI {
         if(count < 1) count = 1;
 
         GetMaterialListResponse response = null;
-        String url = BASE_API_URL + "cgi-bin/material/batchget_material?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/material/batchget_material?access_token=#";
+        String url = APIAddress.GET_MATERIAL_LIST_API;
         final Map<String, Object> params = new HashMap<String, Object>(4, 1);
         params.put("type", type.toString());
         params.put("offset", offset);
@@ -208,7 +219,8 @@ public class MaterialAPI extends BaseAPI {
      * @return 删除结果
      */
     public ResultType deleteMaterial(String mediaId) {
-        String url = BASE_API_URL + "cgi-bin/material/del_material?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/material/del_material?access_token=#";
+        String url = APIAddress.DELETE_MATERIAL_API;
         final Map<String, String> param = new HashMap<String, String>();
         param.put("media_id", mediaId);
         BaseResponse response = executePost(url, JSONUtil.toJson(param));

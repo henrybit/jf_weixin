@@ -52,7 +52,7 @@ public class CustomerServiceMessage extends BaseReqMsg{
 
     /**
      * 客服消息<br>
-     * @param toUser 接收方
+     * @param toUser 接收方的Openid
      * @param msgType 消息类型
      */
     public CustomerServiceMessage(String toUser, MessageType msgType) {
@@ -65,6 +65,7 @@ public class CustomerServiceMessage extends BaseReqMsg{
      * @param msgType 消息类型
      */
     public CustomerServiceMessage(MessageType msgType) {
+    	this.msgType = msgType;
         switch (msgType) {
             case IMAGE:
                 msgBody = new ImageMessage();
@@ -93,6 +94,117 @@ public class CustomerServiceMessage extends BaseReqMsg{
         }
     }
 
+    /**
+     * 设置消息内容<br>
+     * 只有Text类型消息支持该方法，其他类型消息无效果
+     * @param content 消息内容
+     */
+    public void setContent(String content) throws Exception{
+        if (msgType == MessageType.TEXT) {
+            ((TextMessage)msgBody).setContent(content);
+        }
+    }
+
+    /**
+     * 设置媒体ID<br>
+     * 支持的消息类型：图片/语音/视频/图文消息（点击跳转到图文消息页）
+     * @param mediaId
+     */
+    public void setMediaId(String mediaId) throws Exception{
+        switch (msgType) {
+            case IMAGE:
+                ((ImageMessage)msgBody).setMediaId(mediaId);
+                break;
+            case VOICE:
+                ((VoiceMessage)msgBody).setMediaId(mediaId);
+                break;
+            case VIDEO:
+                ((VideoMessage)msgBody).setMediaId(mediaId);
+                break;
+            case MPNEWS:
+                ((MPNewsMessage)msgBody).setMediaId(mediaId);
+                break;
+        }
+    }
+
+    /**
+     * 设置缩略图<br>
+     *  支持的消息类型：视频/音乐
+     * @param thumbMediaId 缩略图ID（需要先调用上传素材接口上传资源获得缩略图ID）
+     * @throws Exception
+     */
+    public void setThumbMediaId(String thumbMediaId) throws Exception{
+        switch (msgType) {
+            case VIDEO:
+                ((VideoMessage)msgBody).setThumbMediaId(thumbMediaId);
+                break;
+            case MUSIC:
+                ((MusicMessage)msgBody).setThumbMediaId(thumbMediaId);
+                break;
+        }
+    }
+
+    /**
+     * 设置消息标题<br>
+     *  支持的消息类型：视频/音乐/图文消息（点击跳转到外链）
+     *  <h2>图文消息不能直接设置title，需要指定Artcile</h2>
+     * @param title 标题
+     * @throws Exception
+     */
+    public void setTitle(String title) throws Exception{
+        switch (msgType) {
+            case VIDEO:
+                ((VideoMessage)msgBody).setTitle(title);
+                break;
+            case MUSIC:
+                ((MusicMessage)msgBody).setTitle(title);
+                break;
+//            case NEWS:
+//                ((NewsMessage)msgBody).set
+//                break;
+        }
+    }
+
+    /**
+     * 设置消息描述信息<br>
+     *  支持的消息类型：视频/音乐/图文消息（点击跳转到外链）
+     *  <h2>图文消息不能直接设置title，需要指定Artcile</h2>
+     * @param description 描述
+     * @throws Exception
+     */
+    public void setDescription(String description) throws Exception{
+        switch (msgType) {
+            case VIDEO:
+                ((VideoMessage)msgBody).setDescription(description);
+                break;
+            case MUSIC:
+                ((MusicMessage)msgBody).setDescription(description);
+                break;
+        }
+    }
+
+    /**
+     * 设置消息音乐URL地址<br>
+     *  支持消息类型：音乐
+     * @param musicurl 音频地址
+     * @throws Exception
+     */
+    public void setMusicUrl(String musicurl) throws Exception{
+        if (msgType == MessageType.MUSIC)
+            ((MusicMessage)msgBody).setMusicUrl(musicurl);
+    }
+
+    /**
+     * 设置消息音乐高清URL地址<br>
+     *  支持消息类型：音乐
+     * @param hqmusicurl
+     * @throws Exception
+     */
+    public void setHqMusicUrl(String hqmusicurl) throws Exception{
+        if (msgType == MessageType.MUSIC)
+            ((MusicMessage)msgBody).setHqmusicUrl(hqmusicurl);
+    }
+
     @Override
     public String toJson() {
         HashMap<String, Object> jsonMap = new HashMap<String, Object>();
@@ -100,28 +212,28 @@ public class CustomerServiceMessage extends BaseReqMsg{
         jsonMap.put("msgtype",this.msgType.toString());
         switch (msgType) {
             case IMAGE:
-                jsonMap.put("image",msgBody.toString());
+                jsonMap.put("image",msgBody);
                 break;
             case TEXT:
-                jsonMap.put("text",msgBody.toString());
+                jsonMap.put("text",msgBody);
                 break;
             case MUSIC:
-                jsonMap.put("music",msgBody.toString());
+                jsonMap.put("music",msgBody);
                 break;
             case NEWS:
-                jsonMap.put("news",msgBody.toString());
+                jsonMap.put("news",msgBody);
                 break;
             case MPNEWS:
-                jsonMap.put("mpnews",msgBody.toString());
+                jsonMap.put("mpnews",msgBody);
                 break;
             case VIDEO:
-                jsonMap.put("video",msgBody.toString());
+                jsonMap.put("video",msgBody);
                 break;
             case VOICE:
-                jsonMap.put("voice",msgBody.toString());
+                jsonMap.put("voice",msgBody);
                 break;
             case WXCARD:
-                jsonMap.put("wxcard",msgBody.toString());
+                jsonMap.put("wxcard",msgBody);
                 break;
         }
         return JSONUtil.toJson(jsonMap);

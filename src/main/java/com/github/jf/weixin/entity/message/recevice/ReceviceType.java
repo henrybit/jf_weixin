@@ -35,6 +35,6 @@ public class ReceviceType extends MessageType{
     public static final String NEWS = "news";
     /**被动回复用户消息 end*/
 
-    //public static final String KF = "transfer_customer_service";
+    public static final String KF = "transfer_customer_service";
 
 }

@@ -165,7 +165,8 @@ public final class ApiConfig extends Observable implements Serializable {
         //记住原本的时间，用于出错回滚
         final long oldTime = this.weixinTokenStartTime;
         this.weixinTokenStartTime = refreshTime;
-        String url = "https://weixin.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + this.appid + "&secret=" + this.secret;
+        //String url = "https://weixin.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + this.appid + "&secret=" + this.secret;
+        String url = APIAddress.TOKEN_API.replace("APPID", this.appid).replace("APPSECRET", this.secret);
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override
             public void onResponse(int resultCode, String resultJson) {

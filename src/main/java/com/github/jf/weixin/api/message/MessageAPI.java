@@ -1,22 +1,31 @@
 package com.github.jf.weixin.api.message;
 
-import com.github.jf.weixin.api.BaseAPI;
-import com.github.jf.weixin.entity.message.recevice.*;
-import com.github.jf.weixin.entity.message.request.CustomerServiceMessage;
-import com.github.jf.weixin.entity.message.request.OldArticle;
-import com.github.jf.weixin.enums.ResultType;
-import com.github.jf.weixin.entity.response.GetSendMessageResponse;
-import com.github.jf.weixin.util.BeanUtil;
-import com.github.jf.weixin.util.JSONUtil;
-import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.response.BaseResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.github.jf.weixin.api.BaseAPI;
+import com.github.jf.weixin.config.APIAddress;
+import com.github.jf.weixin.config.ApiConfig;
+import com.github.jf.weixin.entity.message.recevice.BaseMsg;
+import com.github.jf.weixin.entity.message.recevice.ImageMsg;
+import com.github.jf.weixin.entity.message.recevice.MpNewsMsg;
+import com.github.jf.weixin.entity.message.recevice.MusicMsg;
+import com.github.jf.weixin.entity.message.recevice.NewsMsg;
+import com.github.jf.weixin.entity.message.recevice.TextMsg;
+import com.github.jf.weixin.entity.message.recevice.VideoMsg;
+import com.github.jf.weixin.entity.message.recevice.VoiceMsg;
+import com.github.jf.weixin.entity.message.request.CustomerServiceMessage;
+import com.github.jf.weixin.entity.message.request.OldArticle;
+import com.github.jf.weixin.entity.response.BaseResponse;
+import com.github.jf.weixin.entity.response.GetSendMessageResponse;
+import com.github.jf.weixin.enums.ResultType;
+import com.github.jf.weixin.util.BeanUtil;
+import com.github.jf.weixin.util.JSONUtil;
 
 /**
  * 微信-消息管理相关API
@@ -88,52 +97,56 @@ public class MessageAPI extends BaseAPI {
     private static final Logger LOG = LoggerFactory.getLogger(MessageAPI.class);
     /** private static end **/
 
-    /** protected static start **/
-    /**发送客服消息*/
-    protected static final String CUSTOMER_SERVICE_MESSAGE_API = BASE_API_URL+"cgi-bin/message/custom/send?access_token=#";
-    /**上传图文消息内的图片获取URL【订阅号与服务号认证后均可用】*/
-    protected static final String MASS_UPLOAD_MESSAGE_IMAGE_API = BASE_API_URL+"cgi-bin/media/uploadimg?access_token=#";
-    /**上传图文消息素材【订阅号与服务号认证后均可用】*/
-    protected static final String MASS_UPLOAD_MESSAGE_IMAGE_NEWS_API = BASE_API_URL+"cgi-bin/media/uploadnews?access_token=#";
-    /**根据分组进行群发【订阅号与服务号认证后均可用】*/
-    protected static final String MASS_GROUP_MESSAGE_SEND_API = BASE_API_URL+"cgi-bin/message/mass/sendall?access_token=#";
-    /**根据OpenID列表群发【订阅号不可用，服务号认证后可用】*/
-    protected static final String MASS_OPENID_MESSAGE_SEND_API = BASE_API_URL+"cgi-bin/message/mass/send?access_token=#";
-    /**删除群发【订阅号与服务号认证后均可用】*/
-    protected static final String MASS_DELETE_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/delete?access_token=#";
-    /**预览接口【订阅号与服务号认证后均可用】*/
-    protected static final String MASS_PREVIEW_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/preview?access_token=#";
-    /**查询群发消息发送状态【订阅号与服务号认证后均可用】*/
-    protected static final String MASS_QUERY_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/get?access_token=#";
-    /**设置所属行业*/
-    protected static final String TEMPLATE_SET_INDUSTRY_API = BASE_API_URL+"cgi-bin/template/api_set_industry?access_token=#";
-    /**获取设置的行业信息*/
-    protected static final String TEMPLATE_GET_INDUSTRY_API = BASE_API_URL+"cgi-bin/template/get_industry?access_token=#";
-    /**获得模板ID*/
-    protected static final String TEMPLATE_GET_TEMPLATE_ID_API = BASE_API_URL+"cgi-bin/template/api_add_template?access_token=#";
-    /**获取模板列表*/
-    protected static final String TEMPLATE_GET_TEMPLATE_LIST_API = BASE_API_URL+"cgi-bin/template/get_all_private_template?access_token=#";
-    /**删除一个模板*/
-    protected static final String TEMPLATE_DELETE_TEMPLATE_API = BASE_API_URL+"cgi-bin/template/del_private_template?access_token=#";
-    /**发送模板消息*/
-    protected static final String TEMPLATE_SEND_MESSAGE_API = BASE_API_URL+"cgi-bin/message/template/send?access_token=#";
-    /**获取公众号自动回复配置*/
-    protected static final String GET_CURRENT_AUTOREPLY_API = BASE_API_URL+"cgi-bin/get_current_autoreply_info?access_token=#";
-
-    /** protected static end **/
+//    /** protected static start **/
+//    /**发送客服消息*/
+//    protected static final String CUSTOMER_SERVICE_MESSAGE_API = BASE_API_URL+"cgi-bin/message/custom/send?access_token=#";
+//    /**上传图文消息内的图片获取URL【订阅号与服务号认证后均可用】*/
+//    protected static final String MASS_UPLOAD_MESSAGE_IMAGE_API = BASE_API_URL+"cgi-bin/media/uploadimg?access_token=#";
+//    /**上传图文消息素材【订阅号与服务号认证后均可用】*/
+//    protected static final String MASS_UPLOAD_MESSAGE_IMAGE_NEWS_API = BASE_API_URL+"cgi-bin/media/uploadnews?access_token=#";
+//    /**根据分组进行群发【订阅号与服务号认证后均可用】*/
+//    protected static final String MASS_GROUP_MESSAGE_SEND_API = BASE_API_URL+"cgi-bin/message/mass/sendall?access_token=#";
+//    /**根据OpenID列表群发【订阅号不可用，服务号认证后可用】*/
+//    protected static final String MASS_OPENID_MESSAGE_SEND_API = BASE_API_URL+"cgi-bin/message/mass/send?access_token=#";
+//    /**删除群发【订阅号与服务号认证后均可用】*/
+//    protected static final String MASS_DELETE_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/delete?access_token=#";
+//    /**预览接口【订阅号与服务号认证后均可用】*/
+//    protected static final String MASS_PREVIEW_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/preview?access_token=#";
+//    /**查询群发消息发送状态【订阅号与服务号认证后均可用】*/
+//    protected static final String MASS_QUERY_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/get?access_token=#";
+//    /**设置所属行业*/
+//    protected static final String TEMPLATE_SET_INDUSTRY_API = BASE_API_URL+"cgi-bin/template/api_set_industry?access_token=#";
+//    /**获取设置的行业信息*/
+//    protected static final String TEMPLATE_GET_INDUSTRY_API = BASE_API_URL+"cgi-bin/template/get_industry?access_token=#";
+//    /**获得模板ID*/
+//    protected static final String TEMPLATE_GET_TEMPLATE_ID_API = BASE_API_URL+"cgi-bin/template/api_add_template?access_token=#";
+//    /**获取模板列表*/
+//    protected static final String TEMPLATE_GET_TEMPLATE_LIST_API = BASE_API_URL+"cgi-bin/template/get_all_private_template?access_token=#";
+//    /**删除一个模板*/
+//    protected static final String TEMPLATE_DELETE_TEMPLATE_API = BASE_API_URL+"cgi-bin/template/del_private_template?access_token=#";
+//    /**发送模板消息*/
+//    protected static final String TEMPLATE_SEND_MESSAGE_API = BASE_API_URL+"cgi-bin/message/template/send?access_token=#";
+//    /**获取公众号自动回复配置*/
+//    protected static final String GET_CURRENT_AUTOREPLY_API = BASE_API_URL+"cgi-bin/get_current_autoreply_info?access_token=#";
+//
+//    /** protected static end **/
 
     public MessageAPI(ApiConfig config) {
         super(config);
     }
 
-    public void sendCustomerServiceMessage(CustomerServiceMessage customerServiceMessage) {
+    /**
+     * 发送客服消息<br>
+     * 支持消息类型：文本消息/图片消息/语音消息/视频消息/音乐消息/图文消息（点击跳转到外链）/图文消息（点击跳转到图文消息页面）/卡券
+     * @param customerServiceMessage 客服消息
+     * @return ResultType-返回状态码
+     */
+    public ResultType sendCustomerServiceMessage(CustomerServiceMessage customerServiceMessage) {
         LOG.debug("发送客服消息......");
-        String url = BASE_API_URL + CUSTOMER_SERVICE_MESSAGE_API;
-
-
+        String url = APIAddress.CUSTOMER_SERVICE_MESSAGE_API;
         BaseResponse response = executePost(url, customerServiceMessage.toJson());
         String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
-        //return JSONUtil.toBean(resultJson, GetSendMessageResponse.class);
+        return ResultType.get(response.getErrcode());
     }
 
     /**
@@ -151,7 +164,7 @@ public class MessageAPI extends BaseAPI {
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
         //String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
-        String url = MASS_GROUP_MESSAGE_SEND_API;
+        String url = APIAddress.MASS_GROUP_MESSAGE_SEND_API;
         final Map<String, Object> params = new HashMap<String, Object>();
         Map<String, Object> filterMap = new HashMap<String, Object>();
         filterMap.put("is_to_all", isToAll);
@@ -204,7 +217,7 @@ public class MessageAPI extends BaseAPI {
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
         //String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
-        String url = MASS_GROUP_MESSAGE_SEND_API;
+        String url = APIAddress.MASS_GROUP_MESSAGE_SEND_API;
         final Map<String, Object> params = new HashMap<String, Object>();
         Map<String, Object> filterMap = new HashMap<String, Object>();
         filterMap.put("is_to_all", isToAll);
@@ -256,7 +269,7 @@ public class MessageAPI extends BaseAPI {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("发布客服消息......");
-        String url = CUSTOMER_SERVICE_MESSAGE_API;
+        String url = APIAddress.CUSTOMER_SERVICE_MESSAGE_API;
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("touser", openid);
         if (message instanceof TextMsg) {

@@ -538,7 +538,127 @@ public enum ResultType {
      * Ticket不合法
      */
     ILLEGAL_TICKET(9001003, "Ticket不合法"),
-
+    
+    /**
+     * 获取摇周边用户信息失败
+     */
+    FAILED_GET_NEARBY_USER_INFO(9001004, "获取摇周边用户信息失败"),
+    
+    /**
+     * 获取商户信息失败
+     */
+    FAILED_GET_SELLER_INFO(9001005, "获取商户信息失败"),
+    
+    /**
+     * 获取OpenID失败
+     */
+    FAILED_GET_OPENID(9001006, "获取OpenID失败"),
+    
+    /**
+     * 上传文件缺失
+     */
+    UPLOAD_FILE_MISS(9001007,"上传文件缺失"),
+    
+    /**
+     * 上传素材的文件类型不合法
+     */
+    UPLOAD_MATERIAL_TYPE_ILLEGAL(9001008,"上传素材的文件类型不合法"),
+    
+    /**
+     * 上传素材的文件尺寸不合法
+     */
+    UPLOAD_MATERIAL_SIZE_ILLEGAL(9001009,"上传素材的文件尺寸不合法"),
+    
+    /**
+     * 上传失败
+     */
+    UPLOAD_FAILED(9001010,"上传失败"),
+    
+    /**
+     * 帐号不合法
+     */
+    ACCOUNT_ILLEGAL(9001020,"帐号不合法"),
+    
+    /**
+     * 已有设备激活率低于50%，不能新增设备
+     */
+    NOT_ADD_DEVICE(9001021,"已有设备激活率低于50%，不能新增设备"),
+    
+    /**
+     * 设备申请数不合法，必须为大于0的数字
+     */
+    DEVICE_REQ_PARAM_ILLEGAL_MORE_THAN_ZERO(9001022,"设备申请数不合法，必须为大于0的数字"),
+    
+    /**
+     * 已存在审核中的设备ID申请
+     */
+    AUDIT_DEVICE_EXSIT(9001023,"已存在审核中的设备ID申请"),
+    
+    /**
+     * 一次查询设备ID数量不能超过50
+     */
+    QUERY_DEVICE_TOO_MUCH(9001024,"一次查询设备ID数量不能超过50"),
+    
+    /**
+     * 设备ID不合法
+     */
+    DEVICE_ID_ILLEGAL(9001025,"设备ID不合法"),
+    
+    /**
+     * 页面ID不合法
+     */
+    PAGE_ID_ILLEGAL(9001026,"页面ID不合法"),
+    
+    /**
+     * 页面参数不合法
+     */
+    PAGE_PARAM_ILLEGAL(9001027,"页面参数不合法"),
+    
+    /**
+     * 一次删除页面ID数量不能超过10
+     */
+    DELETE_PAGE_ID_TOO_MUCH(9001028,"一次删除页面ID数量不能超过10"),
+    
+    /**
+     * 页面已应用在设备中，请先解除应用关系再删除
+     */
+    DELETE_FAILED_PAGE_IN_USED(9001029,"页面已应用在设备中，请先解除应用关系再删除"),
+    
+    /**
+     *一次查询页面ID数量不能超过50 
+     */
+    QUERY_PAGE_ID_TOO_MUCH(9001030,"一次查询页面ID数量不能超过50"),
+    
+    /**
+     * 时间区间不合法
+     */
+    TIME_REGION_ILLEGAL(9001031,"时间区间不合法"),
+    
+    /**
+     * 保存设备与页面的绑定关系参数错误
+     */
+    SAVE_DEVICE_PAGE_PARAM_ERROR(9001032,"保存设备与页面的绑定关系参数错误"),
+    
+    /**
+     * 门店ID不合法
+     */
+    SHOP_ID_ILLEGAL(9001033,"门店ID不合法"),
+    
+    /**
+     * 设备备注信息过长
+     */
+    DEVICE_MARK_TOO_LONG(9001034,"设备备注信息过长"),
+    
+    /**
+     * 设备申请参数不合法
+     */
+    DEVICE_REQ_PARAM_ILLEGAL(9001035,"设备申请参数不合法"),
+    
+    /**
+     * 查询起始值begin不合法
+     */
+    QUERY_BEGIN_ILLEGAL(9001036,"查询起始值begin不合法"),
+    
     /**
      * 其他错误
      */
