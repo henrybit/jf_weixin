@@ -7,7 +7,4 @@ package com.github.jf.weixin.entity.message.request;
  * @version 2.0
  */
 public abstract class BaseReqMsg extends BaseReq{
-    protected String toUser;
-    protected String msgType;
-    protected Object msgBody;
 }

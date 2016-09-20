@@ -21,7 +21,6 @@ import java.util.Map;
 /**
  * 菜单相关API
  * 1.3.7支持个性化菜单
- *
  * @author peiyu
  * @since 1.2
  */
@@ -66,12 +65,10 @@ public class MenuAPI extends BaseAPI {
         if (BeanUtil.isNull(menu.getMatchrule())) {
             //普通菜单
             LOG.debug("创建普通菜单.....");
-            //url += "cgi-bin/menu/create?access_token=#";
             url = MENU_CREATE_API;
         } else {
             //个性化菜单
             LOG.debug("创建个性化菜单.....");
-            //url += "cgi-bin/menu/addconditional?access_token=#";
             url = MENU_CUSTOM_API;
         }
         BaseResponse response = executePost(url, menu.toJsonString());

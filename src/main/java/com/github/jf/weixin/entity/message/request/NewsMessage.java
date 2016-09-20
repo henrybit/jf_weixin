@@ -1,5 +1,8 @@
 package com.github.jf.weixin.entity.message.request;
 
+import com.github.jf.weixin.util.JSONUtil;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -8,7 +11,7 @@ import java.util.List;
  * @since 2.0
  * @version 2.0
  */
-public class NewsMessage {
+public class NewsMessage extends BaseReqMsg{
     protected List<Article> articles;
 
     public List<Article> getArticles() {
@@ -38,7 +41,6 @@ public class NewsMessage {
      * @version 2.0
      */
     public class Article {
-
         private String title;
         private String description;
         private String picUrl;
@@ -105,6 +107,25 @@ public class NewsMessage {
 //            mb.surroundWith("item");
 //            return mb.toString();
 //        }
+        public String toJson() {
+            HashMap<String, Object> jsonMap = new HashMap<String, Object>();
+            jsonMap.put("title", this.title);
+            jsonMap.put("description", this.description);
+            jsonMap.put("url", this.url);
+            jsonMap.put("picurl", this.picUrl);
+            return JSONUtil.toJson(jsonMap);
+        }
 
+        @Override
+        public String toString() {
+            return toJson();
+        }
+    }
+
+    @Override
+    public String toJson() {
+        HashMap<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("articles",this.articles);
+        return JSONUtil.toJson(jsonMap);
     }
 }

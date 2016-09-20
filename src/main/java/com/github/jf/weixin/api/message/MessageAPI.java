@@ -2,6 +2,7 @@ package com.github.jf.weixin.api.message;
 
 import com.github.jf.weixin.api.BaseAPI;
 import com.github.jf.weixin.entity.message.recevice.*;
+import com.github.jf.weixin.entity.message.request.CustomerServiceMessage;
 import com.github.jf.weixin.entity.message.request.OldArticle;
 import com.github.jf.weixin.enums.ResultType;
 import com.github.jf.weixin.entity.response.GetSendMessageResponse;
@@ -125,12 +126,12 @@ public class MessageAPI extends BaseAPI {
         super(config);
     }
 
-    public void sendCustomerServiceMessage() {
+    public void sendCustomerServiceMessage(CustomerServiceMessage customerServiceMessage) {
         LOG.debug("发送客服消息......");
         String url = BASE_API_URL + CUSTOMER_SERVICE_MESSAGE_API;
-        Map<String, Object> params = new HashMap<String, Object>();
 
-        BaseResponse response = executePost(url, JSONUtil.toJson(params));
+
+        BaseResponse response = executePost(url, customerServiceMessage.toJson());
         String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
         //return JSONUtil.toBean(resultJson, GetSendMessageResponse.class);
     }

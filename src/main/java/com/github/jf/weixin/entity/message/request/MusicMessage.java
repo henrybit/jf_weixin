@@ -1,12 +1,16 @@
 package com.github.jf.weixin.entity.message.request;
 
+import com.github.jf.weixin.util.JSONUtil;
+
+import java.util.HashMap;
+
 /**
  * 音乐消息<br>
  * @author henrybit
  * @since 2.0
  * @version 2.0
  */
-public class MusicMessage {
+public class MusicMessage extends BaseReqMsg{
     //消息的标题
     protected String title;
     //描述
@@ -56,5 +60,16 @@ public class MusicMessage {
 
     public void setThumbMediaId(String thumbMediaId) {
         this.thumbMediaId = thumbMediaId;
+    }
+
+    @Override
+    public String toJson() {
+        HashMap<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("title",this.title);
+        jsonMap.put("description",this.description);
+        jsonMap.put("musicurl",this.musicUrl);
+        jsonMap.put("hqmusicurl",this.hqmusicUrl);
+        jsonMap.put("thumb_media_id",this.thumbMediaId);
+        return JSONUtil.toJson(jsonMap);
     }
 }

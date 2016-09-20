@@ -1,6 +1,9 @@
 package com.github.jf.weixin.entity.message.request;
 
 import com.github.jf.weixin.enums.MessageType;
+import com.github.jf.weixin.util.JSONUtil;
+
+import java.util.HashMap;
 
 /**
  * 发送客服消息请求内容<br>
@@ -92,7 +95,35 @@ public class CustomerServiceMessage extends BaseReqMsg{
 
     @Override
     public String toJson() {
-        //TODO
-        return null;
+        HashMap<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("touser",this.toUser);
+        jsonMap.put("msgtype",this.msgType.toString());
+        switch (msgType) {
+            case IMAGE:
+                jsonMap.put("image",msgBody.toString());
+                break;
+            case TEXT:
+                jsonMap.put("text",msgBody.toString());
+                break;
+            case MUSIC:
+                jsonMap.put("music",msgBody.toString());
+                break;
+            case NEWS:
+                jsonMap.put("news",msgBody.toString());
+                break;
+            case MPNEWS:
+                jsonMap.put("mpnews",msgBody.toString());
+                break;
+            case VIDEO:
+                jsonMap.put("video",msgBody.toString());
+                break;
+            case VOICE:
+                jsonMap.put("voice",msgBody.toString());
+                break;
+            case WXCARD:
+                jsonMap.put("wxcard",msgBody.toString());
+                break;
+        }
+        return JSONUtil.toJson(jsonMap);
     }
 }
