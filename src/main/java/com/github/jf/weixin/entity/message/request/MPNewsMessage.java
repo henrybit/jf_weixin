@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class MPNewsMessage extends BaseReqMsg{
     protected String mediaId;
 
-    public String getMediaId() {
+    public String getMedia_id() {
         return mediaId;
     }
 

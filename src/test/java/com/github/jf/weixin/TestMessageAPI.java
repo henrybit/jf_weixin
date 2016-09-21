@@ -33,7 +33,7 @@ public class TestMessageAPI {
 	private static void TestImageMessage(ApiConfig apiConfig) throws Exception {
 		MessageAPI messageApi = new MessageAPI(apiConfig);
 		String toUser = "oMt1sxK_DNo7CesbmoYs4tNW2rOI";
-		String mediaId = "h4VNick5JjWP99cnXvlU66ptK9WcKV750thoyQGIhmPria8kTET3Q37IL80jAGXgu61pj9nhGaA7xmwA5gvKn9HA";
+		String mediaId = "fTmwBxyAvzCRiDoIrC_JJFXUJ8p3KTbVkRKSSqUncEw";
 		CustomerServiceMessage customerServiceMessage = new CustomerServiceMessage(toUser, MessageType.IMAGE);
 		customerServiceMessage.setMediaId(mediaId);
 		ResultType resultType = messageApi.sendCustomerServiceMessage(customerServiceMessage);

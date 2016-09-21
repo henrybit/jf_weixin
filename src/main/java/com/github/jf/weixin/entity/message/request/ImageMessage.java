@@ -13,11 +13,11 @@ import java.util.HashMap;
 public class ImageMessage extends BaseReqMsg{
     protected String mediaId;
 
-    public String getMediaId() {
+    public String getMedia_id() {
         return mediaId;
     }
 
-    public void setMediaId(String mediaId) {
+    public void setMedia_id(String mediaId) {
         this.mediaId = mediaId;
     }
 
