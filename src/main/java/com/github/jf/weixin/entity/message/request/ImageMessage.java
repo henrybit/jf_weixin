@@ -1,8 +1,9 @@
 package com.github.jf.weixin.entity.message.request;
 
-import com.github.jf.weixin.util.JSONUtil;
-
 import java.util.HashMap;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.github.jf.weixin.util.JSONUtil;
 
 /**
  * 图片消息<br>
@@ -11,13 +12,14 @@ import java.util.HashMap;
  * @version 2.0
  */
 public class ImageMessage extends BaseReqMsg{
+	@JSONField(name="media_id")
     protected String mediaId;
 
-    public String getMedia_id() {
+    public String getMediaId() {
         return mediaId;
     }
 
-    public void setMedia_id(String mediaId) {
+    public void setMediaId(String mediaId) {
         this.mediaId = mediaId;
     }
 

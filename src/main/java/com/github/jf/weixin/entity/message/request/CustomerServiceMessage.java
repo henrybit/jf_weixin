@@ -113,7 +113,7 @@ public class CustomerServiceMessage extends BaseReqMsg{
     public void setMediaId(String mediaId) throws Exception{
         switch (msgType) {
             case IMAGE:
-                ((ImageMessage)msgBody).setMedia_id(mediaId);
+                ((ImageMessage)msgBody).setMediaId(mediaId);
                 break;
             case VOICE:
                 ((VoiceMessage)msgBody).setMediaId(mediaId);

@@ -62,6 +62,16 @@ public class APIAddress {
 	public static final String TEMPLATE_SEND_MESSAGE_API = BASE_API_URL+"cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
     /**获取公众号自动回复配置*/
 	public static final String GET_CURRENT_AUTOREPLY_API = BASE_API_URL+"cgi-bin/get_current_autoreply_info?access_token=ACCESS_TOKEN";
+	/**添加客服帐号*/
+	public static final String ADD_CUSTOMER_SERVER_API = BASE_API_URL+"customservice/kfaccount/add?access_token=ACCESS_TOKEN";
+	/**修改客服帐号*/
+	public static final String UPDATE_CUSTOMER_SERVER_API = BASE_API_URL+"customservice/kfaccount/update?access_token=ACCESS_TOKEN";
+	/**删除客服帐号*/
+	public static final String DELETE_CUSTOMER_SERVER_API = BASE_API_URL+"customservice/kfaccount/del?access_token=ACCESS_TOKEN";
+	/**设置客服帐号的头像*/
+	public static final String UPDATE_CUSTOMER_HEADER_API = BASE_API_URL+"customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT";
+	/**获取所有客服账号*/
+	public static final String GET_CUSTOMER_SERVER_LIST_API = BASE_API_URL+"cgi-bin/customservice/getkflist?access_token=ACCESS_TOKEN";
     /**---------------消息相关接口API end-----------------**/
 	
 	/**---------------素材管理接口API start-----------------**/
@@ -84,4 +94,36 @@ public class APIAddress {
 	/**获取素材列表*/
 	public static final String GET_MATERIAL_LIST_API = BASE_API_URL+"cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN";
 	/**---------------素材管理接口API end-----------------**/
+	
+	/**---------------账号管理接口API start-----------------**/
+	/**生成带参数的二维码*/
+	public static final String ACCOUNT_CREATE_QRCODE_API = BASE_API_URL+"cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
+	/**长链接转短链接*/
+	public static final String SHORT_URL_TRANSFORM_API = BASE_API_URL+"cgi-bin/shorturl?access_token=ACCESS_TOKEN";
+	/**---------------账号管理接口API end-----------------**/
+	
+	/**---------------用户管理接口API start-----------------**/
+	/**创建分组*/
+	public static final String CREATE_GROUP_API = BASE_API_URL+"cgi-bin/groups/create?access_token=ACCESS_TOKEN";
+	/**查询所有分组*/
+	public static final String QUERY_GROUP_LIST_API = BASE_API_URL+"cgi-bin/groups/get?access_token=ACCESS_TOKEN";
+	/**查询用户所在分组*/
+	public static final String QUERY_USER_GROUP_API = BASE_API_URL+"cgi-bin/groups/getid?access_token=ACCESS_TOKEN";
+	/**修改分组名*/
+	public static final String UPDATE_GROUP_NAME_API = BASE_API_URL+"cgi-bin/groups/update?access_token=ACCESS_TOKEN";
+	/**移动用户分组*/
+	public static final String UPDATE_GROUP_USER_API = BASE_API_URL+"cgi-bin/groups/members/update?access_token=ACCESS_TOKEN";
+	/**批量移动用户分组*/
+	public static final String BATCH_MOVE_GROUP_USER_API = BASE_API_URL+"cgi-bin/groups/members/batchupdate?access_token=ACCESS_TOKEN";
+	/**删除分组*/
+	public static final String DELETE_GROUP_API = BASE_API_URL+"cgi-bin/groups/delete?access_token=ACCESS_TOKEN";
+	/**设置备注名*/
+	public static final String UPDATE_USER_REMARK_API = BASE_API_URL+"cgi-bin/user/info/updateremark?access_token=ACCESS_TOKEN";
+	/**获取用户基本信息（包括UnionID机制）*/
+	public static final String GET_USER_INFO_API = BASE_API_URL+"cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+	/**批量获取用户基本信息*/
+	public static final String BATCH_GET_USER_INFO_API = BASE_API_URL+"cgi-bin/user/info/batchget?access_token=ACCESS_TOKEN";
+	/**获取用户列表*/
+	public static final String GET_USER_LIST_API = BASE_API_URL+"cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid=NEXT_OPENID"; 
+	/**---------------用户管理接口API end-----------------**/
 }

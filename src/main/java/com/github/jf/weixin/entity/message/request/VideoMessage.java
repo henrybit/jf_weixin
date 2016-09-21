@@ -1,5 +1,6 @@
 package com.github.jf.weixin.entity.message.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.github.jf.weixin.util.JSONUtil;
 
 import java.util.HashMap;
@@ -11,9 +12,13 @@ import java.util.HashMap;
  * @version 2.0
  */
 public class VideoMessage extends BaseReqMsg{
+	@JSONField(name="media_id")
     protected String mediaId;
+	@JSONField(name="thumb_media_id")
     protected String thumbMediaId;
+	@JSONField(name="title")
     protected String title;
+	@JSONField(name="description")
     protected String description;
 
     public String getMediaId() {

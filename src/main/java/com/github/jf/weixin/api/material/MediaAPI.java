@@ -45,15 +45,13 @@ public class MediaAPI extends BaseAPI {
     }
 
     /**
-     * 上传资源，会在微信服务器上保存3天，之后会被删除
-     *
+     * 上传临时图片资源，会在微信服务器上保存3天，之后会被删除
      * @param type 资源类型
      * @param file 需要上传的文件
-     * @return 响应对象
+     * @return UploadMediaResponse-响应对象
      */
-    public UploadMediaResponse uploadMedia(MediaType type, File file) {
+    public UploadMediaResponse uploadImageMedia(MediaType type, File file) {
         UploadMediaResponse response;
-        //String url = "http://file.weixin.weixin.qq.com/cgi-bin/media/upload?access_token=#&type=" + type.toString();
         String url = APIAddress.UPLOAD_TEMP_MEDIA_API.replace("TYPE", type.toString());
         BaseResponse r = executePost(url, null, file);
         response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);

@@ -16,7 +16,9 @@ public class TestMessageAPI {
 		//1.测试文本消息
 		//TestTextMessage(apiConfig);
 		//2.测试图片消息
-		TestImageMessage(apiConfig);
+		//TestImageMessage(apiConfig);
+		//3.测试音频消息
+		TestVoiceMessage(apiConfig);
 	}
 	
 	private static void TestTextMessage(ApiConfig apiConfig) throws Exception {
@@ -38,5 +40,19 @@ public class TestMessageAPI {
 		customerServiceMessage.setMediaId(mediaId);
 		ResultType resultType = messageApi.sendCustomerServiceMessage(customerServiceMessage);
 		System.out.println(resultType.getDescription());
+	}
+	
+	private static void TestVoiceMessage(ApiConfig apiConfig) throws Exception {
+		MessageAPI messageApi = new MessageAPI(apiConfig);
+		String toUser = "oMt1sxK_DNo7CesbmoYs4tNW2rOI";
+		String mediaId = "fTmwBxyAvzCRiDoIrC_JJDXeiKRJLrltGfUvypxV6j0";
+		CustomerServiceMessage customerServiceMessage = new CustomerServiceMessage(toUser, MessageType.VOICE);
+		customerServiceMessage.setMediaId(mediaId);
+		ResultType resultType = messageApi.sendCustomerServiceMessage(customerServiceMessage);
+		System.out.println(resultType.getDescription());
+	}
+	
+	private static void TestVideoMessage(ApiConfig apiConfig) throws Exception {
+		
 	}
 }

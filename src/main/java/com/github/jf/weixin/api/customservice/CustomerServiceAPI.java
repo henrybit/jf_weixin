@@ -6,6 +6,7 @@ import com.github.jf.weixin.enums.ResultType;
 import com.github.jf.weixin.entity.response.GetCustomAccountsResponse;
 import com.github.jf.weixin.exception.WeixinException;
 import com.github.jf.weixin.util.BeanUtil;
+import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
 import com.github.jf.weixin.entity.response.BaseResponse;
 import com.github.jf.weixin.util.JSONUtil;
@@ -42,7 +43,7 @@ public class CustomerServiceAPI extends BaseAPI {
         LOG.debug("添加客服帐号.....");
         BeanUtil.requireNonNull(customAccount.getAccountName(), "帐号必填");
         BeanUtil.requireNonNull(customAccount.getNickName(), "昵称必填");
-        String url = BASE_API_URL + "customservice/kfaccount/add?access_token=#";
+        String url = APIAddress.ADD_CUSTOMER_SERVER_API;
         Map<String, String> params = new HashMap<String, String>();
         params.put("kf_account", customAccount.getAccountName());
         params.put("nickname", customAccount.getNickName());
@@ -63,7 +64,7 @@ public class CustomerServiceAPI extends BaseAPI {
         LOG.debug("修改客服帐号信息......");
         BeanUtil.requireNonNull(customAccount.getAccountName(), "帐号必填");
         BeanUtil.requireNonNull(customAccount.getNickName(), "昵称必填");
-        String url = BASE_API_URL + "customservice/kfaccount/update?access_token=#";
+        String url = APIAddress.UPDATE_CUSTOMER_SERVER_API;
         Map<String, String> params = new HashMap<String, String>();
         params.put("kf_account", customAccount.getAccountName());
         params.put("nickname", customAccount.getNickName());
@@ -81,7 +82,9 @@ public class CustomerServiceAPI extends BaseAPI {
      */
     public ResultType deleteCustomAccount(String accountName) {
         LOG.debug("删除客服帐号信息......");
-        String url = BASE_API_URL + "customservice/kfaccount/del?access_token=#&kf_account=" + accountName;
+        //String url = BASE_API_URL + "customservice/kfaccount/del?access_token=#&kf_account=" + accountName;
+        String url = APIAddress.DELETE_CUSTOMER_SERVER_API;
+        //TODO
         BaseResponse response = executePost(url, null);
         return ResultType.get(response.getErrcode());
     }
@@ -102,7 +105,8 @@ public class CustomerServiceAPI extends BaseAPI {
         if (!fileName.endsWith("jpg")) {
             throw new WeixinException("头像必须是jpg格式");
         }
-        String url = BASE_API_URL + "customservice/kfaccount/uploadheadimg?access_token=#&kf_account=" + accountName;
+        //String url = BASE_API_URL + "customservice/kfaccount/uploadheadimg?access_token=#&kf_account=" + accountName;
+        String url = APIAddress.UPDATE_CUSTOMER_HEADER_API.replace("KFACCOUNT", accountName);
         BaseResponse response = executePost(url, null, file);
         return ResultType.get(response.getErrcode());
     }
@@ -114,7 +118,8 @@ public class CustomerServiceAPI extends BaseAPI {
     public GetCustomAccountsResponse getCustomAccountList() {
         LOG.debug("获取所有客服帐号信息....");
         GetCustomAccountsResponse response;
-        String url = BASE_API_URL + "cgi-bin/customservice/getkflist?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/customservice/getkflist?access_token=#";
+        String url = APIAddress.GET_CUSTOMER_SERVER_LIST_API;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetCustomAccountsResponse.class);

@@ -1,5 +1,6 @@
 package com.github.jf.weixin.entity.message.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.github.jf.weixin.util.JSONUtil;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.HashMap;
  * @version 2.0
  */
 public class VoiceMessage extends BaseReqMsg{
+	@JSONField(name="media_id")
     protected String mediaId;
 
     public String getMediaId() {

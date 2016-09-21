@@ -1,21 +1,28 @@
 package com.github.jf.weixin.api.user;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.jf.weixin.api.BaseAPI;
+import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
 import com.github.jf.weixin.entity.UserInfo;
+import com.github.jf.weixin.entity.response.BaseResponse;
+import com.github.jf.weixin.entity.response.CreateGroupResponse;
+import com.github.jf.weixin.entity.response.GetGroupsResponse;
+import com.github.jf.weixin.entity.response.GetUserInfoListResponse;
+import com.github.jf.weixin.entity.response.GetUserInfoResponse;
+import com.github.jf.weixin.entity.response.GetUsersResponse;
 import com.github.jf.weixin.enums.ResultType;
-import com.github.jf.weixin.entity.response.*;
 import com.github.jf.weixin.exception.WeixinException;
 import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.util.CollectionUtil;
 import com.github.jf.weixin.util.JSONUtil;
 import com.github.jf.weixin.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 用户管理相关API
@@ -40,7 +47,8 @@ public class UserAPI extends BaseAPI {
     public GetUsersResponse getUsers(String nextOpenid) {
         GetUsersResponse response;
         LOG.debug("获取关注者列表.....");
-        String url = BASE_API_URL + "cgi-bin/user/get?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/user/get?access_token=#";
+        String url = APIAddress.GET_USER_LIST_API;
         if (StringUtil.isNotBlank(nextOpenid)) {
             url += "&next_openid=" + nextOpenid;
         }
@@ -60,7 +68,8 @@ public class UserAPI extends BaseAPI {
     public ResultType setUserRemark(String openid, String remark) {
         BeanUtil.requireNonNull(openid, "openid is null");
         LOG.debug("设置关注者备注.....");
-        String url = BASE_API_URL + "cgi-bin/user/info/updateremark?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/user/info/updateremark?access_token=#";
+        String url = APIAddress.UPDATE_USER_REMARK_API;
         Map<String, String> param = new HashMap<String, String>();
         param.put("openid", openid);
         param.put("remark", remark);
@@ -78,7 +87,8 @@ public class UserAPI extends BaseAPI {
         CreateGroupResponse response;
         BeanUtil.requireNonNull(name, "name is null");
         LOG.debug("创建分组.....");
-        String url = BASE_API_URL + "cgi-bin/groups/create?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/groups/create?access_token=#";
+        String url = APIAddress.CREATE_GROUP_API;
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, Object> group = new HashMap<String, Object>();
         group.put("name", name);
@@ -97,7 +107,8 @@ public class UserAPI extends BaseAPI {
     public GetGroupsResponse getGroups() {
         GetGroupsResponse response;
         LOG.debug("获取所有分组信息.....");
-        String url = BASE_API_URL + "cgi-bin/groups/get?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/groups/get?access_token=#";
+        String url = APIAddress.QUERY_GROUP_LIST_API;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetGroupsResponse.class);
@@ -114,7 +125,8 @@ public class UserAPI extends BaseAPI {
         BeanUtil.requireNonNull(openid, "openid is null");
         LOG.debug("通过关注者ID获取所在分组信息.....");
         String result = null;
-        String url = BASE_API_URL + "cgi-bin/groups/getid?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/groups/getid?access_token=#";
+        String url = APIAddress.QUERY_USER_GROUP_API;
         Map<String, String> params = new HashMap<String, String>();
         params.put("openid", openid);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
@@ -135,7 +147,8 @@ public class UserAPI extends BaseAPI {
         BeanUtil.requireNonNull(groupid, "groupid is null");
         BeanUtil.requireNonNull(name, "name is null");
         LOG.debug("修改分组信息.....");
-        String url = BASE_API_URL + "cgi-bin/groups/update?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/groups/update?access_token=#";
+        String url = APIAddress.UPDATE_GROUP_NAME_API;
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, Object> group = new HashMap<String, Object>();
         group.put("id", groupid);
@@ -156,7 +169,8 @@ public class UserAPI extends BaseAPI {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(toGroupid, "toGroupid is null");
         LOG.debug("移动关注者所在分组.....");
-        String url = BASE_API_URL + "cgi-bin/groups/members/update?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/groups/members/update?access_token=#";
+        String url = APIAddress.UPDATE_GROUP_USER_API;
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("openid", openid);
         param.put("to_groupid", toGroupid);
@@ -176,7 +190,8 @@ public class UserAPI extends BaseAPI {
         BeanUtil.requireNonNull(openids, "openid is null");
         BeanUtil.requireNonNull(toGroupid, "toGroupid is null");
         LOG.debug("移动关注者所在分组.....");
-        String url = BASE_API_URL + "cgi-bin/groups/members/batchupdate?access_token=#";
+        ////String url = BASE_API_URL + "cgi-bin/groups/members/batchupdate?access_token=#";
+        String url = APIAddress.BATCH_MOVE_GROUP_USER_API;
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("openid_list", openids);
         param.put("to_groupid", toGroupid);
@@ -195,7 +210,8 @@ public class UserAPI extends BaseAPI {
         BeanUtil.requireNonNull(openid, "openid is null");
         GetUserInfoResponse response;
         LOG.debug("获取关注者信息.....");
-        String url = BASE_API_URL + "cgi-bin/user/info?access_token=#&lang=zh_CN&openid=" + openid;
+        //String url = BASE_API_URL + "cgi-bin/user/info?access_token=#&lang=zh_CN&openid=" + openid;
+        String url = APIAddress.UPDATE_USER_REMARK_API;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, GetUserInfoResponse.class);
@@ -209,7 +225,8 @@ public class UserAPI extends BaseAPI {
      * @return 关注者信息对象列表
      */
     public GetUserInfoListResponse getUserInfoList(List<UserInfo> userInfoList){
-        String url = BASE_API_URL + "cgi-bin/user/info/batchget?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/user/info/batchget?access_token=#";
+        String url = APIAddress.BATCH_GET_USER_INFO_API;
         Map<String, List<UserInfo>> param = new HashMap<String, List<UserInfo>>();
         param.put("user_list", userInfoList);
         BaseResponse r=executePost(url, JSONUtil.toJson(param));
@@ -226,7 +243,8 @@ public class UserAPI extends BaseAPI {
     public ResultType deleteGroup(Integer groupId){
         BeanUtil.requireNonNull(groupId, "groupId is null");
         LOG.debug("删除分组.....");
-        String url = BASE_API_URL + "cgi-bin/groups/delete?access_token=#";
+        //String url = BASE_API_URL + "cgi-bin/groups/delete?access_token=#";
+        String url = APIAddress.DELETE_GROUP_API;
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, Integer> groups = new HashMap<String, Integer>();
         groups.put("id", groupId);

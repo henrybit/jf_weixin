@@ -1,5 +1,6 @@
 package com.github.jf.weixin.entity.message.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.github.jf.weixin.entity.CardExt;
 import com.github.jf.weixin.util.JSONUtil;
 
@@ -13,8 +14,10 @@ import java.util.HashMap;
  */
 public class WXCardMessage extends BaseReqMsg{
     //卡ID
+	@JSONField(name="card_id")
     protected String cardId;
     //卡券扩展字段
+	@JSONField(name="card_ext")
     protected CardExt cardExt;
 
     public String getCardId() {

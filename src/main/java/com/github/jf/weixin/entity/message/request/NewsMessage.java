@@ -1,5 +1,6 @@
 package com.github.jf.weixin.entity.message.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.github.jf.weixin.util.JSONUtil;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
  * @version 2.0
  */
 public class NewsMessage extends BaseReqMsg{
+	@JSONField(name="articles")
     protected List<Article> articles;
 
     public List<Article> getArticles() {

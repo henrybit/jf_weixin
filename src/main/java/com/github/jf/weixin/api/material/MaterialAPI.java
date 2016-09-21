@@ -33,6 +33,7 @@ import com.github.jf.weixin.entity.response.GetMaterialListResponse;
 import com.github.jf.weixin.entity.response.GetMaterialTotalCountResponse;
 import com.github.jf.weixin.entity.response.UploadMaterialResponse;
 import com.github.jf.weixin.enums.MaterialType;
+import com.github.jf.weixin.enums.MessageType;
 import com.github.jf.weixin.enums.ResultType;
 import com.github.jf.weixin.util.JSONUtil;
 import com.github.jf.weixin.util.NetWorkCenter;
@@ -55,12 +56,60 @@ public class MaterialAPI extends BaseAPI {
     }
 
     /**
-     * 上传永久素材文件。图片素材上限为5000，其他类型为1000
-     * @param file 素材文件
-     * @return 上传结果
+     * 上传永久素材<br>
+     * 只支持Image/Voice/Video/thumb这四种，News的请访问专门的方法uploadMaterialNews
+     * @param file 素材本地路径指向
+     * @param materialtype 素材类型
+     * @return UploadMaterialResponse
      */
-    public UploadMaterialResponse uploadMaterialFile(File file){
-        return uploadMaterialFile(file, null, null);
+    public UploadMaterialResponse uploadMaterialFile(File file, MaterialType materialtype) {
+    	if (materialtype == MaterialType.NEWS)
+    		return null;
+    	UploadMaterialResponse response;
+    	String url = APIAddress.UPLOAD_MATERIAL_OTHER_API;
+        BaseResponse r;
+        final Map<String, String> param = new HashMap<String, String>();
+        param.put("type", materialtype.toString());
+        r = executePost(url, JSONUtil.toJson(param), file);
+        String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+        response = JSONUtil.toBean(resultJson, UploadMaterialResponse.class);
+        return response;
+    }
+    
+    /**
+     * 上传永久图片素材文件。图片素材上限为5000，其他类型为1000
+     * @param file 素材文件
+     * @return UploadMaterialResponse-上传结果
+     */
+    public UploadMaterialResponse uploadImageMaterialFile(File file){
+        return uploadMaterialFile(file, MaterialType.IMAGE);
+    }
+    
+    /**
+     * 上传永久音频素材文件
+     * @param file 素材文件
+     * @return UploadMaterialResponse-上传结果
+     */
+    public UploadMaterialResponse uploadVoiceMaterialFile(File file) {
+    	return uploadMaterialFile(file, MaterialType.VOICE);
+    }
+    
+    /**
+     * 上传永久视频素材<br>
+     * @param file 素材文件
+     * @return UploadMaterialResponse-上传结果
+     */
+    public UploadMaterialResponse uploadVideoMaterialFile(File file) {
+    	return uploadMaterialFile(file, MaterialType.VIDEO);
+    }
+    
+    /**
+     * 上传永久缩略图素材<br>
+     * @param file 素材文件
+     * @return UploadMaterialResponse-上传结果
+     */
+    public UploadMaterialResponse uploadThumbMaterialFile(File file) {
+    	return uploadMaterialFile(file, MaterialType.THUMB);
     }
 
     /**
@@ -70,13 +119,16 @@ public class MaterialAPI extends BaseAPI {
      * @param introduction 素材描述信息
      * @return 上传结果
      */
-    public UploadMaterialResponse uploadMaterialFile(File file, String title, String introduction){
+    public UploadMaterialResponse uploadVideoMaterialFile(File file, String title, String introduction){
         UploadMaterialResponse response;
         //String url = "http://weixin.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
         String url = APIAddress.UPLOAD_MATERIAL_OTHER_API;
         BaseResponse r;
         if(StringUtil.isBlank(title)) {
-            r = executePost(url, null, file);
+        	//TODO 增加类型判断:Image/Voice/Vedio/Thumb
+        	final Map<String, String> param = new HashMap<String, String>();
+        	param.put("type", "voice");
+            r = executePost(url, JSONUtil.toJson(param), file);
         }else{
             final Map<String, String> param = new HashMap<String, String>();
             param.put("title", title);

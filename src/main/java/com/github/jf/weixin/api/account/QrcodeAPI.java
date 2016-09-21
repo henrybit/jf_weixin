@@ -1,18 +1,20 @@
 package com.github.jf.weixin.api.account;
 
-import com.github.jf.weixin.api.BaseAPI;
-import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.enums.QrcodeType;
-import com.github.jf.weixin.entity.response.BaseResponse;
-import com.github.jf.weixin.entity.response.QrcodeResponse;
-import com.github.jf.weixin.util.BeanUtil;
-import com.github.jf.weixin.util.JSONUtil;
-import com.github.jf.weixin.util.StringUtil;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.github.jf.weixin.api.BaseAPI;
+import com.github.jf.weixin.config.APIAddress;
+import com.github.jf.weixin.config.ApiConfig;
+import com.github.jf.weixin.entity.response.BaseResponse;
+import com.github.jf.weixin.entity.response.QrcodeResponse;
+import com.github.jf.weixin.enums.QrcodeType;
+import com.github.jf.weixin.util.BeanUtil;
+import com.github.jf.weixin.util.JSONUtil;
+import com.github.jf.weixin.util.StringUtil;
 
 /**
  * 二维码相关API
@@ -23,12 +25,6 @@ import java.util.Map;
 public class QrcodeAPI extends BaseAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(QrcodeAPI.class);
-
-
-    /**protected static start*/
-    /**生成带参数的二维码*/
-    protected static final String ACCOUNT_CREATE_QRCODE_API = BASE_API_URL+"cgi-bin/qrcode/create?access_token=#";
-    /**protected static end*/
 
     public QrcodeAPI(ApiConfig config) {
         super(config);
@@ -62,7 +58,7 @@ public class QrcodeAPI extends BaseAPI {
         LOG.debug("创建二维码信息.....");
 
         QrcodeResponse response = null;
-        String url = ACCOUNT_CREATE_QRCODE_API;
+        String url = APIAddress.ACCOUNT_CREATE_QRCODE_API;
 
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("action_name", actionName);

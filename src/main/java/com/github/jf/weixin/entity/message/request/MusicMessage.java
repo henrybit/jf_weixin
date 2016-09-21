@@ -1,5 +1,6 @@
 package com.github.jf.weixin.entity.message.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.github.jf.weixin.util.JSONUtil;
 
 import java.util.HashMap;
@@ -12,14 +13,19 @@ import java.util.HashMap;
  */
 public class MusicMessage extends BaseReqMsg{
     //消息的标题
+	@JSONField(name="title")
     protected String title;
     //描述
+	@JSONField(name="description")
     protected String description;
     //音乐URL地址
+	@JSONField(name="musicurl")
     protected String musicUrl;
     //高清音乐URL地址
+	@JSONField(name="hqmusicurl")
     protected String hqmusicUrl;
     //媒体ID
+	@JSONField(name="thumb_media_id")
     protected String thumbMediaId;
 
     public String getTitle() {

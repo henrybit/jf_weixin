@@ -23,8 +23,13 @@ public enum MaterialType {
     /**
      * 图文消息
      */
-    NEWS("news");
-
+    NEWS("news"),
+    
+    /**
+     * 缩略图
+     */
+    THUMB("thumb");
+	
     String value;
 
     MaterialType(String value) {
