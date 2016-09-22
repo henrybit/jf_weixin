@@ -1,4 +1,4 @@
-fastweixin
+weixin_jf
 ==========
 作者:peiyu<br>
 QQ:[125331682](http://wpa.qq.com/msgrd?v=3&uin=125331682&site=qq&menu=yes)<br>

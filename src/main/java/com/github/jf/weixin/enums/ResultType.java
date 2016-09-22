@@ -3,10 +3,11 @@ package com.github.jf.weixin.enums;
 import com.github.jf.weixin.util.BeanUtil;
 
 /**
- * 微信接口全局返回码枚举
+ * 微信接口全局返回码枚举<br>
  *
- * @author peiyu
+ * @author peiyu,henrybit
  * @since 1.2
+ * @version 2.0
  */
 public enum ResultType {
     /**

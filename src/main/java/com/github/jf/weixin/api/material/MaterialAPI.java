@@ -70,6 +70,10 @@ public class MaterialAPI extends BaseAPI {
         BaseResponse r;
         final Map<String, String> param = new HashMap<String, String>();
         param.put("type", materialtype.toString());
+        if (materialtype == MaterialType.VIDEO) {
+        	param.put("title", System.currentTimeMillis()+"");
+            param.put("introduction", file.getName());
+        }
         r = executePost(url, JSONUtil.toJson(param), file);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, UploadMaterialResponse.class);
@@ -124,17 +128,10 @@ public class MaterialAPI extends BaseAPI {
         //String url = "http://weixin.weixin.qq.com/cgi-bin/material/add_material?access_token=#";
         String url = APIAddress.UPLOAD_MATERIAL_OTHER_API;
         BaseResponse r;
-        if(StringUtil.isBlank(title)) {
-        	//TODO 增加类型判断:Image/Voice/Vedio/Thumb
-        	final Map<String, String> param = new HashMap<String, String>();
-        	param.put("type", "voice");
-            r = executePost(url, JSONUtil.toJson(param), file);
-        }else{
-            final Map<String, String> param = new HashMap<String, String>();
-            param.put("title", title);
-            param.put("introduction", introduction);
-            r = executePost(url, JSONUtil.toJson(param), file);
-        }
+        final Map<String, String> param = new HashMap<String, String>();
+        param.put("title", title);
+        param.put("introduction", introduction);
+        r = executePost(url, JSONUtil.toJson(param), file);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.toBean(resultJson, UploadMaterialResponse.class);
         return response;

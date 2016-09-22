@@ -1,17 +1,20 @@
 package com.github.jf.weixin;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.jf.weixin.api.material.MaterialAPI;
 import com.github.jf.weixin.api.material.MediaAPI;
 import com.github.jf.weixin.config.ApiConfig;
+import com.github.jf.weixin.entity.Article;
 import com.github.jf.weixin.entity.response.UploadMaterialResponse;
 import com.github.jf.weixin.entity.response.UploadMediaResponse;
 import com.github.jf.weixin.enums.MediaType;
 
 /**
  * 测试素材管理相关API
- * @author qiph
+ * @author henrybit
  * @version 2.0
  */
 public class TestMaterialAPI {
@@ -49,9 +52,21 @@ public class TestMaterialAPI {
 //		uploadMaterialResponse = materialAPI.uploadVoiceMaterialFile(voiceFile);
 //		System.out.println(uploadMaterialResponse.getMediaId());
 		
-		File videoFile = new File("C:\\Users\\qiph\\Desktop\\1.mp4");
-		uploadMaterialResponse = materialAPI.uploadVideoMaterialFile(videoFile);
-		System.out.println(uploadMaterialResponse.getMediaId());
+//		File thumbFile = new File("C:\\Users\\qiph\\Desktop\\1.jpg");
+//		uploadMaterialResponse = materialAPI.uploadThumbMaterialFile(thumbFile);
+//		System.out.println(uploadMaterialResponse.getMediaId());
 		
+		List<Article> articles = new ArrayList<Article>();
+		String thumbMediaId = "fTmwBxyAvzCRiDoIrC_JJN44WM1VV88HbTnytYQ2ZKg";
+		String author = "建发小优"; 
+		String title = "图文消息测试1";
+		String contentSourceUrl = "http://www.baidu.com";
+		String content = "<html><header><title>好好好</title></header><body>建发商城欢迎你</body></html>";
+		String digest = "建发商城要开始推广啦";
+		Integer showConverPic = 1;
+		Article article1 = new Article(thumbMediaId, author, title, contentSourceUrl, content, digest, showConverPic);
+		articles.add(article1);
+		uploadMaterialResponse = materialAPI.uploadMaterialNews(articles);
+		System.out.println(uploadMaterialResponse.getMediaId());
 	}
 }

@@ -1,5 +1,6 @@
 package com.github.jf.weixin.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.github.jf.weixin.util.JSONUtil;
 
 import java.util.HashMap;
@@ -22,11 +23,17 @@ import java.util.HashMap;
  * @version 2.0
  */
 public class CardExt {
+	@JSONField(name="code")
     protected String code;
+	@JSONField(name="openid")
     protected String openid;
+	@JSONField(name="timestamp")
     protected String timestamp;
+	@JSONField(name="nonce_str")
     protected String nonceStr;
+	@JSONField(name="signature")
     protected String signature;
+	@JSONField(name="outer_id")
     protected String outerId;
 
     public String getCode() {
@@ -77,6 +84,13 @@ public class CardExt {
         this.outerId = outerId;
     }
 
+    public CardExt(String code, String openid, String timestamp, String signature) {
+    	this.code = code;
+    	this.openid = openid;
+    	this.timestamp = timestamp;
+    	this.signature = signature;
+    }
+    
     public String toJson() {
         HashMap<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("code",this.code);

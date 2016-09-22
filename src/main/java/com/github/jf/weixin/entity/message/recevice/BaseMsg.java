@@ -22,7 +22,11 @@ import java.io.Serializable;
  */
 public class BaseMsg implements Serializable{
 
-    //开发者微信号
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2383746865161395761L;
+	//开发者微信号
     private String toUserName;
     //发送方账号
     private String fromUserName;
@@ -80,5 +84,4 @@ public class BaseMsg implements Serializable{
     public String toString() {
         return toXml();
     }
-
 }

@@ -33,8 +33,8 @@ public class NewsMessage extends BaseReqMsg{
      * @param desciption 文章描述
      * @return Article
      */
-    public Article createArticle(String title, String picUrl, String url, String desciption) {
-        return new Article(title, picUrl, url, desciption);
+    public static Article createArticle(String title, String picUrl, String url, String desciption) {
+        return new Article(title, desciption, picUrl, url);
     }
 
     /**
@@ -48,8 +48,11 @@ public class NewsMessage extends BaseReqMsg{
             int size = articles.size();
             articles.add(article);
             return size;
+        } else {
+        	articles = new ArrayList<Article>();
+        	articles.add(article);
+            return 0;
         }
-        return 0;
     }
 
     /**
@@ -59,9 +62,13 @@ public class NewsMessage extends BaseReqMsg{
      * @version 2.0
      */
     public static class Article {
+    	@JSONField(name="title")
         private String title;
+    	@JSONField(name="description")
         private String description;
+    	@JSONField(name="picurl")
         private String picUrl;
+    	@JSONField(name="url")
         private String url;
 
         public Article() {

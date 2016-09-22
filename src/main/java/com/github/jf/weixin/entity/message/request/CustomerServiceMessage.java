@@ -1,9 +1,11 @@
 package com.github.jf.weixin.entity.message.request;
 
+import java.util.HashMap;
+
+import com.github.jf.weixin.entity.CardExt;
+import com.github.jf.weixin.entity.message.request.NewsMessage.Article;
 import com.github.jf.weixin.enums.MessageType;
 import com.github.jf.weixin.util.JSONUtil;
-
-import java.util.HashMap;
 
 /**
  * 发送客服消息请求内容<br>
@@ -205,6 +207,30 @@ public class CustomerServiceMessage extends BaseReqMsg{
             ((MusicMessage)msgBody).setHqmusicUrl(hqmusicurl);
     }
 
+    /**
+     * 新增消息文章<br>
+     * 支持消息类型：图文消息（点击跳转到外链）
+     * @param article
+     * @throws Exception
+     */
+    public void addArticle(Article article) throws Exception {
+    	if (msgType == MessageType.NEWS)
+    		((NewsMessage)msgBody).addArticle(article);
+    }
+    
+    /**
+     * 设置卡券信息<br>
+     * @param cardId
+     * @param cardExt 卡券扩展字段
+     * @throws Exception
+     */
+    public void setCardInfo(String cardId, CardExt cardExt) throws Exception {
+    	if (msgType == MessageType.WXCARD) {
+    		((WXCardMessage)msgBody).setCardId(cardId);
+    		((WXCardMessage)msgBody).setCardExt(cardExt);;
+    	}
+    }
+    
     @Override
     public String toJson() {
         HashMap<String, Object> jsonMap = new HashMap<String, Object>();

@@ -77,6 +77,8 @@ public class MediaAPI extends BaseAPI {
 
     /**
      * 上传群发消息图片素材
+     * @param file 素材文件
+     * @return UploadImgResponse
      */
     public UploadImgResponse uploadImg(File file){
         UploadImgResponse response;

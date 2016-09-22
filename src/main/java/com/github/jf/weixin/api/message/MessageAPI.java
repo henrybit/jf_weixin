@@ -137,7 +137,7 @@ public class MessageAPI extends BaseAPI {
 
     /**
      * 发送客服消息<br>
-     * 支持消息类型：文本消息/图片消息/语音消息/视频消息/音乐消息/图文消息（点击跳转到外链）/图文消息（点击跳转到图文消息页面）/卡券
+     * 支持消息类型：文本消息/图片消息(bmp/png/jpeg/jpg/gif)/语音消息-AMR格式/视频消息-MP4/音乐消息/图文消息（点击跳转到外链）/图文消息（点击跳转到图文消息页面）/卡券
      * @param customerServiceMessage 客服消息
      * @return ResultType-返回状态码
      */
@@ -264,6 +264,7 @@ public class MessageAPI extends BaseAPI {
      * @param openid  关注者ID
      * @param message 消息对象，支持各种消息类型
      * @return 调用结果
+     * @deprecated - V2.0以后版本将删除
      */
     public ResultType sendCustomMessage(String openid, BaseMsg message) {
         BeanUtil.requireNonNull(openid, "openid is null");
