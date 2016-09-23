@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.github.jf.weixin.api.BaseAPI;
 import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.message.recevice.BaseMsg;
+import com.github.jf.weixin.entity.message.recevice.BaseRecevice;
 import com.github.jf.weixin.entity.message.recevice.ImageMsg;
 import com.github.jf.weixin.entity.message.recevice.MpNewsMsg;
 import com.github.jf.weixin.entity.message.recevice.MusicMsg;
@@ -160,7 +160,7 @@ public class MessageAPI extends BaseAPI {
      * @deprecated 微信不再建议使用群组概念,用标签代替
      */
     @Deprecated
-    public GetSendMessageResponse sendMessageToUser(BaseMsg message, boolean isToAll, String groupId, String[] openIds){
+    public GetSendMessageResponse sendMessageToUser(BaseRecevice message, boolean isToAll, String groupId, String[] openIds){
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
         //String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
@@ -213,7 +213,7 @@ public class MessageAPI extends BaseAPI {
      * @param tagId 标签ID
      * @return 群发结果
      */
-    public GetSendMessageResponse sendMessageToUser(BaseMsg message, boolean isToAll, Integer tagId){
+    public GetSendMessageResponse sendMessageToUser(BaseRecevice message, boolean isToAll, Integer tagId){
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
         //String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
@@ -266,7 +266,7 @@ public class MessageAPI extends BaseAPI {
      * @return 调用结果
      * @deprecated - V2.0以后版本将删除
      */
-    public ResultType sendCustomMessage(String openid, BaseMsg message) {
+    public ResultType sendCustomMessage(String openid, BaseRecevice message) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("发布客服消息......");

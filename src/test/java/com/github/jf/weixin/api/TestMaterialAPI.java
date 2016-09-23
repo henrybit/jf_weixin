@@ -1,4 +1,4 @@
-package com.github.jf.weixin;
+package com.github.jf.weixin.api;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,15 +20,21 @@ import com.github.jf.weixin.enums.MediaType;
 public class TestMaterialAPI {
 	
 	public static void main(String[] args) throws Exception {
+		//个人账号
 		String appId = "wxbe7e674c6bfd9b1b";
 		String secret = "2e27fa91a9b2b573d17faeb88d1cae9f";
-		ApiConfig apiConfig = new ApiConfig(appId, secret);
 		
+		//yoker dev
+		appId = "wxb6d996ad76a14636";
+		secret = "83494396862e752fa7498c1b8b23bde6";
+		
+		ApiConfig apiConfig = new ApiConfig(appId, secret);
+		System.out.println(apiConfig.getAccessToken());
 		//1.测试临时素材上传
 		//uploadTempMedia(apiConfig);
 
 		//2.测试上传永久素材
-		uploadMaterial(apiConfig);
+		//uploadMaterial(apiConfig);
 	}
 	
 	private static void uploadTempMedia(ApiConfig apiConfig) {

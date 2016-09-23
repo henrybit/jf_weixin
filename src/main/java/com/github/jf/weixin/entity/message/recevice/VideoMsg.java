@@ -2,7 +2,7 @@ package com.github.jf.weixin.entity.message.recevice;
 
 import com.github.jf.weixin.util.MessageBuilder;
 
-public class VideoMsg extends BaseMsg {
+public class VideoMsg extends BaseRecevice {
 
     private String mediaId;
     private String title;

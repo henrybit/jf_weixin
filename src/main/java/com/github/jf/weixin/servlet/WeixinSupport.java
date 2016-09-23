@@ -7,7 +7,7 @@ import com.github.jf.weixin.entity.message.req.*;
 import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.util.SignUtil;
 import com.github.jf.weixin.handle.MessageHandle;
-import com.github.jf.weixin.entity.message.recevice.BaseMsg;
+import com.github.jf.weixin.entity.message.recevice.BaseRecevice;
 import com.github.jf.weixin.entity.message.recevice.TextMsg;
 import com.github.jf.weixin.util.MessageUtil;
 import com.github.jf.weixin.util.StringUtil;
@@ -122,7 +122,7 @@ public abstract class WeixinSupport {
 
         LOG.debug("收到消息,消息类型:{}", msgType);
 
-        BaseMsg msg = null;
+        BaseRecevice msg = null;
 
         if (msgType.equals(ReqType.EVENT)) {
             String eventType = (String) reqMap.get("Event");
@@ -324,7 +324,7 @@ public abstract class WeixinSupport {
         return result;
     }
 
-    private BaseMsg processMessageHandle(BaseReqMsg msg) {
+    private BaseRecevice processMessageHandle(BaseReqMsg msg) {
         if (isEmpty(messageHandles)) {
             synchronized (LOCK) {
                 messageHandles = this.initMessageHandles();
@@ -332,7 +332,7 @@ public abstract class WeixinSupport {
         }
         if (isNotEmpty(messageHandles)) {
             for (MessageHandle messageHandle : messageHandles) {
-                BaseMsg resultMsg = null;
+                BaseRecevice resultMsg = null;
                 boolean result;
                 try {
                     result = messageHandle.beforeHandle(msg);
@@ -350,7 +350,7 @@ public abstract class WeixinSupport {
         return null;
     }
 
-    private BaseMsg processEventHandle(BaseEvent event) {
+    private BaseRecevice processEventHandle(BaseEvent event) {
         if (isEmpty(eventHandles)) {
             synchronized (LOCK) {
                 eventHandles = this.initEventHandles();
@@ -358,7 +358,7 @@ public abstract class WeixinSupport {
         }
         if (isNotEmpty(eventHandles)) {
             for (EventHandle eventHandle : eventHandles) {
-                BaseMsg resultMsg = null;
+                BaseRecevice resultMsg = null;
                 boolean result;
                 try {
                     result = eventHandle.beforeHandle(event);
@@ -382,7 +382,7 @@ public abstract class WeixinSupport {
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleTextMsg(TextReqMsg msg) {
+    protected BaseRecevice handleTextMsg(TextReqMsg msg) {
         return handleDefaultMsg(msg);
     }
 
@@ -392,7 +392,7 @@ public abstract class WeixinSupport {
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleImageMsg(ImageReqMsg msg) {
+    protected BaseRecevice handleImageMsg(ImageReqMsg msg) {
         return handleDefaultMsg(msg);
     }
 
@@ -402,7 +402,7 @@ public abstract class WeixinSupport {
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleVoiceMsg(VoiceReqMsg msg) {
+    protected BaseRecevice handleVoiceMsg(VoiceReqMsg msg) {
         return handleDefaultMsg(msg);
     }
 
@@ -412,7 +412,7 @@ public abstract class WeixinSupport {
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleVideoMsg(VideoReqMsg msg) {
+    protected BaseRecevice handleVideoMsg(VideoReqMsg msg) {
         return handleDefaultMsg(msg);
     }
 
@@ -422,7 +422,7 @@ public abstract class WeixinSupport {
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
-    protected BaseMsg hadnleShortVideoMsg(VideoReqMsg msg) {
+    protected BaseRecevice hadnleShortVideoMsg(VideoReqMsg msg) {
         return handleDefaultMsg(msg);
     }
 
@@ -432,7 +432,7 @@ public abstract class WeixinSupport {
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleLocationMsg(LocationReqMsg msg) {
+    protected BaseRecevice handleLocationMsg(LocationReqMsg msg) {
         return handleDefaultMsg(msg);
     }
 
@@ -442,7 +442,7 @@ public abstract class WeixinSupport {
      * @param msg 请求消息对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleLinkMsg(LinkReqMsg msg) {
+    protected BaseRecevice handleLinkMsg(LinkReqMsg msg) {
         return handleDefaultMsg(msg);
     }
 
@@ -452,7 +452,7 @@ public abstract class WeixinSupport {
      * @param event 扫描二维码事件对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleQrCodeEvent(QrCodeEvent event) {
+    protected BaseRecevice handleQrCodeEvent(QrCodeEvent event) {
         return handleDefaultEvent(event);
     }
 
@@ -462,7 +462,7 @@ public abstract class WeixinSupport {
      * @param event 地理位置事件对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleLocationEvent(LocationEvent event) {
+    protected BaseRecevice handleLocationEvent(LocationEvent event) {
         return handleDefaultEvent(event);
     }
 
@@ -472,7 +472,7 @@ public abstract class WeixinSupport {
      * @param event 菜单点击事件对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleMenuClickEvent(MenuEvent event) {
+    protected BaseRecevice handleMenuClickEvent(MenuEvent event) {
         return handleDefaultEvent(event);
     }
 
@@ -482,7 +482,7 @@ public abstract class WeixinSupport {
      * @param event 菜单跳转事件对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleMenuViewEvent(MenuEvent event) {
+    protected BaseRecevice handleMenuViewEvent(MenuEvent event) {
         return handleDefaultEvent(event);
     }
 
@@ -492,7 +492,7 @@ public abstract class WeixinSupport {
      * @param event 菜单扫描推事件对象
      * @return 响应的消息对象
      */
-    protected BaseMsg handleScanCodeEvent(ScanCodeEvent event) {
+    protected BaseRecevice handleScanCodeEvent(ScanCodeEvent event) {
         return handleDefaultEvent(event);
     }
 
@@ -502,7 +502,7 @@ public abstract class WeixinSupport {
      * @param event 菜单弹出相册事件
      * @return 响应的消息对象
      */
-    protected BaseMsg handlePSendPicsInfoEvent(SendPicsInfoEvent event) {
+    protected BaseRecevice handlePSendPicsInfoEvent(SendPicsInfoEvent event) {
         return handleDefaultEvent(event);
     }
 
@@ -512,7 +512,7 @@ public abstract class WeixinSupport {
      * @param event 菜单弹出相册事件
      * @return 响应的消息对象
      */
-    protected BaseMsg handleTemplateMsgEvent(TemplateMsgEvent event) {
+    protected BaseRecevice handleTemplateMsgEvent(TemplateMsgEvent event) {
         return handleDefaultEvent(event);
     }
 
@@ -522,7 +522,7 @@ public abstract class WeixinSupport {
      * @param event 添加关注事件对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleSubscribe(BaseEvent event) {
+    protected BaseRecevice handleSubscribe(BaseEvent event) {
         return new TextMsg("感谢您的关注!");
     }
 
@@ -532,7 +532,7 @@ public abstract class WeixinSupport {
      * @param event 群发回调方法
      * @return 响应消息对象
      */
-    protected  BaseMsg callBackAllMessage(SendMessageEvent event){return  handleDefaultEvent(event);}
+    protected  BaseRecevice callBackAllMessage(SendMessageEvent event){return  handleDefaultEvent(event);}
 
     /**
      * 处理取消关注事件，有需要时子类重写
@@ -540,15 +540,15 @@ public abstract class WeixinSupport {
      * @param event 取消关注事件对象
      * @return 响应消息对象
      */
-    protected BaseMsg handleUnsubscribe(BaseEvent event) {
+    protected BaseRecevice handleUnsubscribe(BaseEvent event) {
         return null;
     }
 
-    protected BaseMsg handleDefaultMsg(BaseReqMsg msg) {
+    protected BaseRecevice handleDefaultMsg(BaseReqMsg msg) {
         return null;
     }
 
-    protected BaseMsg handleDefaultEvent(BaseEvent event) {
+    protected BaseRecevice handleDefaultEvent(BaseEvent event) {
         return null;
     }
 

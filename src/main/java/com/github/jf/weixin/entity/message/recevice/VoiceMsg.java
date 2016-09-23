@@ -5,7 +5,7 @@ import com.github.jf.weixin.util.MessageBuilder;
 /**
  * @author peiyu
  */
-public class VoiceMsg extends BaseMsg {
+public class VoiceMsg extends BaseRecevice {
 
     private String mediaId;
 

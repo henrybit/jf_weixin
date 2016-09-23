@@ -1,4 +1,4 @@
-package com.github.jf.weixin;
+package com.github.jf.weixin.api;
 
 import com.github.jf.weixin.api.message.MessageAPI;
 import com.github.jf.weixin.config.ApiConfig;

@@ -1,4 +1,4 @@
-package com.github.jf.weixin;
+package com.github.jf.weixin.api;
 
 /**
  * 测试微信卡券相关API

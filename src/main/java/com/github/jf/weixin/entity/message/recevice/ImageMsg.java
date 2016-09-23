@@ -6,7 +6,7 @@ import com.github.jf.weixin.util.MessageBuilder;
 /**
  * @author peiyu
  */
-public class ImageMsg extends BaseMsg {
+public class ImageMsg extends BaseRecevice {
 
     private String mediaId;
 

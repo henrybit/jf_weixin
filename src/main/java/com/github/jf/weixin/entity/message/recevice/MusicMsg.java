@@ -2,7 +2,7 @@ package com.github.jf.weixin.entity.message.recevice;
 
 import com.github.jf.weixin.util.MessageBuilder;
 
-public class MusicMsg extends BaseMsg {
+public class MusicMsg extends BaseRecevice {
 
     private String title;
     private String description;

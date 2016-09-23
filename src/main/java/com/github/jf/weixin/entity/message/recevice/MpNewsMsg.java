@@ -8,7 +8,7 @@ package com.github.jf.weixin.entity.message.recevice;
  * @version 1.0.beta
  * ====================================================================
  */
-public class MpNewsMsg extends BaseMsg {
+public class MpNewsMsg extends BaseRecevice {
 
     private String mediaId;
 

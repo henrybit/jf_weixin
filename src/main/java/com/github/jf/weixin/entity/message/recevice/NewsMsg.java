@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author peiyu
  */
-public class NewsMsg extends BaseMsg {
+public class NewsMsg extends BaseRecevice {
 
     private static final int WX_MAX_SIZE = 10;
     private int maxSize = WX_MAX_SIZE;

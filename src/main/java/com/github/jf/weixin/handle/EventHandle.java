@@ -1,6 +1,6 @@
 package com.github.jf.weixin.handle;
 
-import com.github.jf.weixin.entity.message.recevice.BaseMsg;
+import com.github.jf.weixin.entity.message.recevice.BaseRecevice;
 import com.github.jf.weixin.entity.message.req.BaseEvent;
 
 /**
@@ -16,7 +16,7 @@ public interface EventHandle<E extends BaseEvent> {
      * @param event 微信事件
      * @return 回复用户的消息
      */
-    BaseMsg handle(E event);
+    BaseRecevice handle(E event);
 
     /**
      * 在处理之前，判断本事件是否符合处理的条件

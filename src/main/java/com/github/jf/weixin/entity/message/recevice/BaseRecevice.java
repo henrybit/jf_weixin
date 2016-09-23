@@ -1,8 +1,9 @@
 package com.github.jf.weixin.entity.message.recevice;
 
-import com.github.jf.weixin.util.MessageBuilder;
-
 import java.io.Serializable;
+
+import com.github.jf.weixin.annotation.XmlField;
+import com.github.jf.weixin.util.MessageBuilder;
 
 /**
  * 消息基类<br>
@@ -20,22 +21,26 @@ import java.io.Serializable;
  * @since 1.3
  * @version 2.0
  */
-public class BaseMsg implements Serializable{
+public class BaseRecevice implements Serializable{
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 2383746865161395761L;
 	//开发者微信号
-    private String toUserName;
+	@XmlField(name="ToUserName")
+	protected String toUserName;
     //发送方账号
-    private String fromUserName;
+	@XmlField(name="FromUserName")
+	protected String fromUserName;
     //创建时间
-    private long createTime;
+	@XmlField(name="CreateTime")
+	protected long createTime;
     //消息类型
-    private String msgType;
+	@XmlField(name="MsgType")
+	protected String msgType;
 
-    public BaseMsg() {
+    public BaseRecevice() {
     }
 
     public String getToUserName() {

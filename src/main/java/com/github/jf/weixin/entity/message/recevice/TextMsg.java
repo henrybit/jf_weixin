@@ -32,7 +32,7 @@ import com.github.jf.weixin.util.MessageBuilder;
  * @since 1.3
  * @version 2.0
  */
-public final class TextMsg extends BaseMsg {
+public final class TextMsg extends BaseRecevice {
 
     //消息ID
     private String msgId;

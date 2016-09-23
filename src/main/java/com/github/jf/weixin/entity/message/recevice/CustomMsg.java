@@ -2,7 +2,7 @@ package com.github.jf.weixin.entity.message.recevice;
 
 import com.github.jf.weixin.util.MessageBuilder;
 
-public class CustomMsg extends BaseMsg {
+public class CustomMsg extends BaseRecevice {
 
     private String kfAccount;
 

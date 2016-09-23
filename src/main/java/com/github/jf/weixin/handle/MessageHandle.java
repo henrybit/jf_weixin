@@ -1,7 +1,7 @@
 package com.github.jf.weixin.handle;
 
 import com.github.jf.weixin.entity.message.req.BaseReqMsg;
-import com.github.jf.weixin.entity.message.recevice.BaseMsg;
+import com.github.jf.weixin.entity.message.recevice.BaseRecevice;
 
 /**
  * 微信消息处理器接口
@@ -16,7 +16,7 @@ public interface MessageHandle<M extends BaseReqMsg> {
      * @param message 微信消息
      * @return 回复用户的消息
      */
-    BaseMsg handle(M message);
+    BaseRecevice handle(M message);
 
     /**
      * 在处理之前，判断本条消息是否符合处理的条件
