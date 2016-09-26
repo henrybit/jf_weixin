@@ -50,7 +50,210 @@ public class XMLUtil {
         System.out.println(t.createTime);
 
 	}
-	
+
+    /**
+     * 将对象转化成XML格式数据<br>
+     * @param obj 待转化对象
+     * @param <T>
+     * @return String
+     */
+    public static <T> String toXml(T obj) {
+        if (obj != null) {
+            StringBuilder xml = new StringBuilder("<xml>");
+            Class cls = obj.getClass();
+            List<Field> filedList = getAllFields(cls);
+            for (int i=0; filedList!=null&&i<filedList.size(); i++) {
+                Field field = filedList.get(i);
+                if (field == null) continue;
+                String aliasName = field.getAnnotation(XmlField.class).name();
+                Class type = field.getType();
+                if (type == int.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldInt(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == long.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldLong(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == float.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldFloat(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == double.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldDouble(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == char.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldChar(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == byte.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldByte(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == boolean.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldBoolean(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == short.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldShort(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type.isArray()) {
+                    //TODO
+                } else if (type == Collection.class) {
+                    //TODO
+                } else if (type == List.class) {
+                    //TODO
+                } else if (type == String.class){
+                    xml.append("<").append(aliasName).append(">").append(getFieldString(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == Integer.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldInt(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == Long.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldLong(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == Short.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldShort(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == Float.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldFloat(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == Double.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldDouble(obj, field)).append("</").append(aliasName).append(">");
+                } else if (type == Character.class) {
+                    xml.append("<").append(aliasName).append(">").append(getFieldChar(obj, field)).append("</").append(aliasName).append(">");
+                }
+            }
+            xml.append("</xml>");
+            return xml.toString();
+        }
+        return "";
+    }
+
+    /**
+     * Field取String<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static String getFieldString(Object obj, Field field) {
+        try {
+            return (String)field.get(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * Field取Int<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static int getFieldInt(Object obj, Field field) {
+        try {
+            int value = field.getInt(obj);
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
+     * Field取Long<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static long getFieldLong(Object obj, Field field) {
+        try {
+            long value = field.getLong(obj);
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1L;
+    }
+
+    /**
+     * Field取char<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static char getFieldChar(Object obj, Field field) {
+        try {
+            char c = field.getChar(obj);
+            return c;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ' ';
+    }
+
+    /**
+     * Field取byte<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static byte getFieldByte(Object obj, Field field) {
+        try {
+            byte b = field.getByte(obj);
+            return b;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
+     * Field取Short<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static short getFieldShort(Object obj, Field field) {
+        try {
+            short value = field.getShort(obj);
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
+     * Field取Float<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static float getFieldFloat(Object obj, Field field) {
+        try {
+            float value = field.getFloat(obj);
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1.0f;
+    }
+
+    /**
+     * Field取Double<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static double getFieldDouble(Object obj, Field field) {
+        try {
+            double value = field.getDouble(obj);
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1.0d;
+    }
+
+    /**
+     * Field取Boolean<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static boolean getFieldBoolean(Object obj, Field field) {
+        try {
+            boolean f = field.getBoolean(obj);
+            return f;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 	/**
 	 * 根据XML解析成指定的对象<br>
 	 * <h6 style="color:red;">注意：当解析失败时，将会返回NULL</h6>
@@ -94,7 +297,7 @@ public class XMLUtil {
                     Class type = field.getType();
                     String name = field.getName();
                     String aliasName = field.getAnnotation(XmlField.class).name();
-                    Object value = treeMap.get(name);
+                    Object value;
                     value = treeMap.get(aliasName);
                     if (type == int.class) {
                         field.set(obj, NumberUtil.objToint(value));

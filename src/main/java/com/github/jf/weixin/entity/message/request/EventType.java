@@ -1,5 +1,11 @@
-package com.github.jf.weixin.entity.message.req;
+package com.github.jf.weixin.entity.message.request;
 
+/**
+ * 事件类型<br>
+ * @author henrybit
+ * @since 2.0
+ * @version 2.0
+ */
 public final class EventType {
 
     public static final String SUBSCRIBE       = "subscribe";

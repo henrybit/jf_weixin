@@ -15,7 +15,7 @@ public class MPNewsMessage extends BaseReqMsg{
 	@JSONField(name="media_id")
     protected String mediaId;
 
-    public String getMedia_id() {
+    public String getMediaId() {
         return mediaId;
     }
 

@@ -12,6 +12,8 @@ public class APIAddress {
 	/**---------------OAUTH API start-----------------**/
 	/**获取Access_token*/
 	public static final String TOKEN_API = BASE_API_URL+"cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+	/**获取微信服务器IP地址*/
+	public static final String IP_LIST_API = BASE_API_URL+"cgi-bin/getcallbackip?access_token=ACCESS_TOKEN";
 	/**---------------OAUTH API end-----------------**/
 	
 	/**---------------自定义菜单API start-----------------**/

@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class ApiConfig extends Observable implements Serializable {
 
-    private static final Logger        LOG             = LoggerFactory.getLogger(ApiConfig.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApiConfig.class);
     /**
      * 这里定义token正在刷新的标识，想要达到的目标是当有一个请求来获取token，发现token已经过期（我这里的过期逻辑是比官方提供的早100秒），然后开始刷新token
      * 在刷新的过程里，如果又继续来获取token，会先把旧的token返回，直到刷新结束，之后再来的请求，将获取到新的token
@@ -33,16 +33,16 @@ public final class ApiConfig extends Observable implements Serializable {
      * 在刷新结束前再次进来的请求，由于标识一直是true，而会直接拿到旧的token，由于我们的过期逻辑比官方的早100秒，所以旧的还可以继续用
      * 无论刷新token正在结束还是出现异常，都在最后将标识改回false，表示刷新工作已经结束
      */
-    private final        AtomicBoolean tokenRefreshing = new AtomicBoolean(false);
-    private final        AtomicBoolean jsRefreshing    = new AtomicBoolean(false);
+    private final AtomicBoolean tokenRefreshing = new AtomicBoolean(false);
+    private final AtomicBoolean jsRefreshing = new AtomicBoolean(false);
 
-    private final String  appid;
-    private final String  secret;
-    private       String  accessToken;
-    private       String  jsApiTicket;
-    private       boolean enableJsApi;
-    private       long    jsTokenStartTime;
-    private       long    weixinTokenStartTime;
+    private final String appid;
+    private final String secret;
+    private String accessToken;
+    private String jsApiTicket;
+    private boolean enableJsApi;
+    private long jsTokenStartTime;
+    private long weixinTokenStartTime;
 
     /**
      * 构造方法一，实现同时获取access_token。不启用jsApi
@@ -165,7 +165,6 @@ public final class ApiConfig extends Observable implements Serializable {
         //记住原本的时间，用于出错回滚
         final long oldTime = this.weixinTokenStartTime;
         this.weixinTokenStartTime = refreshTime;
-        //String url = "https://weixin.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + this.appid + "&secret=" + this.secret;
         String url = APIAddress.TOKEN_API.replace("APPID", this.appid).replace("APPSECRET", this.secret);
         NetWorkCenter.get(url, null, new NetWorkCenter.ResponseCallback() {
             @Override

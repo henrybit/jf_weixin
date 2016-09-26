@@ -5,22 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.github.jf.weixin.entity.message.request.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.jf.weixin.api.BaseAPI;
 import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.message.recevice.BaseRecevice;
-import com.github.jf.weixin.entity.message.recevice.ImageMsg;
-import com.github.jf.weixin.entity.message.recevice.MpNewsMsg;
-import com.github.jf.weixin.entity.message.recevice.MusicMsg;
-import com.github.jf.weixin.entity.message.recevice.NewsMsg;
-import com.github.jf.weixin.entity.message.recevice.TextMsg;
-import com.github.jf.weixin.entity.message.recevice.VideoMsg;
-import com.github.jf.weixin.entity.message.recevice.VoiceMsg;
-import com.github.jf.weixin.entity.message.request.CustomerServiceMessage;
-import com.github.jf.weixin.entity.message.request.OldArticle;
 import com.github.jf.weixin.entity.response.BaseResponse;
 import com.github.jf.weixin.entity.response.GetSendMessageResponse;
 import com.github.jf.weixin.enums.ResultType;
@@ -97,39 +88,6 @@ public class MessageAPI extends BaseAPI {
     private static final Logger LOG = LoggerFactory.getLogger(MessageAPI.class);
     /** private static end **/
 
-//    /** protected static start **/
-//    /**发送客服消息*/
-//    protected static final String CUSTOMER_SERVICE_MESSAGE_API = BASE_API_URL+"cgi-bin/message/custom/send?access_token=#";
-//    /**上传图文消息内的图片获取URL【订阅号与服务号认证后均可用】*/
-//    protected static final String MASS_UPLOAD_MESSAGE_IMAGE_API = BASE_API_URL+"cgi-bin/media/uploadimg?access_token=#";
-//    /**上传图文消息素材【订阅号与服务号认证后均可用】*/
-//    protected static final String MASS_UPLOAD_MESSAGE_IMAGE_NEWS_API = BASE_API_URL+"cgi-bin/media/uploadnews?access_token=#";
-//    /**根据分组进行群发【订阅号与服务号认证后均可用】*/
-//    protected static final String MASS_GROUP_MESSAGE_SEND_API = BASE_API_URL+"cgi-bin/message/mass/sendall?access_token=#";
-//    /**根据OpenID列表群发【订阅号不可用，服务号认证后可用】*/
-//    protected static final String MASS_OPENID_MESSAGE_SEND_API = BASE_API_URL+"cgi-bin/message/mass/send?access_token=#";
-//    /**删除群发【订阅号与服务号认证后均可用】*/
-//    protected static final String MASS_DELETE_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/delete?access_token=#";
-//    /**预览接口【订阅号与服务号认证后均可用】*/
-//    protected static final String MASS_PREVIEW_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/preview?access_token=#";
-//    /**查询群发消息发送状态【订阅号与服务号认证后均可用】*/
-//    protected static final String MASS_QUERY_MESSAGE_API = BASE_API_URL+"cgi-bin/message/mass/get?access_token=#";
-//    /**设置所属行业*/
-//    protected static final String TEMPLATE_SET_INDUSTRY_API = BASE_API_URL+"cgi-bin/template/api_set_industry?access_token=#";
-//    /**获取设置的行业信息*/
-//    protected static final String TEMPLATE_GET_INDUSTRY_API = BASE_API_URL+"cgi-bin/template/get_industry?access_token=#";
-//    /**获得模板ID*/
-//    protected static final String TEMPLATE_GET_TEMPLATE_ID_API = BASE_API_URL+"cgi-bin/template/api_add_template?access_token=#";
-//    /**获取模板列表*/
-//    protected static final String TEMPLATE_GET_TEMPLATE_LIST_API = BASE_API_URL+"cgi-bin/template/get_all_private_template?access_token=#";
-//    /**删除一个模板*/
-//    protected static final String TEMPLATE_DELETE_TEMPLATE_API = BASE_API_URL+"cgi-bin/template/del_private_template?access_token=#";
-//    /**发送模板消息*/
-//    protected static final String TEMPLATE_SEND_MESSAGE_API = BASE_API_URL+"cgi-bin/message/template/send?access_token=#";
-//    /**获取公众号自动回复配置*/
-//    protected static final String GET_CURRENT_AUTOREPLY_API = BASE_API_URL+"cgi-bin/get_current_autoreply_info?access_token=#";
-//
-//    /** protected static end **/
 
     public MessageAPI(ApiConfig config) {
         super(config);
@@ -160,10 +118,9 @@ public class MessageAPI extends BaseAPI {
      * @deprecated 微信不再建议使用群组概念,用标签代替
      */
     @Deprecated
-    public GetSendMessageResponse sendMessageToUser(BaseRecevice message, boolean isToAll, String groupId, String[] openIds){
+    public GetSendMessageResponse sendMessageToUser(BaseReqMsg message, boolean isToAll, String groupId, String[] openIds){
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
-        //String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
         String url = APIAddress.MASS_GROUP_MESSAGE_SEND_API;
         final Map<String, Object> params = new HashMap<String, Object>();
         Map<String, Object> filterMap = new HashMap<String, Object>();
@@ -173,31 +130,31 @@ public class MessageAPI extends BaseAPI {
             filterMap.put("group_id", groupId);
         }
         params.put("filter", filterMap);
-        if(message instanceof MpNewsMsg){
+        if(message instanceof MPNewsMessage){
             params.put("msgtype", "mpnews");
-            MpNewsMsg msg = (MpNewsMsg)message;
+            MPNewsMessage msg = (MPNewsMessage)message;
             Map<String, Object> mpNews = new HashMap<String, Object>();
             mpNews.put("media_id", msg.getMediaId());
             params.put("mpnews", mpNews);
-        }else if(message instanceof TextMsg){
+        }else if(message instanceof TextMessage){
             params.put("msgtype", "text");
-            TextMsg msg = (TextMsg)message;
+            TextMessage msg = (TextMessage)message;
             Map<String ,Object> text = new HashMap<String, Object>();
             text.put("content", msg.getContent());
             params.put("text", text);
-        }else if(message instanceof VoiceMsg){
+        }else if(message instanceof VoiceMessage){
             params.put("msgtype", "voice");
-            VoiceMsg msg = (VoiceMsg)message;
+            VoiceMessage msg = (VoiceMessage)message;
             Map<String, Object> voice = new HashMap<String ,Object>();
             voice.put("media_id", msg.getMediaId());
             params.put("voice", voice);
-        }else if(message instanceof ImageMsg){
+        }else if(message instanceof ImageMessage){
             params.put("msgtype", "image");
-            ImageMsg msg = (ImageMsg)message;
+            ImageMessage msg = (ImageMessage)message;
             Map<String, Object> image = new HashMap<String, Object>();
             image.put("media_id", msg.getMediaId());
             params.put("image", image);
-        }else if(message instanceof VideoMsg){
+        }else if(message instanceof VideoMessage){
             // TODO 此处方法特别
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
@@ -213,7 +170,7 @@ public class MessageAPI extends BaseAPI {
      * @param tagId 标签ID
      * @return 群发结果
      */
-    public GetSendMessageResponse sendMessageToUser(BaseRecevice message, boolean isToAll, Integer tagId){
+    public GetSendMessageResponse sendMessageToUser(BaseReqMsg message, boolean isToAll, Integer tagId){
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
         //String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
@@ -226,31 +183,31 @@ public class MessageAPI extends BaseAPI {
             filterMap.put("tag_id", tagId);
         }
         params.put("filter", filterMap);
-        if(message instanceof MpNewsMsg){
+        if(message instanceof MPNewsMessage){
             params.put("msgtype", "mpnews");
-            MpNewsMsg msg = (MpNewsMsg)message;
+            MPNewsMessage msg = (MPNewsMessage)message;
             Map<String, Object> mpNews = new HashMap<String, Object>();
             mpNews.put("media_id", msg.getMediaId());
             params.put("mpnews", mpNews);
-        }else if(message instanceof TextMsg){
+        }else if(message instanceof TextMessage){
             params.put("msgtype", "text");
-            TextMsg msg = (TextMsg)message;
+            TextMessage msg = (TextMessage)message;
             Map<String ,Object> text = new HashMap<String, Object>();
             text.put("content", msg.getContent());
             params.put("text", text);
-        }else if(message instanceof VoiceMsg){
+        }else if(message instanceof VoiceMessage){
             params.put("msgtype", "voice");
-            VoiceMsg msg = (VoiceMsg)message;
+            VoiceMessage msg = (VoiceMessage)message;
             Map<String, Object> voice = new HashMap<String ,Object>();
             voice.put("media_id", msg.getMediaId());
             params.put("voice", voice);
-        }else if(message instanceof ImageMsg){
+        }else if(message instanceof ImageMessage){
             params.put("msgtype", "image");
-            ImageMsg msg = (ImageMsg)message;
+            ImageMessage msg = (ImageMessage)message;
             Map<String, Object> image = new HashMap<String, Object>();
             image.put("media_id", msg.getMediaId());
             params.put("image", image);
-        }else if(message instanceof VideoMsg){
+        }else if(message instanceof VideoMessage){
             // TODO 此处方法特别
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
@@ -266,33 +223,33 @@ public class MessageAPI extends BaseAPI {
      * @return 调用结果
      * @deprecated - V2.0以后版本将删除
      */
-    public ResultType sendCustomMessage(String openid, BaseRecevice message) {
+    public ResultType sendCustomMessage(String openid, BaseReqMsg message) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("发布客服消息......");
         String url = APIAddress.CUSTOMER_SERVICE_MESSAGE_API;
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("touser", openid);
-        if (message instanceof TextMsg) {
-            TextMsg msg = (TextMsg) message;
+        if (message instanceof TextMessage) {
+            TextMessage msg = (TextMessage) message;
             params.put("msgtype", "text");
             Map<String, String> text = new HashMap<String, String>();
             text.put("content", msg.getContent());
             params.put("text", text);
-        } else if (message instanceof ImageMsg) {
-            ImageMsg msg = (ImageMsg) message;
+        } else if (message instanceof ImageMessage) {
+            ImageMessage msg = (ImageMessage) message;
             params.put("msgtype", "image");
             Map<String, String> image = new HashMap<String, String>();
             image.put("media_id", msg.getMediaId());
             params.put("image", image);
-        } else if (message instanceof VoiceMsg) {
-            VoiceMsg msg = (VoiceMsg) message;
+        } else if (message instanceof VoiceMessage) {
+            VoiceMessage msg = (VoiceMessage) message;
             params.put("msgtype", "voice");
             Map<String, String> voice = new HashMap<String, String>();
             voice.put("media_id", msg.getMediaId());
             params.put("voice", voice);
-        } else if (message instanceof VideoMsg) {
-            VideoMsg msg = (VideoMsg) message;
+        } else if (message instanceof VideoMessage) {
+            VideoMessage msg = (VideoMessage) message;
             params.put("msgtype", "video");
             Map<String, String> video = new HashMap<String, String>();
             video.put("media_id", msg.getMediaId());
@@ -300,23 +257,23 @@ public class MessageAPI extends BaseAPI {
             video.put("title", msg.getTitle());
             video.put("description", msg.getDescription());
             params.put("video", video);
-        } else if (message instanceof MusicMsg) {
-            MusicMsg msg = (MusicMsg) message;
+        } else if (message instanceof MusicMessage) {
+            MusicMessage msg = (MusicMessage) message;
             params.put("msgtype", "music");
             Map<String, String> music = new HashMap<String, String>();
             music.put("thumb_media_id", msg.getThumbMediaId());
             music.put("title", msg.getTitle());
             music.put("description", msg.getDescription());
             music.put("musicurl", msg.getMusicUrl());
-            music.put("hqmusicurl", msg.getHqMusicUrl());
+            music.put("hqmusicurl", msg.getHqmusicUrl());
             params.put("music", music);
-        } else if (message instanceof NewsMsg) {
-            NewsMsg msg = (NewsMsg) message;
+        } else if (message instanceof NewsMessage) {
+            NewsMessage msg = (NewsMessage) message;
             params.put("msgtype", "news");
             Map<String, Object> news = new HashMap<String, Object>();
             List<Object> articles = new ArrayList<Object>();
-            List<OldArticle> list = msg.getArticles();
-            for (OldArticle article : list) {
+            List<NewsMessage.Article> list = msg.getArticles();
+            for (NewsMessage.Article article : list) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("title", article.getTitle());
                 map.put("description", article.getDescription());
@@ -326,8 +283,8 @@ public class MessageAPI extends BaseAPI {
             }
             news.put("articles", articles);
             params.put("news", news);
-        } else if (message instanceof MpNewsMsg) {
-            MpNewsMsg msg = (MpNewsMsg) message;
+        } else if (message instanceof MPNewsMessage) {
+            MPNewsMessage msg = (MPNewsMessage) message;
             params.put("msgtype", "mpnews");
             Map<String, String> news = new HashMap<String, String>();
             news.put("media_id", msg.getMediaId());

@@ -1,6 +1,6 @@
 package com.github.jf.weixin.message.recevice;
 
-import com.github.jf.weixin.entity.message.recevice.QrcodeMessage;
+import com.github.jf.weixin.entity.message.recevice.EventMessage;
 import com.github.jf.weixin.util.XMLUtil;
 
 /**
@@ -14,7 +14,7 @@ public class TestQrcodeMessage {
 	public static void main(String[] args) {
 		String xml = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[FromUser]]></FromUserName><CreateTime>123456789</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[SCAN]]></Event><EventKey><![CDATA[SCENE_VALUE]]></EventKey><Ticket><![CDATA[TICKET]]></Ticket></xml>";
 		xml = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[FromUser]]></FromUserName><CreateTime>123456789</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event><EventKey><![CDATA[qrscene_123123]]></EventKey><Ticket><![CDATA[TICKET]]></Ticket></xml>";
-		QrcodeMessage t = XMLUtil.parse(QrcodeMessage.class, xml);
+		EventMessage t = XMLUtil.parse(EventMessage.class, xml);
 		System.out.println(t.getFromUserName());
 		System.out.println(t.getToUserName());
 		System.out.println(t.getCreateTime());

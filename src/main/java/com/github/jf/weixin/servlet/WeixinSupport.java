@@ -1,5 +1,7 @@
 package com.github.jf.weixin.servlet;
 
+import com.github.jf.weixin.entity.message.recevice.TextMessage;
+import com.github.jf.weixin.entity.message.request.EventType;
 import com.github.jf.weixin.handle.EventHandle;
 import com.github.jf.weixin.util.aes.AesException;
 import com.github.jf.weixin.util.aes.WXBizMsgCrypt;
@@ -8,7 +10,6 @@ import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.util.SignUtil;
 import com.github.jf.weixin.handle.MessageHandle;
 import com.github.jf.weixin.entity.message.recevice.BaseRecevice;
-import com.github.jf.weixin.entity.message.recevice.TextMsg;
 import com.github.jf.weixin.util.MessageUtil;
 import com.github.jf.weixin.util.StringUtil;
 import org.slf4j.Logger;
@@ -523,7 +524,7 @@ public abstract class WeixinSupport {
      * @return 响应消息对象
      */
     protected BaseRecevice handleSubscribe(BaseEvent event) {
-        return new TextMsg("感谢您的关注!");
+        return new TextMessage("感谢您的关注!");
     }
 
     /**
