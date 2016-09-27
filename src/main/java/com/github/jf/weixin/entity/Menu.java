@@ -15,13 +15,15 @@ public class Menu extends BaseModel {
     /**
      * 一级菜单列表，最多3个
      */
-    private List<MenuButton> button;
+    @JSONField(name="button")
+    private List<MenuButton> buttons;
 
     /**
      * 菜单匹配规则
      *
      * @since 1.3.7
      */
+    @JSONField(name="matchrule")
     private Matchrule matchrule;
 
     /**
@@ -32,15 +34,15 @@ public class Menu extends BaseModel {
     @JSONField(name = "menuid")
     private String menuId;
 
-    public List<MenuButton> getButton() {
-        return button;
+    public List<MenuButton> getButtons() {
+        return buttons;
     }
 
-    public void setButton(List<MenuButton> button) {
-        if (null == button || button.size() > 3) {
+    public void setButtons(List<MenuButton> buttons) {
+        if (null == buttons || buttons.size() > 3) {
             throw new WeixinException("主菜单最多3个");
         }
-        this.button = button;
+        this.buttons = buttons;
     }
 
     public Matchrule getMatchrule() {

@@ -32,6 +32,7 @@ public class MenuAPI extends BaseAPI {
     private static final Logger LOG = LoggerFactory.getLogger(MenuAPI.class);
     /**private static end*/
 
+
     public MenuAPI(ApiConfig config) {
         super(config);
     }
