@@ -16,21 +16,25 @@ public class MenuButton extends BaseModel {
     /**
      * 菜单类别
      */
+    @JSONField(name="type")
     private MenuType type;
 
     /**
      * 菜单上显示的文字
      */
+    @JSONField(name="name")
     private String name;
 
     /**
      * 菜单key，当MenuType值为CLICK时用于区别菜单
      */
+    @JSONField(name="key")
     private String key;
 
     /**
      * 菜单跳转的URL，当MenuType值为VIEW时用
      */
+    @JSONField(name="url")
     private String url;
 
     /**
@@ -94,5 +98,24 @@ public class MenuButton extends BaseModel {
             throw new WeixinException("子菜单最多只有5个");
         }
         this.subButton = subButton;
+    }
+
+    public MenuButton() {
+    }
+
+    public MenuButton(String name, String key, MenuType type) {
+        this.name = name;
+        this.key = key;
+        this.type = type;
+    }
+
+    public MenuButton(String name, String key, MenuType type, String url) {
+        this(name, key, type);
+        this.url = url;
+    }
+
+    public MenuButton(String name, String key, String menuId, MenuType type) {
+        this(name, key, type);
+        this.mediaId = mediaId;
     }
 }

@@ -32,23 +32,6 @@ public class MenuAPI extends BaseAPI {
     private static final Logger LOG = LoggerFactory.getLogger(MenuAPI.class);
     /**private static end*/
 
-//    /**protected static start*/
-//    /**自定义菜单创建接口*/
-//    protected static final String MENU_CREATE_API = BASE_API_URL+"cgi-bin/menu/create?access_token=#";
-//    /**自定义菜单查询接口*/
-//    protected static final String MENU_QUERY_API = BASE_API_URL+"cgi-bin/menu/get?access_token=#";
-//    /**自定义菜单删除接口*/
-//    protected static final String MENU_DELETE_API = BASE_API_URL+"cgi-bin/menu/delete?access_token=#";
-//    /**个性化菜单接口*/
-//    protected static final String MENU_CUSTOM_API = BASE_API_URL+"cgi-bin/menu/addconditional?access_token=#";
-//    /**删除个性化菜单*/
-//    protected static final String MENU_CUSTOM_DELETE_API = BASE_API_URL+"cgi-bin/menu/delconditional?access_token=#";
-//    /**测试个性化菜单匹配结果*/
-//    protected static final String MENU_CUSTOM_TEST_API = BASE_API_URL+"cgi-bin/menu/trymatch?access_token=#";
-//    /**获取自定义菜单配置接口*/
-//    protected static final String MENU_GET_CURRENT_SELFMENU_API = BASE_API_URL+"cgi-bin/get_current_selfmenu_info?access_token=#";
-//    /**protected static end*/
-
 
     public MenuAPI(ApiConfig config) {
         super(config);
