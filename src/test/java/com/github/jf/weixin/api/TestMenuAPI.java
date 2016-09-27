@@ -108,7 +108,7 @@ public class TestMenuAPI {
 //		buttons.add(subBtn10);
 		
 		
-		menu.setButton(buttons);
+		menu.setButtons(buttons);
 		menuApi.createMenu(menu);
 	}
 

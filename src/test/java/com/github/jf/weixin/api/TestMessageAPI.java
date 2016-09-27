@@ -21,7 +21,7 @@ public class TestMessageAPI {
 		String appId = "wxbe7e674c6bfd9b1b";
 		String secret = "2e27fa91a9b2b573d17faeb88d1cae9f";
 		ApiConfig apiConfig = new ApiConfig(appId, secret);
-		
+		//------------客服消息
 		//1.测试文本消息
 		//TestTextMessage(apiConfig);
 		//2.测试图片消息
@@ -38,6 +38,12 @@ public class TestMessageAPI {
 		//TestMPNewsMessage(apiConfig);
 		//8.测试卡券消息 TODO
 		//TestWXcardMessage(apiConfig);
+		
+		
+		//------------被动回复用户消息
+		
+		
+		//-------------群发消息
 	}
 	
 	private static void TestTextMessage(ApiConfig apiConfig) throws Exception {
@@ -134,4 +140,5 @@ public class TestMessageAPI {
 		ResultType resultType = messageApi.sendCustomerServiceMessage(customerServiceMessage);
 		System.out.println(resultType.getDescription());
 	}
+	
 }
