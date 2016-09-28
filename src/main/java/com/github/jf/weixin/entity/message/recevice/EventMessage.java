@@ -86,6 +86,36 @@ import com.github.jf.weixin.annotation.XmlField;
             </xml>
  *         }
  *     </li>
+ *     <li>
+ *     	   点击菜单扫码push<br>
+ *       {@code
+ *       <xml><ToUserName><![CDATA[gh_b68014892909]]></ToUserName>
+		<FromUserName><![CDATA[oMt1sxK_DNo7CesbmoYs4tNW2rOI]]></FromUserName>
+		<CreateTime>1474890608</CreateTime>
+		<MsgType><![CDATA[event]]></MsgType>
+		<Event><![CDATA[scancode_push]]></Event>
+		<EventKey><![CDATA[A003]]></EventKey>
+		<ScanCodeInfo><ScanType><![CDATA[qrcode]]></ScanType>
+		<ScanResult><![CDATA[http://weixin.qq.com/r/0e-UzCrEh3f4rW6v97rD]]></ScanResult>
+		</ScanCodeInfo>
+		</xml>
+ *       }
+ *     </li>
+ *     <li>
+ *     	 点击扫码等待<br>
+ *       {@code
+ *       <xml><ToUserName><![CDATA[gh_b68014892909]]></ToUserName>
+		<FromUserName><![CDATA[oMt1sxK_DNo7CesbmoYs4tNW2rOI]]></FromUserName>
+		<CreateTime>1474890615</CreateTime>
+		<MsgType><![CDATA[event]]></MsgType>
+		<Event><![CDATA[scancode_waitmsg]]></Event>
+		<EventKey><![CDATA[A004]]></EventKey>
+		<ScanCodeInfo><ScanType><![CDATA[qrcode]]></ScanType>
+		<ScanResult><![CDATA[http://weixin.qq.com/r/0e-UzCrEh3f4rW6v97rD]]></ScanResult>
+		</ScanCodeInfo>
+		</xml>
+ *       }
+ *     </li>
  * </ul>
  * @author henrybit
  * @since 2.0
@@ -104,6 +134,8 @@ public class EventMessage extends BaseRecevice{
     protected String longitude;
     @XmlField(name="Precision")
     protected String precision;
+    @XmlField(name="ScanCodeInfo")
+    protected ScanCodeInfo scanCodeInfo;
 
     public String getEvent() {
         return event;
@@ -151,5 +183,34 @@ public class EventMessage extends BaseRecevice{
 
     public void setPrecision(String precision) {
         this.precision = precision;
+    }
+    
+    public ScanCodeInfo getScanCodeInfo() {
+		return scanCodeInfo;
+	}
+
+	public void setScanCodeInfo(ScanCodeInfo scanCodeInfo) {
+		this.scanCodeInfo = scanCodeInfo;
+	}
+
+
+
+	public static class ScanCodeInfo {
+    	@XmlField(name="ScanType")
+    	private String scanType;
+    	@XmlField(name="ScanResult")
+    	private String scanResult;
+		public String getScanType() {
+			return scanType;
+		}
+		public void setScanType(String scanType) {
+			this.scanType = scanType;
+		}
+		public String getScanResult() {
+			return scanResult;
+		}
+		public void setScanResult(String scanResult) {
+			this.scanResult = scanResult;
+		}
     }
 }

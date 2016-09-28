@@ -48,7 +48,8 @@ public class XMLUtil {
         System.out.println(t.toUser);
         System.out.println(t.fromUser);
         System.out.println(t.createTime);
-
+        
+        System.out.println(toXml(t));
 	}
 
     /**
@@ -90,7 +91,7 @@ public class XMLUtil {
                 } else if (type == List.class) {
                     //TODO
                 } else if (type == String.class){
-                    xml.append("<").append(aliasName).append(">").append(getFieldString(obj, field)).append("</").append(aliasName).append(">");
+                    xml.append("<").append(aliasName).append("><![CDATA[").append(getFieldString(obj, field)).append("]]></").append(aliasName).append(">");
                 } else if (type == Integer.class) {
                     xml.append("<").append(aliasName).append(">").append(getFieldInt(obj, field)).append("</").append(aliasName).append(">");
                 } else if (type == Long.class) {
