@@ -109,13 +109,29 @@ public class MenuButton extends BaseModel {
         this.type = type;
     }
 
+    public MenuButton(String name, String key, MenuType type, List<MenuButton> buttons) {
+        this(name, key, type);
+        this.subButton = buttons;
+    }
+
     public MenuButton(String name, String key, MenuType type, String url) {
         this(name, key, type);
         this.url = url;
     }
 
-    public MenuButton(String name, String key, String menuId, MenuType type) {
+    public MenuButton(String name, String key, MenuType type, String url, List<MenuButton> buttons) {
+        this(name, key, type, url);
+        this.subButton = buttons;
+    }
+
+
+    public MenuButton(String name, String key, String mediaId, MenuType type) {
         this(name, key, type);
         this.mediaId = mediaId;
+    }
+
+    public MenuButton(String name, String key, String mediaid, MenuType type, List<MenuButton> buttons) {
+        this(name, key, mediaid, type);
+        this.subButton = buttons;
     }
 }

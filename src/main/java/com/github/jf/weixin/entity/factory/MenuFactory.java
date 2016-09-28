@@ -68,8 +68,9 @@ public class MenuFactory {
      * @return Menu
      */
     public static Menu createMenu(List<MenuButton> buttons) {
-        //TODO
-        return null;
+        Menu menu = new Menu();
+        menu.setButtons(buttons);
+        return menu;
     }
 
     /**
@@ -83,25 +84,25 @@ public class MenuFactory {
     public static MenuButton createMenuButton(String name, String key, MenuType menuType, String... array) {
         switch (menuType) {
             case CLICK:
-                return new MenuButton();
+                return new MenuButton(name, key, menuType);
             case VIEW:
-                return new MenuButton();
+                return new MenuButton(name, key, menuType, array[0]);
             case SCANCODE_PUSH:
-                return new MenuButton();
+                return new MenuButton(name, key, menuType);
             case SCANCODE_WAITMSG:
-                return new MenuButton();
+                return new MenuButton(name, key, menuType);
             case PIC_SYSPHOTO:
-                return new MenuButton();
+                return new MenuButton(name, key, menuType);
             case PIC_PHOTO_OR_ALBUM:
-                return new MenuButton();
+                return new MenuButton(name, key, menuType);
             case PIC_WEIXIN:
-                return new MenuButton();
+                return new MenuButton(name, key, menuType);
             case LOCATION_SELECT:
-                return new MenuButton();
+                return new MenuButton(name, key, menuType);
             case MEDIA_ID:
-                return new MenuButton();
+                return new MenuButton(name, key, array[0], menuType);
             case VIEW_LIMITED:
-                return new MenuButton();
+                return new MenuButton(name, key, array[0], menuType);
         }
         return null;
     }
