@@ -96,7 +96,7 @@ public class QYUserAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/user/get?access_token=#&userid=" + userId;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, GetQYUserInfoResponse.class);
+        response = JSONUtil.parse(resultJson, GetQYUserInfoResponse.class);
         return response;
     }
 
@@ -112,7 +112,7 @@ public class QYUserAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/user/simplelist?access_token=#&department_id=" + departmentId + "&fetch_child=" + (isLoop? 0 : 1) + "&status=" + status;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, GetQYUserInfo4DepartmentResponse.class);
+        response = JSONUtil.parse(resultJson, GetQYUserInfo4DepartmentResponse.class);
         return response;
     }
 
@@ -128,7 +128,7 @@ public class QYUserAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/user/list?access_token=#&department_id=" + departmentId + "&fetch_child=" + (isLoop? 0 : 1) + "&status=" + status;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, GetQYUserInfo4DepartmentResponse.class);
+        response = JSONUtil.parse(resultJson, GetQYUserInfo4DepartmentResponse.class);
         return response;
     }
 
@@ -145,7 +145,7 @@ public class QYUserAPI extends QYBaseAPI {
         params.put("userid", userid);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, GetQYUserInviteResponse.class);
+        response = JSONUtil.parse(resultJson, GetQYUserInviteResponse.class);
         return response;
     }
 
@@ -164,7 +164,7 @@ public class QYUserAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/user/getuserinfo?access_token=#&code=" + code;
         BaseResponse r = executeGet(url);
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, GetOauthUserInfoResponse.class);
+        response = JSONUtil.parse(jsonResult, GetOauthUserInfoResponse.class);
         return response;
     }
 }

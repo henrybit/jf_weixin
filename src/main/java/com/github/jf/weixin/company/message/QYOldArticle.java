@@ -1,7 +1,5 @@
 package com.github.jf.weixin.company.message;
 
-import com.github.jf.weixin.entity.message.request.OldArticle;
-
 /**
  *  
  *  ====================================================================

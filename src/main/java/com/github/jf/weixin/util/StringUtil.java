@@ -18,7 +18,7 @@ public final class StringUtil {
      * 判断一个字符串是否为空，null也会返回true
      *
      * @param str 需要判断的字符串
-     * @return 是否为空，null也会返回true
+     * @return boolean-是否为空，null也会返回true
      */
     public static boolean isBlank(String str) {
         return null == str || "".equals(str.trim());
@@ -28,7 +28,7 @@ public final class StringUtil {
      * 判断一个字符串是否不为空
      *
      * @param str 需要判断的字符串
-     * @return 是否为空
+     * @return boolean-是否为空
      */
     public static boolean isNotBlank(String str) {
         return !isBlank(str);
@@ -38,7 +38,7 @@ public final class StringUtil {
      * 判断一组字符串是否有空值
      *
      * @param strs 需要判断的一组字符串
-     * @return 判断结果，只要其中一个字符串为null或者为空，就返回true
+     * @return boolean-判断结果，只要其中一个字符串为null或者为空，就返回true
      */
     public static boolean hasBlank(String... strs) {
         if (null == strs || 0 == strs.length) {

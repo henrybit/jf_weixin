@@ -7,9 +7,9 @@ import java.util.List;
 import com.github.jf.weixin.api.material.MaterialAPI;
 import com.github.jf.weixin.api.material.MediaAPI;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.Article;
-import com.github.jf.weixin.entity.response.UploadMaterialResponse;
-import com.github.jf.weixin.entity.response.UploadMediaResponse;
+import com.github.jf.weixin.entity.model.Article;
+import com.github.jf.weixin.entity.response.material.UploadMaterialResponse;
+import com.github.jf.weixin.entity.response.material.UploadMediaResponse;
 import com.github.jf.weixin.enums.MediaType;
 
 /**
@@ -40,7 +40,7 @@ public class TestMaterialAPI {
 	private static void uploadTempMedia(ApiConfig apiConfig) {
 		MediaAPI mediaApi = new MediaAPI(apiConfig);
 		File imageFile = new File("/Users/henrybit/Pictures/164.pic_hd.jpg");
-		UploadMediaResponse uploadMediaResponse = mediaApi.uploadImageMedia(MediaType.IMAGE, imageFile);
+		UploadMediaResponse uploadMediaResponse = mediaApi.uploadMedia(MediaType.IMAGE, imageFile);
 		System.out.println("media_id:"+uploadMediaResponse.getMediaId());
 		
 		

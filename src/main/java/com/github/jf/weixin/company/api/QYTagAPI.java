@@ -60,7 +60,7 @@ public class QYTagAPI extends QYBaseAPI{
         }
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, CreateTagResponse.class);
+        response = JSONUtil.parse(jsonResult, CreateTagResponse.class);
         return response;
     }
 
@@ -87,7 +87,7 @@ public class QYTagAPI extends QYBaseAPI{
         String url = BASE_API_URL + "cgi-bin/tag/get?access_token=#&tagid=" + tagid;
         BaseResponse r = executeGet(url);
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, GetTagInfoResponse.class);
+        response = JSONUtil.parse(jsonResult, GetTagInfoResponse.class);
         return response;
     }
 
@@ -117,7 +117,7 @@ public class QYTagAPI extends QYBaseAPI{
         params.put("partylist", partys);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, AddTagUsersResponse.class);
+        response = JSONUtil.parse(jsonResult, AddTagUsersResponse.class);
         return response;
     }
 
@@ -141,7 +141,7 @@ public class QYTagAPI extends QYBaseAPI{
         params.put("partylist", partys);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, DelTagUsersResponse.class);
+        response = JSONUtil.parse(jsonResult, DelTagUsersResponse.class);
         return response;
     }
 
@@ -154,7 +154,7 @@ public class QYTagAPI extends QYBaseAPI{
         String url = BASE_API_URL + "cgi-bin/tag/list?access_token=#";
         BaseResponse r = executeGet(url);
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, GetTagListResponse.class);
+        response = JSONUtil.parse(jsonResult, GetTagListResponse.class);
         return response;
     }
 }

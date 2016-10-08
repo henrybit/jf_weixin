@@ -60,7 +60,7 @@ public class QYMediaAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/media/upload?access_token=#&type=" + type.toString();
         BaseResponse r = executePost(url, null, file);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, UploadMediaResponse.class);
+        response = JSONUtil.parse(resultJson, UploadMediaResponse.class);
         return response;
     }
 
@@ -88,7 +88,7 @@ public class QYMediaAPI extends QYBaseAPI {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     StreamUtil.copy(inputStream, out);
                     String json = out.toString();
-                    response = JSONUtil.toBean(json, DownloadMediaResponse.class);
+                    response = JSONUtil.parse(json, DownloadMediaResponse.class);
                 }
             }
         } catch (Exception e) {

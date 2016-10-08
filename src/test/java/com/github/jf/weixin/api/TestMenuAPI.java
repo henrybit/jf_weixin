@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.github.jf.weixin.api.menu.MenuAPI;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.Menu;
-import com.github.jf.weixin.entity.MenuButton;
+import com.github.jf.weixin.entity.menu.Menu;
+import com.github.jf.weixin.entity.menu.MenuButton;
 import com.github.jf.weixin.enums.MenuType;
 
 /**
@@ -17,17 +17,20 @@ import com.github.jf.weixin.enums.MenuType;
  */
 public class TestMenuAPI {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
 		String appId = "wxbe7e674c6bfd9b1b";
 		String secret = "2e27fa91a9b2b573d17faeb88d1cae9f";
 		ApiConfig apiConfig = new ApiConfig(appId, secret);
 		
 		//测试自定义菜单创建
-		createMenu(apiConfig);
+		//createMenu(apiConfig);
+		//获取所有菜单
+		testGetAllMenu(apiConfig);
+
 	}
 	
-	private static void createMenu(ApiConfig apiConfig) {
+	private static void createMenu(ApiConfig apiConfig) throws Exception{
 		MenuAPI menuApi = new MenuAPI(apiConfig);
 		Menu menu = new Menu();
 		List<MenuButton> buttons = new ArrayList<MenuButton>();
@@ -41,9 +44,20 @@ public class TestMenuAPI {
 		//点击跳转
 		MenuButton subBtn2 = new MenuButton();
 		subBtn2.setKey("A002");
-		subBtn2.setName("点击跳转菜单2");
+		subBtn2.setName("点击跳单2");
 		subBtn2.setType(MenuType.VIEW);
 		subBtn2.setUrl("http://www.baidu.com");
+
+		List<MenuButton> sonBtnList = new ArrayList<MenuButton>();
+		for (int i=0; i<2; i++) {
+			MenuButton subsubB = new MenuButton();
+			subsubB.setKey("A002"+i);
+			subsubB.setName("子菜单菜单"+i);
+			subsubB.setType(MenuType.VIEW);
+			subsubB.setUrl("http://www.sina.com");
+			sonBtnList.add(subsubB);
+		}
+		subBtn2.setSubButton(sonBtnList);
 		
 		//扫码push
 		MenuButton subBtn3 = new MenuButton();
@@ -96,14 +110,14 @@ public class TestMenuAPI {
 		subBtn10.setType(MenuType.VIEW_LIMITED);
 		subBtn10.setMediaId("");
 		
-		//buttons.add(subBtn1);
-		//buttons.add(subBtn2);
+		buttons.add(subBtn1);
+		buttons.add(subBtn2);
 		//buttons.add(subBtn3);
 		//buttons.add(subBtn4);
 		//buttons.add(subBtn5);
 		//buttons.add(subBtn6);
-		buttons.add(subBtn7);
-		buttons.add(subBtn8);
+		//buttons.add(subBtn7);
+		//buttons.add(subBtn8);
 //		buttons.add(subBtn9);
 //		buttons.add(subBtn10);
 		
@@ -112,4 +126,9 @@ public class TestMenuAPI {
 		menuApi.createMenu(menu);
 	}
 
+
+	private static void testGetAllMenu(ApiConfig apiConfig) throws Exception{
+		MenuAPI menuAPI = new MenuAPI(apiConfig);
+		menuAPI.getAllMenu();
+	}
 }

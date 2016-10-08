@@ -5,15 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.github.jf.weixin.entity.message.request.*;
+import com.github.jf.weixin.entity.request.message.*;
+import com.github.jf.weixin.entity.response.*;
+import com.github.jf.weixin.entity.response.message.*;
+import com.github.jf.weixin.exception.WeixinException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.jf.weixin.api.BaseAPI;
 import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.response.BaseResponse;
-import com.github.jf.weixin.entity.response.GetSendMessageResponse;
 import com.github.jf.weixin.enums.ResultType;
 import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.util.JSONUtil;
@@ -118,7 +119,7 @@ public class MessageAPI extends BaseAPI {
      * @deprecated 微信不再建议使用群组概念,用标签代替
      */
     @Deprecated
-    public GetSendMessageResponse sendMessageToUser(BaseReqMsg message, boolean isToAll, String groupId, String[] openIds){
+    public SendMessageResponse sendMessageToUser(BaseRequestMessage message, boolean isToAll, String groupId, String[] openIds){
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
         String url = APIAddress.MASS_GROUP_MESSAGE_SEND_API;
@@ -159,18 +160,18 @@ public class MessageAPI extends BaseAPI {
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
         String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
-        return JSONUtil.toBean(resultJson, GetSendMessageResponse.class);
+        return JSONUtil.parse(resultJson, SendMessageResponse.class);
     }
 
     /**
-     * 群发消息给用户。
+     * 群发消息给用户。<br>
      * 本方法调用需要账户为微信已认证账户
      * @param message 消息主体
      * @param isToAll 是否发送给全部用户。false时需要填写tagId，true时可忽略tagId树形
      * @param tagId 标签ID
      * @return 群发结果
      */
-    public GetSendMessageResponse sendMessageToUser(BaseReqMsg message, boolean isToAll, Integer tagId){
+    public SendMessageResponse sendMessageToUser(BaseRequestMessage message, boolean isToAll, Integer tagId){
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("群发消息......");
         //String url = BASE_API_URL + "cgi-bin/message/mass/sendall?access_token=#";
@@ -212,7 +213,7 @@ public class MessageAPI extends BaseAPI {
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
         String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
-        return JSONUtil.toBean(resultJson, GetSendMessageResponse.class);
+        return JSONUtil.parse(resultJson, SendMessageResponse.class);
     }
 
     /**
@@ -223,7 +224,7 @@ public class MessageAPI extends BaseAPI {
      * @return 调用结果
      * @deprecated - V2.0以后版本将删除
      */
-    public ResultType sendCustomMessage(String openid, BaseReqMsg message) {
+    public ResultType sendCustomMessage(String openid, BaseRequestMessage message) {
         BeanUtil.requireNonNull(openid, "openid is null");
         BeanUtil.requireNonNull(message, "message is null");
         LOG.debug("发布客服消息......");
@@ -292,5 +293,287 @@ public class MessageAPI extends BaseAPI {
         }
         BaseResponse response = executePost(url, JSONUtil.toJson(params));
         return ResultType.get(response.getErrcode());
+    }
+
+    /**
+     * 根据OpenID列表群发<br>
+     * <pre style="color:red;">
+     *     请注意：在返回成功时，意味着群发任务提交成功，并不意味着此时群发已经结束，所以，仍有可能在后续的发送过程中出现异常情况导致用户未收到消息，如消息有时会进行审核、服务器不稳定等。此外，群发任务一般需要较长的时间才能全部发送完毕，请耐心等待。
+     *     范例:{"errcode":0,"errmsg":"send job submission success","msg_id":34182,"msg_data_id": 206227730}
+     * </pre>
+     *<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+     *     <tbody>
+     *         <tr><th style="width:240px">参数</th><th>说明</th></tr>
+     *         <tr><td> type</td><td> 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb），次数为news，即图文消息</td></tr>
+     *         <tr><td> errcode</td><td> 错误码</td></tr>
+     *         <tr><td> errmsg</td><td> 错误信息</td></tr>
+     *         <tr><td> msg_id</td><td> 消息发送任务的ID</td></tr>
+     *         <tr><td> msg_data_id</td><td> 消息的数据ID，，该字段只有在群发图文消息时，才会出现。可以用于在图文分析数据接口中，获取到对应的图文消息的数据，是图文分析数据接口中的msgid字段中的前半部分，详见图文分析数据接口中的msgid字段的介绍。</td></tr>
+     *         </tbody>
+     *</table>
+     * @param reqMsg 请求参数
+     * @param openIds openId列表
+     */
+    public SendMessageResponse sendByOpenId(BaseRequestMessage reqMsg, String[] openIds) {
+        String url = APIAddress.MASS_OPENID_MESSAGE_SEND_API;
+        reqMsg.setToUser(openIds);
+        try {
+            BaseResponse response = executePost(url, reqMsg.toJson());
+            String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
+            return JSONUtil.parse(resultJson, SendMessageResponse.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 删除群发【订阅号与服务号认证后均可用】<br>
+     * <p>请注意：</p>
+     * <pre>1、只有已经发送成功的消息才能删除
+     * 2、删除消息是将消息的图文详情页失效，已经收到的用户，还是能在其本地看到消息卡片。
+     * 3、删除群发消息只能删除图文消息和视频消息，其他类型的消息一经发送，无法删除。
+     * 4、如果多次群发发送的是一个图文消息，那么删除其中一次群发，就会删除掉这个图文消息也，导致所有群发都失效
+     * </pre>
+     * @param msgId 消息ID
+     * @return ResultType-请求状态码
+     */
+    public ResultType deleteMassMessage(long msgId) {
+        String url = APIAddress.MASS_DELETE_MESSAGE_API;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("msg_id",msgId);
+        try {
+            BaseResponse response = executePost(url, JSONUtil.toJson(params));
+            return ResultType.get(response.getErrcode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultType.SYSTEM_UNKNOW;
+    }
+
+    /**
+     * 预览接口【订阅号与服务号认证后均可用】<br>
+     * <pre>
+     *     开发者可通过该接口发送消息给指定用户，在手机端查看消息的样式和排版。为了满足第三方平台开发者的需求，在保留对openID预览能力的同时，增加了对指定微信号发送预览的能力，但该能力每日调用次数有限制（100次），请勿滥用。
+     * </pre>
+     * @return PreviewMassMessageResponse-预览结果
+     */
+    public PreviewMassMessageResponse previewMassMessage(BaseRequestMessage reqMsg) {
+        String url = APIAddress.MASS_PREVIEW_MESSAGE_API;
+        try {
+            BaseResponse response = executePost(url, reqMsg.toJson());
+            return (PreviewMassMessageResponse)response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 查询群发消息发送状态【订阅号与服务号认证后均可用】<br>
+     * @param msgId
+     * @return
+     */
+    public GetMessageStatusResponse getMessageStatus(long msgId) {
+        String url = APIAddress.MASS_QUERY_MESSAGE_API;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("msg_id",msgId);
+        try {
+            BaseResponse response = executePost(url, JSONUtil.toJson(params));
+            return (GetMessageStatusResponse)response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * 设置行业可在MP中完成，每月可修改行业1次，账号仅可使用所属行业中相关的模板，为方便第三方开发者，提供通过接口调用的方式来修改账号所属行业<br>
+     * <pre>只允许2个参数</pre>
+     * <p>POST数据如下:</p>
+     * <pre>{
+     * "industry_id1":"1",
+     * "industry_id2":"4"
+     * }</pre>
+     * <table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+     *     <tbody>
+     *         <tr><th style="width:120px">参数</th><th style="width:120px">是否必须</th><th>说明</th></tr>
+     *         <tr><td> industry_id1</td><td> 是</td><td> 公众号模板消息所属行业编号</td></tr>
+     *         <tr><td> industry_id2</td><td> 是</td><td> 公众号模板消息所属行业编号</td></tr>
+     *     </tbody>
+     * </table>
+     * @param industryList 行业所属编号集合
+     * @return ResultType-调用结果
+     */
+    public ResultType setIndustrySetting(List<String> industryList) {
+        String url = APIAddress.TEMPLATE_SET_INDUSTRY_API;
+        Map<String, Object> params = new HashMap<String, Object>();
+        try {
+            if (industryList.size() > 2)
+                throw new WeixinException("参数过多");
+            for (int i=0; i<industryList.size(); i++) {
+                params.put("industry_id"+(i+1), industryList.get(i));
+            }
+            BaseResponse response = executePost(url, JSONUtil.toJson(params));
+            return ResultType.get(response.getErrcode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultType.SYSTEM_UNKNOW;
+    }
+
+
+    /**
+     * 获取设置的行业信息<br>
+     * 获取失败将返回null<br>
+     * <pre>
+     * 返回response范例:
+     * {"primary_industry":{"first_class":"运输与仓储","second_class":"快递"},"secondary_industry":{"first_class":"IT科技","second_class":"互联网|电子商务"}}
+     * </pre>
+     * @return GetIndustrySettingResponse-行业设置返回数据
+     */
+    public GetIndustrySettingResponse getIndustrySetting() {
+        String url = APIAddress.TEMPLATE_GET_INDUSTRY_API;
+        try {
+            BaseResponse response = executePost(url, null);
+            return (GetIndustrySettingResponse)response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获得模板ID<br>
+     * <pre>
+     * 返回response范例:
+     *  {"errcode":0,"errmsg":"ok","template_id":"Doclyl5uP7Aciu-qZ7mJNPtWkbkYnWBWVja26EGbNyk"}
+     * </pre>
+     * @param templateIdShort
+     * @return GetTemplateIdResponse-获取模板ID结果
+     */
+    public GetTemplateIdResponse getTemplateID(String templateIdShort) {
+        String url = APIAddress.TEMPLATE_GET_TEMPLATE_ID_API;
+        Map<String, Object> params = new HashMap<String, Object>();
+        try {
+            params.put("template_id_short", templateIdShort);
+            BaseResponse response = executePost(url, JSONUtil.toJson(params));
+            return (GetTemplateIdResponse)response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取模板列表<br>
+     * <pre>
+     * 返回response范例:
+     * {
+     * "template_list": [{
+     * "template_id": "iPk5sOIt5X_flOVKn5GrTFpncEYTojx6ddbt8WYoV5s",
+     * "title": "领取奖金提醒",
+     * "primary_industry": "IT科技",
+     * "deputy_industry": "互联网|电子商务",
+     * "content": "{ {result.DATA} }\n\n领奖金额:{ {withdrawMoney.DATA} }\n领奖  时间:{ {withdrawTime.DATA} }\n银行信息:{ {cardInfo.DATA} }\n到账时间:  { {arrivedTime.DATA} }\n{ {remark.DATA} }",
+     * "example": "您已提交领奖申请\n\n领奖金额：xxxx元\n领奖时间：2013-10-10 12:22:22\n银行信息：xx银行(尾号xxxx)\n到账时间：预计xxxxxxx\n\n预计将于xxxx到达您的银行卡"
+     * }]
+     * }
+     * </pre>
+     * @return GetTemplateListResponse-模板列表
+     */
+    public GetTemplateListResponse getTemplateList() {
+        String url = APIAddress.TEMPLATE_GET_TEMPLATE_LIST_API;
+        try {
+            BaseResponse response = executePost(url, null);
+            return (GetTemplateListResponse)response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 删除模板<br>
+     * @param templateId 公众帐号下模板消息ID
+     * @return ResultType-删除结果
+     */
+    public ResultType deleteTemplate(String templateId) {
+        String url = APIAddress.TEMPLATE_DELETE_TEMPLATE_API;
+        Map<String, Object> params = new HashMap<String, Object>();
+        try {
+            params.put("template_id", templateId);
+            BaseResponse response = executePost(url, JSONUtil.toJson(params));
+            return ResultType.get(response.getErrcode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultType.SYSTEM_UNKNOW;
+    }
+
+    /**
+     * 发送模板消息<br>
+     * <a href="https://mp.weixin.qq.com/wiki/18/8ecd0dfc9acafb2ed86ac3ae8f7c69aa.html">模板规范</a>
+     * <pre>
+     *  1、所有服务号都可以在功能-&gt;添加功能插件处看到申请模板消息功能的入口，但只有认证后的服务号才可以申请模板消息的使用权限并获得该权限；
+     *  2、需要选择公众账号服务所处的2个行业，每月可更改1次所选行业；
+     *  3、在所选择行业的模板库中选用已有的模板进行调用；
+     *  4、每个账号可以同时使用25个模板。
+     *  5、当前每个账号的模板消息的日调用上限为10万次，单个模板没有特殊限制。【2014年11月18日将接口调用频率从默认的日1万次提升为日10万次，可在MP登录后的开发者中心查看】。当账号粉丝数超过10W/100W/1000W时，模板消息的日调用上限会相应提升，以公众号MP后台开发者中心页面中标明的数字为准。
+     *  </pre>
+     *  <p>关于接口文档，请注意：</p>
+     * <pre>
+     * 1、模板消息调用时主要需要模板ID和模板中各参数的赋值内容；
+     * 2、模板中参数内容必须以".DATA"结尾，否则视为保留字；
+     * 3、模板保留符号"{{ }}"。
+     * </pre>
+     * @param templateMessage 模板消息
+     * @return SendTemplateResponse-发送结果
+     */
+    public SendTemplateResponse sendTemplateMessage(TemplateMessage templateMessage) {
+        String url = APIAddress.TEMPLATE_SEND_MESSAGE_API;
+        try {
+            BaseResponse response = executePost(url, JSONUtil.toJson(templateMessage));
+            return (SendTemplateResponse)response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取自动回复配置信息<br>
+     * 开发者可以通过该接口，获取公众号当前使用的自动回复规则，包括关注后自动回复、消息自动回复（60分钟内触发一次）、关键词自动回复
+     * <pre>
+     * 1、第三方平台开发者可以通过本接口，在旗下公众号将业务授权给你后，立即通过本接口检测公众号的自动回复配置，并通过接口再次给公众号设置好自动回复规则，以提升公众号运营者的业务体验。
+     * 2、本接口仅能获取公众号在公众平台官网的自动回复功能中设置的自动回复规则，若公众号自行开发实现自动回复，或通过第三方平台开发者来实现，则无法获取。
+     * 3、认证/未认证的服务号/订阅号，以及接口测试号，均拥有该接口权限。
+     * 4、从第三方平台的公众号登录授权机制上来说，该接口从属于消息与菜单权限集。
+     * 5、本接口中返回的图片/语音/视频未临时素材（临时素材每次获取都不同，3天内有效，通过素材管理-获取临时素材接口来获取这些素材），本接口返回的图文消息为永久素材素材（通过素材管理-获取永久素材接口来获取这些素材）。
+     * </pre>
+     * @return GetAutoReplyResponse-自动回复配置
+     */
+    public GetAutoReplyResponse getAutoReply() {
+        String url = APIAddress.GET_CURRENT_AUTOREPLY_API;
+        try {
+            BaseResponse response = executePost(url, null);
+            return (GetAutoReplyResponse)response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void main(String[] args) throws Exception {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        Object a = new Object();
+        map.put("first", a);
+        map.put("remark", a);
+        TemplateMessage templateMessage = new TemplateMessage();
+        templateMessage.setData(map);
+        templateMessage.setTemplateId("1111");
+        templateMessage.setUrl("http://www.baidu.com");
+        System.out.println(JSONUtil.toJson(templateMessage));
     }
 }

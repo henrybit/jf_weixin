@@ -6,7 +6,7 @@ import com.github.jf.weixin.entity.response.OauthGetTokenResponse;
 import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.config.ApiConfig;
 import com.github.jf.weixin.entity.response.BaseResponse;
-import com.github.jf.weixin.entity.response.GetUserInfoResponse;
+import com.github.jf.weixin.entity.response.user.GetUserInfoResponse;
 import com.github.jf.weixin.util.JSONUtil;
 import com.github.jf.weixin.util.StringUtil;
 import org.slf4j.Logger;
@@ -68,7 +68,7 @@ public class OauthAPI extends BaseAPI {
         String url = BASE_API_URL + "sns/oauth2/access_token?appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret() + "&code=" + code + "&grant_type=authorization_code";
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, OauthGetTokenResponse.class);
+        response = JSONUtil.parse(resultJson, OauthGetTokenResponse.class);
         return response;
     }
 
@@ -84,7 +84,7 @@ public class OauthAPI extends BaseAPI {
         String url = BASE_API_URL + "sns/oauth2/refresh_token?appid=" + this.config.getAppid() + "&grant_type=refresh_token&refresh_token=" + refreshToken;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, OauthGetTokenResponse.class);
+        response = JSONUtil.parse(resultJson, OauthGetTokenResponse.class);
         return response;
     }
 
@@ -102,7 +102,7 @@ public class OauthAPI extends BaseAPI {
         String url = BASE_API_URL + "sns/userinfo?access_token=" + token + "&openid=" + openid + "&lang=zh_CN";
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, GetUserInfoResponse.class);
+        response = JSONUtil.parse(resultJson, GetUserInfoResponse.class);
         return response;
     }
 

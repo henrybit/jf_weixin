@@ -1,6 +1,9 @@
 package com.github.jf.weixin.entity.message.recevice;
 
 import com.github.jf.weixin.annotation.XmlField;
+import com.github.jf.weixin.entity.other.ScanCodeInfo;
+import com.github.jf.weixin.entity.other.SendLocationInfo;
+import com.github.jf.weixin.entity.other.SendPicsInfo;
 
 /**
  * 接收到的事件<br>
@@ -76,13 +79,14 @@ import com.github.jf.weixin.annotation.XmlField;
  *     <li>
  *         点击菜单跳转链接时的事件推送<br>
  *         {@code
- *         <xml>
+            <xml>
             <ToUserName><![CDATA[toUser]]></ToUserName>
             <FromUserName><![CDATA[FromUser]]></FromUserName>
             <CreateTime>123456789</CreateTime>
             <MsgType><![CDATA[event]]></MsgType>
             <Event><![CDATA[VIEW]]></Event>
             <EventKey><![CDATA[www.qq.com]]></EventKey>
+            <MenuId>MENUID</MenuId>
             </xml>
  *         }
  *     </li>
@@ -116,6 +120,75 @@ import com.github.jf.weixin.annotation.XmlField;
 		</xml>
  *       }
  *     </li>
+ *     <li>
+ *         弹出系统拍照发图的事件推送<br>
+ *         {@code
+ *         <xml><ToUserName><![CDATA[gh_e136c6e50636]]></ToUserName>
+            <FromUserName><![CDATA[oMgHVjngRipVsoxg6TuX3vz6glDg]]></FromUserName>
+            <CreateTime>1408090651</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[pic_sysphoto]]></Event>
+            <EventKey><![CDATA[6]]></EventKey>
+            <SendPicsInfo><Count>1</Count>
+            <PicList><item><PicMd5Sum><![CDATA[1b5f7c23b5bf75682a53e7b6d163e185]]></PicMd5Sum>
+            </item>
+            </PicList>
+            </SendPicsInfo>
+            </xml>
+ *         }
+ *     </li>
+ *     <li>
+ *         弹出拍照或者相册发图的事件推送<br>
+ *         {@code
+ *         <xml><ToUserName><![CDATA[gh_e136c6e50636]]></ToUserName>
+            <FromUserName><![CDATA[oMgHVjngRipVsoxg6TuX3vz6glDg]]></FromUserName>
+            <CreateTime>1408090816</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[pic_photo_or_album]]></Event>
+            <EventKey><![CDATA[6]]></EventKey>
+            <SendPicsInfo><Count>1</Count>
+            <PicList><item><PicMd5Sum><![CDATA[5a75aaca956d97be686719218f275c6b]]></PicMd5Sum>
+            </item>
+            </PicList>
+            </SendPicsInfo>
+            </xml>
+ *         }
+ *     </li>
+ *     <li>
+ *         弹出微信相册发图器的事件推送<br>
+ *         {@code
+ *         <xml><ToUserName><![CDATA[gh_e136c6e50636]]></ToUserName>
+            <FromUserName><![CDATA[oMgHVjngRipVsoxg6TuX3vz6glDg]]></FromUserName>
+            <CreateTime>1408090816</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[pic_weixin]]></Event>
+            <EventKey><![CDATA[6]]></EventKey>
+            <SendPicsInfo><Count>1</Count>
+            <PicList><item><PicMd5Sum><![CDATA[5a75aaca956d97be686719218f275c6b]]></PicMd5Sum>
+            </item>
+            </PicList>
+            </SendPicsInfo>
+            </xml>
+ *         }
+ *     </li>
+ *     <li>
+ *         弹出地理位置选择器的事件推送<br>
+ *         {@code
+ *         <xml><ToUserName><![CDATA[gh_e136c6e50636]]></ToUserName>
+            <FromUserName><![CDATA[oMgHVjngRipVsoxg6TuX3vz6glDg]]></FromUserName>
+            <CreateTime>1408091189</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[location_select]]></Event>
+            <EventKey><![CDATA[6]]></EventKey>
+            <SendLocationInfo><Location_X><![CDATA[23]]></Location_X>
+            <Location_Y><![CDATA[113]]></Location_Y>
+            <Scale><![CDATA[15]]></Scale>
+            <Label><![CDATA[ 广州市海珠区客村艺苑路 106号]]></Label>
+            <Poiname><![CDATA[]]></Poiname>
+            </SendLocationInfo>
+            </xml>
+ *         }
+ *     </li>
  * </ul>
  * @author henrybit
  * @since 2.0
@@ -126,6 +199,8 @@ public class EventMessage extends BaseRecevice{
     protected String event;
     @XmlField(name="EventKey")
     protected String eventKey;
+    @XmlField(name="MenuId")
+    protected String menuId;
     @XmlField(name="Ticket")
     protected String ticket;
     @XmlField(name="Latitude")
@@ -136,6 +211,10 @@ public class EventMessage extends BaseRecevice{
     protected String precision;
     @XmlField(name="ScanCodeInfo")
     protected ScanCodeInfo scanCodeInfo;
+    @XmlField(name="SendPicsInfo")
+    protected SendPicsInfo sendPicsInfo;
+    @XmlField(name="SendLocationInfo")
+    protected SendLocationInfo sendLocationInfo;
 
     public String getEvent() {
         return event;
@@ -193,24 +272,27 @@ public class EventMessage extends BaseRecevice{
 		this.scanCodeInfo = scanCodeInfo;
 	}
 
+    public String getMenuId() {
+        return menuId;
+    }
 
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
 
-	public static class ScanCodeInfo {
-    	@XmlField(name="ScanType")
-    	private String scanType;
-    	@XmlField(name="ScanResult")
-    	private String scanResult;
-		public String getScanType() {
-			return scanType;
-		}
-		public void setScanType(String scanType) {
-			this.scanType = scanType;
-		}
-		public String getScanResult() {
-			return scanResult;
-		}
-		public void setScanResult(String scanResult) {
-			this.scanResult = scanResult;
-		}
+    public SendPicsInfo getSendPicsInfo() {
+        return sendPicsInfo;
+    }
+
+    public void setSendPicsInfo(SendPicsInfo sendPicsInfo) {
+        this.sendPicsInfo = sendPicsInfo;
+    }
+
+    public SendLocationInfo getSendLocationInfo() {
+        return sendLocationInfo;
+    }
+
+    public void setSendLocationInfo(SendLocationInfo sendLocationInfo) {
+        this.sendLocationInfo = sendLocationInfo;
     }
 }

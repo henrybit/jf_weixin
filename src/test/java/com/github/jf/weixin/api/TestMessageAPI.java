@@ -1,13 +1,21 @@
 package com.github.jf.weixin.api;
 
+import com.github.jf.weixin.api.material.MediaAPI;
 import com.github.jf.weixin.api.message.MessageAPI;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.CardExt;
-import com.github.jf.weixin.entity.message.request.CustomerServiceMessage;
-import com.github.jf.weixin.entity.message.request.NewsMessage;
-import com.github.jf.weixin.entity.message.request.NewsMessage.Article;
+import com.github.jf.weixin.entity.card.CardExt;
+import com.github.jf.weixin.entity.request.message.BaseRequestMessage;
+import com.github.jf.weixin.entity.request.message.CustomerServiceMessage;
+import com.github.jf.weixin.entity.request.message.NewsMessage;
+import com.github.jf.weixin.entity.request.message.NewsMessage.Article;
+import com.github.jf.weixin.entity.request.message.VideoMessage;
+import com.github.jf.weixin.entity.response.message.SendMessageResponse;
+import com.github.jf.weixin.entity.response.material.UploadMediaResponse;
+import com.github.jf.weixin.enums.MediaType;
 import com.github.jf.weixin.enums.MessageType;
 import com.github.jf.weixin.enums.ResultType;
+
+import java.io.File;
 
 /**
  * 测试消息相关API
@@ -140,5 +148,18 @@ public class TestMessageAPI {
 		ResultType resultType = messageApi.sendCustomerServiceMessage(customerServiceMessage);
 		System.out.println(resultType.getDescription());
 	}
-	
+
+
+	private static void TestSendMsgByOpenIds(ApiConfig apiConfig) throws Exception {
+		MessageAPI messageApi = new MessageAPI(apiConfig);
+		MediaAPI mediaAPI = new MediaAPI(apiConfig);
+		File file = new File("");
+		UploadMediaResponse uploadMediaResponse = mediaAPI.uploadMedia(MediaType.VIDEO, file);
+		System.out.println(uploadMediaResponse.toJsonString());
+
+		String[] openIds = {"",""};
+		BaseRequestMessage baseReqMsg = new VideoMessage();
+		SendMessageResponse response = messageApi.sendByOpenId(baseReqMsg, openIds);
+		//TODO
+	}
 }

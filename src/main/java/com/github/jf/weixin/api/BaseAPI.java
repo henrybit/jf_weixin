@@ -58,8 +58,6 @@ import java.util.List;
  * @version 2.0
  */
 public abstract class BaseAPI {
-	
-	public static final String BASE_API_URL = "https://api.weixin.qq.com/";
 
     protected final ApiConfig config;
 

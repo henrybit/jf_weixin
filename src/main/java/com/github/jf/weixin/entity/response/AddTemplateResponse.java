@@ -3,8 +3,10 @@ package com.github.jf.weixin.entity.response;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * 添加模版响应
+ * 添加模版响应<br>
+ * @deprecated 找不到该接口
  */
+@Deprecated
 public class AddTemplateResponse extends BaseResponse {
     /**
      * 模版id

@@ -1,9 +1,15 @@
 package com.github.jf.weixin.api.menu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONArray;
+import com.github.jf.weixin.entity.menu.MenuButton;
+import com.github.jf.weixin.entity.other.NewsInfo;
+import com.github.jf.weixin.entity.response.menu.GetMenuConfigResponse;
+import com.github.jf.weixin.enums.MenuType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,19 +18,29 @@ import com.alibaba.fastjson.JSONPath;
 import com.github.jf.weixin.api.BaseAPI;
 import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.Menu;
+import com.github.jf.weixin.entity.menu.Menu;
 import com.github.jf.weixin.entity.response.BaseResponse;
-import com.github.jf.weixin.entity.response.GetMenuResponse;
+import com.github.jf.weixin.entity.response.menu.GetMenuResponse;
 import com.github.jf.weixin.enums.ResultType;
 import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.util.CollectionUtil;
 import com.github.jf.weixin.util.JSONUtil;
 
 /**
- * 菜单相关API
+ * 菜单相关API<br>
+ * <ul>
+ *     <li>自定义菜单创建接口(createMenu):https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN</li>
+ *     <li>自定义菜单查询接口(getAPIMenu):https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN</li>
+ *     <li>自定义菜单删除接口(deleteMenu):https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN</li>
+ *     <li>创建个性化菜单接口(createMenu-参数Menu的Matchrule不为空):https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=ACCESS_TOKEN</li>
+ *     <li>删除个性化菜单接口(deleteConditionalMenu):https://api.weixin.qq.com/cgi-bin/menu/delconditional?access_token=ACCESS_TOKEN</li>
+ *     <li>测试个性化菜单接口(tryMatchMenu):https://api.weixin.qq.com/cgi-bin/menu/trymatch?access_token=ACCESS_TOKEN</li>
+ *     <li>获取自定义菜单配置接口(getAllMenu):https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=ACCESS_TOKEN</li>
+ * </ul>
  * 1.3.7支持个性化菜单
- * @author peiyu
+ * @author peiyu,henrybit
  * @since 1.2
+ * @version 2.0
  */
 public class MenuAPI extends BaseAPI {
 
@@ -88,9 +104,9 @@ public class MenuAPI extends BaseAPI {
                     }
                 }
             }
-            response = JSONUtil.toBean(jsonObject.toJSONString(), GetMenuResponse.class);
+            response = JSONUtil.parse(jsonObject.toJSONString(), GetMenuResponse.class);
         } else {
-            response = JSONUtil.toBean(r.toJsonString(), GetMenuResponse.class);
+            response = JSONUtil.parse(r.toJsonString(), GetMenuResponse.class);
         }
         return response;
     }
@@ -106,13 +122,100 @@ public class MenuAPI extends BaseAPI {
      * 5、本接口中返回的图片/语音/视频为临时素材（临时素材每次获取都不同，3天内有效，通过素材管理-获取临时素材接口来获取这些素材），本接口返回的图文消息为永久素材素材（通过素材管理-获取永久素材接口来获取这些素材）。</pre>
      * @see #getAPIMenu()
      */
-    public void getAllMenu() {
+    public GetMenuConfigResponse getAllMenu(){
     	LOG.debug("获取自定义菜单配置....");
     	String url = APIAddress.MENU_GET_CURRENT_SELFMENU_API;
-    	BaseResponse r = executeGet(url);
-    	
-    	//TODO
-    	
+    	BaseResponse baseResponse = executeGet(url);
+    	if (isSuccess(baseResponse.getErrcode())) {
+            //获取成功
+            JSONObject jsonObject = JSONUtil.getJSONFromString(baseResponse.getErrmsg());
+            //通过jsonpath不断修改type的值，才能正常解析- -
+            List buttonList = (List) JSONPath.eval(jsonObject, "$.selfmenu_info.button");
+            if (CollectionUtil.isNotEmpty(buttonList)) {
+                for (Object button : buttonList) {
+                    List subList = (List) JSONPath.eval(button, "$.sub_button.list");
+                    if (CollectionUtil.isNotEmpty(subList)) {
+                        for (Object sub : subList) {
+                            Object type = JSONPath.eval(sub, "$.type");
+                            JSONPath.set(sub, "$.type", type.toString().toUpperCase());
+                        }
+                    } else {
+                        Object type = JSONPath.eval(button, "$.type");
+                        JSONPath.set(button, "$.type", type.toString().toUpperCase());
+                    }
+                }
+            }
+            GetMenuConfigResponse response = JSONUtil.parse(jsonObject.toJSONString(), GetMenuConfigResponse.class);
+            HashMap<String, List<MenuButton>> map = new HashMap<String, List<MenuButton>>();
+            HashMap<String, List<NewsInfo>> newsMap = new HashMap<String, List<NewsInfo>>();
+            //解析sub_button中list
+            try {
+                JSONArray btnArray = jsonObject.getJSONObject("selfmenu_info").getJSONArray("button");
+                for (int i=0; btnArray!=null&&i<btnArray.size(); i++) {
+                    JSONObject btnObj = btnArray.getJSONObject(i);
+                    if (btnObj == null) continue;
+                    String btnName = btnObj.getString("name");
+                    List<MenuButton> menuButtonList = new ArrayList<MenuButton>();
+                    JSONObject subBtnRoot = btnObj.getJSONObject("sub_button");
+                    if (subBtnRoot == null) continue;
+                    JSONArray subArray = subBtnRoot.getJSONArray("list");
+                    for (int j=0; subArray!=null&&j<subArray.size(); j++) {
+                        JSONObject subObj = subArray.getJSONObject(j);
+                        if (subObj == null) continue;
+                        MenuButton menuButton = JSONUtil.parse(subObj.toJSONString(), MenuButton.class);
+                        if (menuButton != null)
+                            menuButtonList.add(menuButton);
+                        JSONObject newsRoot = subObj.getJSONObject("news_info");
+                        if (newsRoot != null) {
+                            String subKey = subObj.getString("value");
+                            JSONArray newsArray = newsRoot.getJSONArray("list");
+                            List<NewsInfo> newsInfoList = new ArrayList<NewsInfo>();
+                            for (int q=0; newsArray!=null&&q<newsArray.size(); q++) {
+                                JSONObject newsObj = newsArray.getJSONObject(q);
+                                if (newsObj == null) continue;
+                                NewsInfo newsInfo = JSONUtil.parse(newsObj.toJSONString(), NewsInfo.class);
+                                newsInfoList.add(newsInfo);
+                            }
+                            newsMap.put(subKey, newsInfoList);
+                        }
+                    }
+
+                    map.put(btnName, menuButtonList);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //设置button中的sub_button和sub_button中的news_info
+            try {
+                Menu menu = response.getMenu();
+                if (menu == null) return null;
+                List<MenuButton> btnList = menu.getButtons();
+                for (int i = 0; btnList != null && i < btnList.size(); i++) {
+                    MenuButton menuButton = btnList.get(i);
+                    if (menuButton == null) continue;
+                    String name = menuButton.getName();
+                    List<MenuButton> sonMenuButtons = map.get(name);
+                    for (int j=0; sonMenuButtons!=null&&j<sonMenuButtons.size(); j++) {
+                        MenuButton sonMenuBtn = sonMenuButtons.get(j);
+                        if (sonMenuBtn == null) continue;
+                        if (MenuType.NEWS == sonMenuBtn.getType()) {
+                            //设置sub_button中的news_info
+                            String sonKey = sonMenuBtn.getValue();
+                            sonMenuBtn.setNewsInfos(newsMap.get(sonKey));
+                        }
+                    }
+                    menuButton.setSubButton(sonMenuButtons);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return response;
+        } else {
+            //获取失败
+        }
+    	return null;
     }
     
     /**
@@ -177,9 +280,9 @@ public class MenuAPI extends BaseAPI {
                     }
                 }
             }
-            response = JSONUtil.toBean(jsonObject.toJSONString(), GetMenuResponse.class);
+            response = JSONUtil.parse(jsonObject.toJSONString(), GetMenuResponse.class);
         } else {
-            response = JSONUtil.toBean(r.toJsonString(), GetMenuResponse.class);
+            response = JSONUtil.parse(r.toJsonString(), GetMenuResponse.class);
         }
         return response;
     }

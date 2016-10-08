@@ -1,6 +1,6 @@
 package com.github.jf.weixin.company.message;
 
-import com.github.jf.weixin.entity.Article;
+import com.github.jf.weixin.entity.model.Article;
 
 /**
  *  

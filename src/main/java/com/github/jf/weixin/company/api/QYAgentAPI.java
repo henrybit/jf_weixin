@@ -45,7 +45,7 @@ public class QYAgentAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/agent/list?access_token=#";
         BaseResponse r = executeGet(url);
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, GetQYAgentListResponse.class);
+        response = JSONUtil.parse(jsonResult, GetQYAgentListResponse.class);
         return response;
     }
 
@@ -60,7 +60,7 @@ public class QYAgentAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/agent/get?access_token=#&agentid=" + agentId;
         BaseResponse r = executeGet(url);
         String jsonResult = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, GetQYAgentInfoResponse.class);
+        response = JSONUtil.parse(jsonResult, GetQYAgentInfoResponse.class);
         return response;
     }
 

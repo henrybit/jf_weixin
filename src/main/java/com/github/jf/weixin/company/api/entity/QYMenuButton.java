@@ -1,7 +1,7 @@
 package com.github.jf.weixin.company.api.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.jf.weixin.entity.BaseModel;
+import com.github.jf.weixin.entity.model.BaseModel;
 import com.github.jf.weixin.company.api.enums.QYMenuType;
 import com.github.jf.weixin.exception.WeixinException;
 

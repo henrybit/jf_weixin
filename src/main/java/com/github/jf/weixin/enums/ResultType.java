@@ -11,6 +11,10 @@ import com.github.jf.weixin.util.BeanUtil;
  */
 public enum ResultType {
     /**
+     * 未知
+     */
+    SYSTEM_UNKNOW(-2, "未知状态"),
+    /**
      * 系统繁忙
      */
     SYSTEM_BUSY(-1, "系统繁忙"),

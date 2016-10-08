@@ -62,6 +62,8 @@ public class APIAddress {
 	public static final String TEMPLATE_DELETE_TEMPLATE_API = BASE_API_URL+"cgi-bin/template/del_private_template?access_token=ACCESS_TOKEN";
     /**发送模板消息*/
 	public static final String TEMPLATE_SEND_MESSAGE_API = BASE_API_URL+"cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+	/**新增模板*/
+	public static final String TEMPLATE_ADD_API = BASE_API_URL+"cgi-bin/template/api_add_template?access_token=ACCESS_TOKEN";
     /**获取公众号自动回复配置*/
 	public static final String GET_CURRENT_AUTOREPLY_API = BASE_API_URL+"cgi-bin/get_current_autoreply_info?access_token=ACCESS_TOKEN";
 	/**添加客服帐号*/
@@ -91,18 +93,14 @@ public class APIAddress {
 	public static final String DELETE_MATERIAL_API = BASE_API_URL+"cgi-bin/material/del_material?access_token=ACCESS_TOKEN";
 	/**修改永久图文素材*/
 	public static final String UPDATE_MATERIAL_NEWS_API = BASE_API_URL+"cgi-bin/material/update_news?access_token=ACCESS_TOKEN";
+	/**上传视频素材*/
+	public static final String UPLOAD_MATERIAL_VIDEO_API = BASE_API_URL+"cgi-bin/media/uploadvideo?access_token=ACCESS_TOKEN";
 	/**获取素材总数*/
 	public static final String GET_MATERIAL_COUNT_API = BASE_API_URL+"cgi-bin/material/get_materialcount?access_token=ACCESS_TOKEN";
 	/**获取素材列表*/
 	public static final String GET_MATERIAL_LIST_API = BASE_API_URL+"cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN";
 	/**---------------素材管理接口API end-----------------**/
-	
-	/**---------------账号管理接口API start-----------------**/
-	/**生成带参数的二维码*/
-	public static final String ACCOUNT_CREATE_QRCODE_API = BASE_API_URL+"cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
-	/**长链接转短链接*/
-	public static final String SHORT_URL_TRANSFORM_API = BASE_API_URL+"cgi-bin/shorturl?access_token=ACCESS_TOKEN";
-	/**---------------账号管理接口API end-----------------**/
+
 	
 	/**---------------用户管理接口API start-----------------**/
 	/**创建分组*/
@@ -126,6 +124,75 @@ public class APIAddress {
 	/**批量获取用户基本信息*/
 	public static final String BATCH_GET_USER_INFO_API = BASE_API_URL+"cgi-bin/user/info/batchget?access_token=ACCESS_TOKEN";
 	/**获取用户列表*/
-	public static final String GET_USER_LIST_API = BASE_API_URL+"cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid=NEXT_OPENID"; 
+	public static final String GET_USER_LIST_API = BASE_API_URL+"cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid=NEXT_OPENID";
+
+	/**创建标签*/
+	public static final String CREATE_TAG_API = BASE_API_URL+"cgi-bin/tags/create?access_token=ACCESS_TOKEN";
+	/**获取公众号已创建的标签*/
+	public static final String GET_TAG_LIST_API = BASE_API_URL+"cgi-bin/tags/get?access_token=ACCESS_TOKEN";
+	/**编辑标签*/
+	public static final String UPDATE_TAG_API = BASE_API_URL+"cgi-bin/tags/update?access_token=ACCESS_TOKEN";
+	/**删除标签*/
+	public static final String DELETE_TAG_API = BASE_API_URL+"cgi-bin/tags/delete?access_token=ACCESS_TOKEN";
+	/**获取标签下粉丝列表*/
+	public static final String GET_TAG_FANS_LIST_API = BASE_API_URL+"cgi-bin/user/tag/get?access_token=ACCESS_TOKEN";
+	/**批量为用户打标签*/
+	public static final String BATCH_TAGGIN_USER_API = BASE_API_URL+"cgi-bin/tags/members/batchtagging?access_token=ACCESS_TOKEN";
+	/**批量为用户取消标签*/
+	public static final String BATCH_UNTAGGIN_USER_API = BASE_API_URL+"cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN";
+	/**获取用户身上的标签列表*/
+	public static final String GET_USER_TAGS_API = BASE_API_URL+"cgi-bin/tags/getidlist?access_token=ACCESS_TOKEN";
 	/**---------------用户管理接口API end-----------------**/
+
+
+	/**---------------账号管理接口API start-----------------**/
+	/**生成带参数的二维码*/
+	public static final String ACCOUNT_CREATE_QRCODE_API = BASE_API_URL+"cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
+	/**长链接转短链接*/
+	public static final String SHORT_URL_TRANSFORM_API = BASE_API_URL+"cgi-bin/shorturl?access_token=ACCESS_TOKEN";
+	/**---------------账号管理接口API end-----------------**/
+
+
+	/**---------------数据统计接口API start-----------------**/
+	/**用户分析数据接口-获取用户增减数据*/
+	public static final String USER_ANALYSE_SUMMARY_API = BASE_API_URL+"datacube/getusersummary?access_token=ACCESS_TOKEN";
+	/**用户分析数据接口-获取累计用户数据*/
+	public static final String USER_ANALYSE_CUMULATE_API = BASE_API_URL+"datacube/getusercumulate?access_token=ACCESS_TOKEN";
+	/**图文分析数据接口-获取图文群发每日数据*/
+	public static final String ARTICLE__SUMMARY_API = BASE_API_URL+"datacube/getarticlesummary?access_token=ACCESS_TOKEN";
+	/**图文分析数据接口-获取图文群发总数据*/
+	public static final String ARTICLE_TOTAL_API = BASE_API_URL+"datacube/getarticletotal?access_token=ACCESS_TOKEN";
+	/**图文分析数据接口-获取图文统计数据*/
+	public static final String ARTICLE_USER_READ_API = BASE_API_URL+"datacube/getuserread?access_token=ACCESS_TOKEN";
+	/**图文分析数据接口-获取图文统计分时数据*/
+	public static final String ARTICLE_USER_READ_HOUR_API = BASE_API_URL+"datacube/getuserreadhour?access_token=ACCESS_TOKEN";
+	/**图文分析数据接口-获取图文分享转发数据*/
+	public static final String ARTICLE_USER_SHARE_API = BASE_API_URL+"datacube/getusershare?access_token=ACCESS_TOKEN";
+	/**图文分析数据接口-获取图文分享转发分时数据*/
+	public static final String ARTICLE_USER_SHARE_HOUR_API = BASE_API_URL+"datacube/getusersharehour?access_token=ACCESS_TOKEN";
+	/**消息分析数据接口-获取消息发送概况数据*/
+	public static final String UPSTREAM_MSG_API = BASE_API_URL+"datacube/getupstreammsg?access_token=ACCESS_TOKEN";
+	/**消息分析数据接口-获取消息分送分时数据*/
+	public static final String UPSTREAM_MSG_HOUR_API = BASE_API_URL+"datacube/getupstreammsghour?access_token=ACCESS_TOKEN";
+	/**消息分析数据接口-获取消息发送周数据*/
+	public static final String UPSTREAM_MSG_WEEK_API = BASE_API_URL+"datacube/getupstreammsgweek?access_token=ACCESS_TOKEN";
+	/**消息分析数据接口-获取消息发送月数据*/
+	public static final String UPSTREAM_MSG_MONTH_API = BASE_API_URL+"datacube/getupstreammsgmonth?access_token=ACCESS_TOKEN";
+	/**消息分析数据接口-获取消息发送分布数据*/
+	public static final String UPSTREAM_MSG_DIST_API = BASE_API_URL+"datacube/getupstreammsgdist?access_token=ACCESS_TOKEN";
+	/**消息分析数据接口-获取消息发送分布周数据*/
+	public static final String UPSTREAM_MSG_DIST_WEEK_API = BASE_API_URL+"datacube/getupstreammsgdistweek?access_token=ACCESS_TOKEN";
+	/**消息分析数据接口-获取消息发送分布月数据*/
+	public static final String UPSTREAM_MSG_DIST_MONTH_API = BASE_API_URL+"datacube/getupstreammsgdistmonth?access_token=ACCESS_TOKEN";
+	/**接口分析数据接口-获取接口分析数据*/
+	public static final String INTERFACESUMMARY_API = BASE_API_URL+"datacube/getinterfacesummary?access_token=ACCESS_TOKEN";
+	/**接口分析数据接口-获取接口分析分时数据*/
+	public static final String INTERFACESUMMARY_HOUR_API = BASE_API_URL+"datacube/getinterfacesummaryhour?access_token=ACCESS_TOKEN";
+	/**---------------数据统计接口API end-----------------**/
+
+
+	/**---------------微信卡券接口API start-----------------**/
+	/**创建卡券*/
+	public static final String WX_CARD_CREATE_API = BASE_API_URL+"";
+	/**---------------微信卡券接口API end-----------------**/
 }

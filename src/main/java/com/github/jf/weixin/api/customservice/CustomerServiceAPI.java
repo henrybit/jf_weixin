@@ -1,9 +1,9 @@
 package com.github.jf.weixin.api.customservice;
 
 import com.github.jf.weixin.api.BaseAPI;
-import com.github.jf.weixin.entity.CustomAccount;
+import com.github.jf.weixin.entity.model.CustomAccount;
 import com.github.jf.weixin.enums.ResultType;
-import com.github.jf.weixin.entity.response.GetCustomAccountsResponse;
+import com.github.jf.weixin.entity.response.customerservice.GetCustomAccountsResponse;
 import com.github.jf.weixin.exception.WeixinException;
 import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.config.APIAddress;
@@ -105,7 +105,6 @@ public class CustomerServiceAPI extends BaseAPI {
         if (!fileName.endsWith("jpg")) {
             throw new WeixinException("头像必须是jpg格式");
         }
-        //String url = BASE_API_URL + "customservice/kfaccount/uploadheadimg?access_token=#&kf_account=" + accountName;
         String url = APIAddress.UPDATE_CUSTOMER_HEADER_API.replace("KFACCOUNT", accountName);
         BaseResponse response = executePost(url, null, file);
         return ResultType.get(response.getErrcode());
@@ -122,7 +121,7 @@ public class CustomerServiceAPI extends BaseAPI {
         String url = APIAddress.GET_CUSTOMER_SERVER_LIST_API;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, GetCustomAccountsResponse.class);
+        response = JSONUtil.parse(resultJson, GetCustomAccountsResponse.class);
         return response;
     }
 }

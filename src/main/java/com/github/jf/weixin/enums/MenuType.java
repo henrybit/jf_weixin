@@ -60,7 +60,12 @@ public enum MenuType {
     /**
      * 跳转图文消息URL
      */
-    VIEW_LIMITED("view_limited");
+    VIEW_LIMITED("view_limited"),
+
+    /**
+     * 图文菜单
+     */
+    NEWS("news");
 
     String value;
 

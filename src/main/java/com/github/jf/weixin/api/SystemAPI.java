@@ -16,10 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 系统API
- *
- * @author peiyu
- * @since 1.3
+ * 系统API<br>
+ * <ul>
+ *     <label>接口列表</label>
+ *     <li>微信服务器IP地址列表:https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN</li>
+ *     <li></li>
+ * </ul>
+ * @author henrybit
+ * @since 2.0
  * @version 2.0
  */
 public class SystemAPI extends BaseAPI {
@@ -31,8 +35,7 @@ public class SystemAPI extends BaseAPI {
     }
 
     /**
-     * 获取微信服务器IP地址列表
-     *
+     * 获取微信服务器IP地址列表<br>
      * @return List-IP地址列表
      */
     public List<String> getCallbackIP() {
@@ -50,15 +53,16 @@ public class SystemAPI extends BaseAPI {
 
     /**
      * 将一条长链接转成短链接
-     *
+     * @deprecated 使用UrlAPI
      * @param longUrl 长链接
      * @return String-对应的短链接
      */
+    @Deprecated
     public String getShortUrl(String longUrl) {
         String result = "";
         LOG.debug("获取短URL.......");
         if (checkUrl(longUrl)) {
-            String url = BASE_API_URL + "cgi-bin/shorturl?access_token=#";
+            String url = APIAddress.SHORT_URL_TRANSFORM_API;
             Map<String, String> params = new HashMap<String, String>();
             params.put("action", "long2short");
             params.put("long_url", longUrl);

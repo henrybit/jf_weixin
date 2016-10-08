@@ -1,6 +1,7 @@
 package com.github.jf.weixin.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.github.jf.weixin.entity.model.BaseModel;
 
 import java.util.Map;
 

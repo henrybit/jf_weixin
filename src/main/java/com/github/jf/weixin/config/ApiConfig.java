@@ -170,7 +170,7 @@ public final class ApiConfig extends Observable implements Serializable {
             @Override
             public void onResponse(int resultCode, String resultJson) {
                 if (HttpStatus.SC_OK == resultCode) {
-                    GetTokenResponse response = JSONUtil.toBean(resultJson, GetTokenResponse.class);
+                    GetTokenResponse response = JSONUtil.parse(resultJson, GetTokenResponse.class);
                     LOG.debug("获取access_token:{}", response.getAccessToken());
                     if (null == response.getAccessToken()) {
                         //刷新时间回滚
@@ -203,7 +203,7 @@ public final class ApiConfig extends Observable implements Serializable {
             @Override
             public void onResponse(int resultCode, String resultJson) {
                 if (HttpStatus.SC_OK == resultCode) {
-                    GetJsApiTicketResponse response = JSONUtil.toBean(resultJson, GetJsApiTicketResponse.class);
+                    GetJsApiTicketResponse response = JSONUtil.parse(resultJson, GetJsApiTicketResponse.class);
                     LOG.debug("获取jsapi_ticket:{}", response.getTicket());
                     if (StringUtil.isBlank(response.getTicket())) {
                         //刷新时间回滚

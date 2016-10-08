@@ -44,7 +44,7 @@ public class QYDepartmentAPI extends QYBaseAPI {
         }
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, GetDepartmentListResponse.class);
+        response = JSONUtil.parse(resultJson, GetDepartmentListResponse.class);
         return response;
     }
 
@@ -59,7 +59,7 @@ public class QYDepartmentAPI extends QYBaseAPI {
         String url = BASE_API_URL + "cgi-bin/department/create?access_token=#";
         BaseResponse r = executePost(url, department.toJsonString());
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
-        response = JSONUtil.toBean(resultJson, CreateDepartmentResponse.class);
+        response = JSONUtil.parse(resultJson, CreateDepartmentResponse.class);
         return response;
     }
 

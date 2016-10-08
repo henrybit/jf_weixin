@@ -1,5 +1,7 @@
 package com.github.jf.weixin.entity;
 
+import com.github.jf.weixin.entity.model.BaseModel;
+
 /**
  * 模版参数
  */

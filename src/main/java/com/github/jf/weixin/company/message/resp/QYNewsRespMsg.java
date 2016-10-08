@@ -1,7 +1,6 @@
 package com.github.jf.weixin.company.message.resp;
 
 import com.github.jf.weixin.company.message.QYOldArticle;
-import com.github.jf.weixin.entity.message.request.OldArticle;
 import com.github.jf.weixin.entity.message.recevice.ReceviceType;
 import com.github.jf.weixin.util.MessageBuilder;
 

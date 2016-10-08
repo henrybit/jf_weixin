@@ -1,6 +1,6 @@
 package com.github.jf.weixin.company.api.entity;
 
-import com.github.jf.weixin.entity.BaseModel;
+import com.github.jf.weixin.entity.model.BaseModel;
 
 /**
  *  企业通讯录-标签

@@ -1,11 +1,13 @@
 package com.github.jf.weixin.util;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.Logger;
 
 import com.github.jf.weixin.annotation.XmlField;
+import com.github.jf.weixin.entity.message.recevice.EventMessage;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -38,78 +40,159 @@ public class XMLUtil {
 	public static void main(String[] args) throws Exception {
         //读取文件 转换成Document  
         String xml = "<xml><ToUserName><![CDATA[henrybit]]></ToUserName><FromUserName><![CDATA[lilly]]></FromUserName> <CreateTime>1348831860</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[this is a test]]></Content><MsgId>1234567890123456</MsgId></xml>";
-
-        Document document = DocumentHelper.parseText(xml);
-        //获取根节点元素对象  
-        Element root = document.getRootElement();  
-        //遍历  
-        TreeMap<String, Object> treeMap = listNodes(root);
-		Text t = parse(Text.class, treeMap);
-        System.out.println(t.toUser);
-        System.out.println(t.fromUser);
-        System.out.println(t.createTime);
-        
-        System.out.println(toXml(t));
+        xml = "<xml><ToUserName><![CDATA[gh_e136c6e50636]]></ToUserName><FromUserName><![CDATA[oMgHVjngRipVsoxg6TuX3vz6glDg]]></FromUserName><CreateTime>1408090651</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[pic_sysphoto]]></Event><EventKey><![CDATA[6]]></EventKey><SendPicsInfo><Count>1</Count><PicList><item><PicMd5Sum><![CDATA[1b5f7c23b5bf75682a53e7b6d163e185]]></PicMd5Sum></item></PicList></SendPicsInfo></xml>";
+        //xml = "<xml><ToUserName><![CDATA[gh_e136c6e50636]]></ToUserName><FromUserName><![CDATA[oMgHVjngRipVsoxg6TuX3vz6glDg]]></FromUserName><CreateTime>1408090651</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[pic_sysphoto]]></Event><EventKey><![CDATA[6]]></EventKey><SendPicsInfo><Count>1</Count><PicList><item><PicMd5Sum><![CDATA[1b5f7c23b5bf75682a53e7b6d163e185]]></PicMd5Sum></item><item><PicMd5Sum><![CDATA[352fdsf4354354332343243243212321]]></PicMd5Sum></item></PicList></SendPicsInfo></xml>";
+        //遍历
+        EventMessage eventMessage = parse(EventMessage.class, xml);
+        System.out.println(toXml(eventMessage));
 	}
 
     /**
      * 将对象转化成XML格式数据<br>
-     * @param obj 待转化对象
-     * @param <T>
-     * @return String
+     * @param obj
+     * @return
      */
     public static <T> String toXml(T obj) {
+        return toXml(obj, "xml");
+    }
+
+
+    /**
+     * 将对象转化成XML格式数据<br>
+     * @param obj 待转化对象
+     * @return String
+     */
+    public static <T> String toXml(T obj, String labelName) {
         if (obj != null) {
-            StringBuilder xml = new StringBuilder("<xml>");
+            StringBuilder xml = new StringBuilder("<").append(labelName).append(">");
             Class cls = obj.getClass();
-            List<Field> filedList = getAllFields(cls);
-            for (int i=0; filedList!=null&&i<filedList.size(); i++) {
-                Field field = filedList.get(i);
-                if (field == null) continue;
-                String aliasName = field.getAnnotation(XmlField.class).name();
-                Class type = field.getType();
-                if (type == int.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldInt(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == long.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldLong(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == float.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldFloat(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == double.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldDouble(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == char.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldChar(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == byte.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldByte(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == boolean.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldBoolean(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == short.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldShort(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type.isArray()) {
-                    //TODO
-                } else if (type == Collection.class) {
-                    //TODO
-                } else if (type == List.class) {
-                    //TODO
-                } else if (type == String.class){
-                    xml.append("<").append(aliasName).append("><![CDATA[").append(getFieldString(obj, field)).append("]]></").append(aliasName).append(">");
-                } else if (type == Integer.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldInt(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == Long.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldLong(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == Short.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldShort(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == Float.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldFloat(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == Double.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldDouble(obj, field)).append("</").append(aliasName).append(">");
-                } else if (type == Character.class) {
-                    xml.append("<").append(aliasName).append(">").append(getFieldChar(obj, field)).append("</").append(aliasName).append(">");
+            if (cls == Map.class || cls == TreeMap.class || cls == HashMap.class) {
+                Map map = ((Map)obj);
+                Iterator<String> iterator = map.keySet().iterator();
+
+                while(iterator.hasNext()) {
+                    String key = iterator.next();
+                    Object value = map.get(key);
+                    if (value instanceof String) {
+                        xml.append("<").append(key).append(">").append((String)value)
+                                .append("</").append(key).append(">");
+                    } else if (value instanceof Map) {
+                        String subXml = toXml(value, key);
+                        xml.append(subXml);
+                    }
+
                 }
+                return xml.toString();
+            } else {
+                List<Field> filedList = getAllFields(cls);
+                for (int i = 0; filedList != null && i < filedList.size(); i++) {
+                    Field field = filedList.get(i);
+                    if (field == null) continue;
+                    field.setAccessible(true);
+                    XmlField annotation = field.getAnnotation(XmlField.class);
+                    String aliasName = field.getName();
+                    if (annotation != null)
+                        aliasName = annotation.name();
+                    if ("serialVersionUID".equals(aliasName)) continue;
+                    Class type = field.getType();
+                    if (type == int.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldInt(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == long.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldLong(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == float.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldFloat(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == double.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldDouble(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == char.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldChar(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == byte.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldByte(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == boolean.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldBoolean(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == short.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldShort(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type.isArray()) {
+                        //TODO
+                    } else if (type == Map.class) {
+                        //TODO
+                    } else if (type == List.class) {
+                        List list = getFieldList(obj, field);
+                        for (int j = 0; list != null && j < list.size(); j++) {
+                            String subXml = toXml(list.get(j), aliasName);
+                            xml.append(subXml);
+                        }
+                    } else if (type == String.class) {
+                        String value = getFieldString(obj, field);
+                        if (!StringUtil.isBlank(value))
+                            xml.append("<").append(aliasName).append("><![CDATA[").append(value).append("]]></").append(aliasName).append(">");
+                    } else if (type == Integer.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldInt(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == Long.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldLong(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == Short.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldShort(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == Float.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldFloat(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == Double.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldDouble(obj, field)).append("</").append(aliasName).append(">");
+                    } else if (type == Character.class) {
+                        xml.append("<").append(aliasName).append(">").append(getFieldChar(obj, field)).append("</").append(aliasName).append(">");
+                    } else {
+                        String subXml = toXml(getFieldObject(obj, field), aliasName);
+                        if (!StringUtil.isBlank(subXml))
+                            xml.append(subXml);
+                    }
+                }
+                xml.append("</").append(labelName).append(">");
+                return xml.toString();
             }
-            xml.append("</xml>");
-            return xml.toString();
         }
         return "";
+    }
+
+    /**
+     * Field取Map
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static Map getFieldMap(Object obj, Field field) {
+        try {
+            return (Map) field.get(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Field取List<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static List getFieldList(Object obj, Field field) {
+        try {
+            return (List)field.get(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Field取Object<br>
+     * @param obj
+     * @param field
+     * @return
+     */
+    private static Object getFieldObject(Object obj, Field field) {
+        try {
+            return field.get(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -286,6 +369,8 @@ public class XMLUtil {
 	 * @throws Exception
 	 */
     public static <T> T parse(Class<T> cls, TreeMap<String, Object> treeMap) throws Exception{
+        if (treeMap == null || treeMap.size() <= 0)
+            return null;
         try {
             T obj = cls.newInstance();
             
@@ -297,9 +382,11 @@ public class XMLUtil {
                 if (field.isAnnotationPresent(XmlField.class)) {
                     Class type = field.getType();
                     String name = field.getName();
-                    String aliasName = field.getAnnotation(XmlField.class).name();
-                    Object value;
-                    value = treeMap.get(aliasName);
+                    XmlField annotation = field.getAnnotation(XmlField.class);
+                    String aliasName = name;
+                    if (annotation != null)
+                        aliasName = annotation.name();
+                    Object value = treeMap.get(aliasName);
                     if (type == int.class) {
                         field.set(obj, NumberUtil.objToint(value));
                     } else if (type == long.class) {
@@ -321,7 +408,13 @@ public class XMLUtil {
                     } else if (type == Collection.class) {
                     	//TODO
                     } else if (type == List.class) {
-                    	//TODO
+                        if (value instanceof List) {
+                            field.set(obj, (List) value);
+                        } else {
+                            List list = new ArrayList();
+                            list.add(value);
+                            field.set(obj, list);
+                        }
                     } else if (type == String.class){
                         field.set(obj, (String)value);
                     } else if (type == Integer.class) {
@@ -336,6 +429,12 @@ public class XMLUtil {
                     	field.set(obj, (Double)value);
                     } else if (type == Character.class) {
                     	field.set(obj, (Character)value);
+                    } else {
+                        if (value instanceof Map) {
+                            Object valueObj = parse(type, (TreeMap) value);
+                            if (valueObj != null)
+                                field.set(obj, valueObj);
+                        }
                     }
                 }
             }
@@ -374,7 +473,7 @@ public class XMLUtil {
     private static TreeMap<String, Object> listNodes(Element node){
         TreeMap<String, Object> map = new TreeMap<String, Object>();
         String name = node.getName();
-        if ( !node.isRootElement() && (node.elements()==null || node.elements().size()<=1)) {
+        if ( !node.isRootElement() && (node.elements()==null || node.elements().size()<=0)) {
             map.put(name, node.getText());
         } else if (node.isRootElement()){
             //使用递归迭代当前节点下面的所有子节点
@@ -389,45 +488,29 @@ public class XMLUtil {
             TreeMap<String, Object> subMap = new TreeMap<String, Object>();
             while (iterator.hasNext()) {
                 Element e = iterator.next();
+                String subKey = e.getName();
                 TreeMap<String, Object> subInfoMap = listNodes(e);
-                subMap.put(e.getName(), subInfoMap);
+                if (subMap.get(subKey) != null) {
+                    Object subRoot = subMap.get(subKey);
+                    if (subRoot instanceof List) {
+                        ((List)subRoot).add(subInfoMap);
+                        subMap.put(subKey, subRoot);
+                    } else {
+                        List list = new ArrayList();
+
+                        list.add(subRoot);
+                        list.add(subInfoMap.get(subKey));
+                        subMap.put(subKey, list);
+                    }
+                } else {
+                    subMap.putAll(subInfoMap);
+                }
             }
+            Map oldMap = (Map)map.get(name);
+            if (oldMap != null)
+                subMap.putAll(oldMap);
             map.put(name, subMap);
         }
         return map;
-    }
-    
-    //Test
-    public static class Text {
-        @XmlField(name="ToUserName")
-    	protected String toUser;
-        @XmlField(name="FromUserName")
-    	protected String fromUser;
-        @XmlField(name="CreateTime")
-        protected long createTime;
-
-        public String getToUser() {
-            return toUser;
-        }
-
-        public void setToUser(String toUser) {
-            this.toUser = toUser;
-        }
-
-        public String getFromUser() {
-            return fromUser;
-        }
-
-        public void setFromUser(String fromUser) {
-            this.fromUser = fromUser;
-        }
-
-//        public long getCreateTime() {
-//            return createTime;
-//        }
-//
-//        public void setCreateTime(long createTime) {
-//            this.createTime = createTime;
-//        }
     }
 }

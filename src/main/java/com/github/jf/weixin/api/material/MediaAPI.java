@@ -21,20 +21,21 @@ import org.slf4j.LoggerFactory;
 import com.github.jf.weixin.api.BaseAPI;
 import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.Article;
+import com.github.jf.weixin.entity.model.Article;
 import com.github.jf.weixin.entity.response.BaseResponse;
-import com.github.jf.weixin.entity.response.DownloadMediaResponse;
-import com.github.jf.weixin.entity.response.UploadImgResponse;
-import com.github.jf.weixin.entity.response.UploadMediaResponse;
+import com.github.jf.weixin.entity.response.material.DownloadMediaResponse;
+import com.github.jf.weixin.entity.response.material.UploadImgResponse;
+import com.github.jf.weixin.entity.response.material.UploadMediaResponse;
 import com.github.jf.weixin.enums.MediaType;
 import com.github.jf.weixin.util.JSONUtil;
 import com.github.jf.weixin.util.NetWorkCenter;
 import com.github.jf.weixin.util.StreamUtil;
 
 /**
- * 多媒体资源API
- *
- * @author peiyu
+ * 临时素材管理<br>
+ * @author henrybit
+ * @since 2.0
+ * @version 2.0
  */
 public class MediaAPI extends BaseAPI {
 
@@ -45,16 +46,23 @@ public class MediaAPI extends BaseAPI {
     }
 
     /**
-     * 上传临时图片资源，会在微信服务器上保存3天，之后会被删除
+     * 上传临时资源，会在微信服务器上保存3天，之后会被删除<br>
+     * <ul>
+     *     <label>支持资源类型:</label>
+     *     <li>有图片（image）</li>
+     *     <li>语音（voice）</li>
+     *     <li>视频（video）</li>
+     *     <li>缩略图（thumb）</li>
+     * </ul>
      * @param type 资源类型
      * @param file 需要上传的文件
      * @return UploadMediaResponse-响应对象
      */
-    public UploadMediaResponse uploadImageMedia(MediaType type, File file) {
+    public UploadMediaResponse uploadMedia(MediaType type, File file) {
         UploadMediaResponse response;
         String url = APIAddress.UPLOAD_TEMP_MEDIA_API.replace("TYPE", type.toString());
         BaseResponse r = executePost(url, null, file);
-        response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
+        response = JSONUtil.parse(r.getErrmsg(), UploadMediaResponse.class);
         return response;
     }
 
@@ -66,26 +74,24 @@ public class MediaAPI extends BaseAPI {
      */
     public UploadMediaResponse uploadNews(List<Article> articles){
         UploadMediaResponse response;
-        //String url = BASE_API_URL + "cgi-bin/media/uploadnews?access_token=#";
         String url = APIAddress.MASS_UPLOAD_MESSAGE_IMAGE_NEWS_API;
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("articles", articles);
         BaseResponse r = executePost(url, JSONUtil.toJson(params));
-        response = JSONUtil.toBean(r.getErrmsg(), UploadMediaResponse.class);
+        response = JSONUtil.parse(r.getErrmsg(), UploadMediaResponse.class);
         return response;
     }
 
     /**
-     * 上传群发消息图片素材
+     * 上传群发消息图片素材 or 上传卡券相关的图片<br>
      * @param file 素材文件
      * @return UploadImgResponse
      */
     public UploadImgResponse uploadImg(File file){
         UploadImgResponse response;
-        //String url = "https://weixin.weixin.qq.com/cgi-bin/media/uploadimg?access_token=#";
         String url = APIAddress.MASS_UPLOAD_MESSAGE_IMAGE_API;
         BaseResponse r = executePost(url, null, file);
-        response = JSONUtil.toBean(r.getErrmsg(), UploadImgResponse.class);
+        response = JSONUtil.parse(r.getErrmsg(), UploadImgResponse.class);
         return response;
     }
 
@@ -97,7 +103,6 @@ public class MediaAPI extends BaseAPI {
      */
     public DownloadMediaResponse downloadMedia(String mediaId) {
         DownloadMediaResponse response = new DownloadMediaResponse();
-        //String url = "http://file.weixin.weixin.qq.com/cgi-bin/media/get?access_token=" + this.config.getAccessToken() + "&media_id=" + mediaId;
         String url = APIAddress.GET_TEMP_MEDIA_API.replace("ACCESS_TOKEN", this.config.getAccessToken()).replace("MEDIA_ID", mediaId);
         RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(NetWorkCenter.CONNECT_TIMEOUT).setConnectTimeout(NetWorkCenter.CONNECT_TIMEOUT).setSocketTimeout(NetWorkCenter.CONNECT_TIMEOUT).build();
         CloseableHttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
@@ -115,7 +120,7 @@ public class MediaAPI extends BaseAPI {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     StreamUtil.copy(inputStream, out);
                     String json = out.toString();
-                    response = JSONUtil.toBean(json, DownloadMediaResponse.class);
+                    response = JSONUtil.parse(json, DownloadMediaResponse.class);
                 }
             }
         } catch (IOException e) {

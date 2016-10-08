@@ -1,15 +1,14 @@
 package com.github.jf.weixin.entity.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.jf.weixin.entity.BaseModel;
+import com.github.jf.weixin.entity.model.BaseModel;
 import com.github.jf.weixin.enums.ResultType;
 import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.util.StringUtil;
 
 /**
- * 微信API响应报文对象基类
- *
- * @author peiyu
+ * 微信API响应报文对象基类<br>
+ * @author henrybit
  * @since 2.0
  * @version 2.0
  */

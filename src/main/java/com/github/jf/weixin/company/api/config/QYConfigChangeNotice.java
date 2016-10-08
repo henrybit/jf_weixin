@@ -1,6 +1,6 @@
 package com.github.jf.weixin.company.api.config;
 
-import com.github.jf.weixin.entity.BaseModel;
+import com.github.jf.weixin.entity.model.BaseModel;
 import com.github.jf.weixin.config.ChangeType;
 
 import java.util.Date;

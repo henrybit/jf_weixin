@@ -1,7 +1,7 @@
 package com.github.jf.weixin.entity.factory;
 
-import com.github.jf.weixin.entity.Menu;
-import com.github.jf.weixin.entity.MenuButton;
+import com.github.jf.weixin.entity.menu.Menu;
+import com.github.jf.weixin.entity.menu.MenuButton;
 import com.github.jf.weixin.enums.MenuType;
 
 import java.util.List;
@@ -75,6 +75,10 @@ public class MenuFactory {
 
     /**
      * 创建自定义菜单项<br>
+     * <ul>
+     *     <li>VIEW菜单时,将启用第四个数组参数,数组[0]是URL</li>
+     *     <li>MEDIA_ID或VIEW_LIMITED菜单时,将启用第四个数组参数,数组[0]是Menu_id</li>
+     * </ul>
      * @param name 菜单名
      * @param key 菜单编号
      * @param menuType 菜单类型

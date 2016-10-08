@@ -79,9 +79,9 @@ public class QYMenuAPI extends QYBaseAPI {
                     }
                 }
             }
-            response = JSONUtil.toBean(jsonObject.toJSONString(), GetQYMenuResponse.class);
+            response = JSONUtil.parse(jsonObject.toJSONString(), GetQYMenuResponse.class);
         } else {
-            response = JSONUtil.toBean(r.toJsonString(), GetQYMenuResponse.class);
+            response = JSONUtil.parse(r.toJsonString(), GetQYMenuResponse.class);
         }
         return response;
     }

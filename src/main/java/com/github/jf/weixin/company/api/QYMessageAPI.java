@@ -45,7 +45,7 @@ public class QYMessageAPI extends QYBaseAPI {
 //            r = executePost(url, JSONUtil.toJson((QYNewsMsg)message));
 //        }
         String jsonResult = isSuccess(r.getErrcode())? r.getErrmsg() :r.toJsonString();
-        response = JSONUtil.toBean(jsonResult, GetQYSendMessageResponse.class);
+        response = JSONUtil.parse(jsonResult, GetQYSendMessageResponse.class);
         return response;
     }
 }

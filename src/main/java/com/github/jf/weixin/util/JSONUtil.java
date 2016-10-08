@@ -58,7 +58,7 @@ public final class JSONUtil {
      * @param <T>       任意bean的类型
      * @return 转换后的java bean对象
      */
-    public static <T> T toBean(String jsonStr, Class<T> beanClass) {
+    public static <T> T parse(String jsonStr, Class<T> beanClass) {
         BeanUtil.requireNonNull(jsonStr, "jsonStr is null");
         JSONObject jo = JSON.parseObject(jsonStr);
         jo.put(JSON.DEFAULT_TYPE_KEY, beanClass.getName());

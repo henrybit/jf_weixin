@@ -1,6 +1,6 @@
 package com.github.jf.weixin.config;
 
-import com.github.jf.weixin.entity.BaseModel;
+import com.github.jf.weixin.entity.model.BaseModel;
 
 import java.util.Date;
 
