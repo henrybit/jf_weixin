@@ -1,6 +1,6 @@
 package com.github.jf.weixin.message.recevice;
 
-import com.github.jf.weixin.entity.message.recevice.EventMessage;
+import com.github.jf.weixin.entity.model.message.recevice.EventMessage;
 import com.github.jf.weixin.util.XMLUtil;
 
 /**

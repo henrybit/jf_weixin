@@ -1,10 +1,9 @@
 package com.github.jf.weixin.entity.response.message;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.jf.weixin.entity.other.NewsInfo;
+import com.github.jf.weixin.entity.model.other.NewsInfo;
 import com.github.jf.weixin.entity.response.BaseResponse;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**

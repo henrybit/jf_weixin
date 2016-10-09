@@ -36,10 +36,6 @@ public class APIAddress {
 	/**---------------消息相关接口API start-----------------**/
 	/**发送客服消息*/
 	public static final String CUSTOMER_SERVICE_MESSAGE_API = BASE_API_URL+"cgi-bin/message/custom/send?access_token=ACCESS_TOKEN";
-    /**上传图文消息内的图片获取URL【订阅号与服务号认证后均可用】*/
-	public static final String MASS_UPLOAD_MESSAGE_IMAGE_API = BASE_API_URL+"cgi-bin/media/uploadimg?access_token=ACCESS_TOKEN";
-    /**上传图文消息素材【订阅号与服务号认证后均可用】*/
-	public static final String MASS_UPLOAD_MESSAGE_IMAGE_NEWS_API = BASE_API_URL+"cgi-bin/media/uploadnews?access_token=ACCESS_TOKEN";
     /**根据分组进行群发【订阅号与服务号认证后均可用】*/
 	public static final String MASS_GROUP_MESSAGE_SEND_API = BASE_API_URL+"cgi-bin/message/mass/sendall?access_token=ACCESS_TOKEN";
     /**根据OpenID列表群发【订阅号不可用，服务号认证后可用】*/
@@ -83,6 +79,10 @@ public class APIAddress {
 	public static final String UPLOAD_TEMP_MEDIA_API = BASE_API_URL+"cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE";
 	/**获取临时素材*/
 	public static final String GET_TEMP_MEDIA_API = BASE_API_URL+"cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID";
+	/**上传图文消息内的图片获取URL【订阅号与服务号认证后均可用】*/
+	public static final String MASS_UPLOAD_MESSAGE_IMAGE_API = BASE_API_URL+"cgi-bin/media/uploadimg?access_token=ACCESS_TOKEN";
+	/**上传图文消息素材【订阅号与服务号认证后均可用】*/
+	public static final String MASS_UPLOAD_MESSAGE_IMAGE_NEWS_API = BASE_API_URL+"cgi-bin/media/uploadnews?access_token=ACCESS_TOKEN";
 	/**新增永久图文素材*/
 	public static final String UPLOAD_MATERIAL_NEWS_API = BASE_API_URL+"cgi-bin/material/add_news?access_token=ACCESS_TOKEN";
 	/**新增其他类型永久素材*/
@@ -195,4 +195,21 @@ public class APIAddress {
 	/**创建卡券*/
 	public static final String WX_CARD_CREATE_API = BASE_API_URL+"";
 	/**---------------微信卡券接口API end-----------------**/
+
+
+	/**---------------微信门店接口API start-----------------**/
+	/***拥有已认证的服务号可申请开通门店管理功能 && 认证的订阅号拥有卡券、WI-FI、摇一摇、广告主等功能后会自动开通门店管理功能*/
+	/**创建门店*/
+	public static final String CREATE_POI_API = BASE_API_URL+"cgi-bin/poi/addpoi?access_token=ACCESS_TOKEN";
+	/**查询门店信息*/
+	public static final String GET_POI_INFO_API = BASE_API_URL+"cgi-bin/poi/getpoi?access_token=ACCESS_TOKEN";
+	/**查询门店列表*/
+	public static final String GET_POI_LIST_API = BASE_API_URL+"cgi-bin/poi/getpoilist?access_token=ACCESS_TOKEN";
+	/**修改门店服务信息*/
+	public static final String UPDATE_POI_INFO_API = BASE_API_URL+"cgi-bin/poi/updatepoi?access_token=ACCESS_TOKEN";
+	/**删除门店*/
+	public static final String DELETE_POI_API = BASE_API_URL+"cgi-bin/poi/delpoi?access_token=ACCESS_TOKEN";
+	/**门店类目*/
+	public static final String GET_POI_CATEGORY_API = BASE_API_URL+"cgi-bin/poi/getwxcategory?access_token=ACCESS_TOKEN";
+	/**---------------微信门店接口API end-----------------**/
 }

@@ -210,6 +210,11 @@ public enum ResultType {
     ILLEGAL_GROUP_NAME(40051, "分组名字不合法"),
 
     /**
+     *参数不正确，请参考字段要求检查json字段
+     */
+    ILLEGAL_PARAM_ERROR(40097, "参数不正确，请参考字段要求检查json字段"),
+
+    /**
      * media_id大小不合法
      */
     ILLEGAL_MEDIA_ID_SIZE(40118, "media_id大小不合法"),
@@ -528,6 +533,61 @@ public enum ResultType {
      * 日期范围错误
      */
     DATE_RANGE_ERROR(61501, "日期范围错误"),
+
+    /**
+     * 门店的类型不合法，必须严格按照附表的分类填写
+     */
+    INVALID_CATEGORY(65104,"门店的类型不合法，必须严格按照附表的分类填写"),
+
+    /**
+     *图片url 不合法，必须使用接口1 的图片上传接口所获取的url
+     */
+    INVALID_PHOTO_URL(65105,"图片url 不合法，必须使用接口1 的图片上传接口所获取的url"),
+
+    /**
+     *门店状态必须未审核通过
+     */
+    POI_AUDIT_STATE_MUST_BE_APPROVED(65106, "门店状态必须未审核通过"),
+
+    /**
+     *扩展字段为不允许修改的状态
+     */
+    NOT_ALLOW_MODIFY(65107,"扩展字段为不允许修改的状态"),
+
+    /**
+     *门店名为空
+     */
+    INVALID_POI_NAME_EMPTY(65109,"门店名为空"),
+
+    /**
+     *门店所在详细街道地址为空
+     */
+    INVALID_POI_ADDRESS_NAME_EMPTY(65110,"门店所在详细街道地址为空"),
+
+    /**
+     *门店的电话为空
+     */
+    INVALID_POI_PHONE_EMPTY(65111,"门店的电话为空"),
+
+    /**
+     *门店所在的城市为空
+     */
+    INVALID_CITY_EMPTY(65112,"门店所在的城市为空"),
+
+    /**
+     *门店所在的省份为空
+     */
+    INVALID_PROVINCE_EMPTY(65113,"门店所在的省份为空"),
+
+    /**
+     *图片列表为空
+     */
+    EMPTY_PHOTO_LIST(65114,"图片列表为空"),
+
+    /**
+     *poi_id 不正确
+     */
+    INVALID_POI_ID(65115,"poi_id 不正确"),
 
     /**
      * POST数据参数不合法

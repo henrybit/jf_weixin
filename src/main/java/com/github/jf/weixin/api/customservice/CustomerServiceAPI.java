@@ -19,10 +19,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 消息-客服相关API
- *
- * @author peiyu,henrybit
- * @since 1.2
+ * 消息-客服相关API<br>
+ * <ul>
+ *     <label>接口列表</label>
+ *     <li>1.1 添加客服帐号:https://api.weixin.qq.com/customservice/kfaccount/add?access_token=ACCESS_TOKEN</li>
+ *     <li>1.2 修改客服帐号:https://api.weixin.qq.com/customservice/kfaccount/update?access_token=ACCESS_TOKEN</li>
+ *     <li>1.3 删除客服帐号:https://api.weixin.qq.com/customservice/kfaccount/del?access_token=ACCESS_TOKEN</li>
+ *     <li>1.4 设置客服帐号的头像:http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT</li>
+ *     <li>1.5 获取所有客服账号:https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=ACCESS_TOKEN</li>
+ * </ul>
+ * @author henrybit
+ * @since 2.0
  * @version 2.0
  */
 public class CustomerServiceAPI extends BaseAPI {

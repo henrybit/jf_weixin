@@ -1,6 +1,7 @@
 package com.github.jf.weixin.api.web;
 
 import com.github.jf.weixin.api.BaseAPI;
+import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.enums.OauthScope;
 import com.github.jf.weixin.entity.response.OauthGetTokenResponse;
 import com.github.jf.weixin.util.BeanUtil;
@@ -65,7 +66,7 @@ public class OauthAPI extends BaseAPI {
     public OauthGetTokenResponse getToken(String code) {
         BeanUtil.requireNonNull(code, "code is null");
         OauthGetTokenResponse response = null;
-        String url = BASE_API_URL + "sns/oauth2/access_token?appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret() + "&code=" + code + "&grant_type=authorization_code";
+        String url = APIAddress.BASE_API_URL + "sns/oauth2/access_token?appid=" + this.config.getAppid() + "&secret=" + this.config.getSecret() + "&code=" + code + "&grant_type=authorization_code";
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.parse(resultJson, OauthGetTokenResponse.class);
@@ -81,7 +82,7 @@ public class OauthAPI extends BaseAPI {
     public OauthGetTokenResponse refreshToken(String refreshToken) {
         BeanUtil.requireNonNull(refreshToken, "refreshToken is null");
         OauthGetTokenResponse response = null;
-        String url = BASE_API_URL + "sns/oauth2/refresh_token?appid=" + this.config.getAppid() + "&grant_type=refresh_token&refresh_token=" + refreshToken;
+        String url = APIAddress.BASE_API_URL + "sns/oauth2/refresh_token?appid=" + this.config.getAppid() + "&grant_type=refresh_token&refresh_token=" + refreshToken;
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.parse(resultJson, OauthGetTokenResponse.class);
@@ -99,7 +100,7 @@ public class OauthAPI extends BaseAPI {
         BeanUtil.requireNonNull(token, "token is null");
         BeanUtil.requireNonNull(openid, "openid is null");
         GetUserInfoResponse response = null;
-        String url = BASE_API_URL + "sns/userinfo?access_token=" + token + "&openid=" + openid + "&lang=zh_CN";
+        String url = APIAddress.BASE_API_URL + "sns/userinfo?access_token=" + token + "&openid=" + openid + "&lang=zh_CN";
         BaseResponse r = executeGet(url);
         String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
         response = JSONUtil.parse(resultJson, GetUserInfoResponse.class);
@@ -116,7 +117,7 @@ public class OauthAPI extends BaseAPI {
     public boolean validToken(String token, String openid) {
         BeanUtil.requireNonNull(token, "token is null");
         BeanUtil.requireNonNull(openid, "openid is null");
-        String url = BASE_API_URL + "sns/auth?access_token=" + token + "&openid=" + openid;
+        String url = APIAddress.BASE_API_URL + "sns/auth?access_token=" + token + "&openid=" + openid;
         BaseResponse r = executeGet(url);
         return isSuccess(r.getErrcode());
     }

@@ -3,7 +3,7 @@ package com.github.jf.weixin.api;
 import com.github.jf.weixin.api.material.MediaAPI;
 import com.github.jf.weixin.api.message.MessageAPI;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.card.CardExt;
+import com.github.jf.weixin.entity.model.card.CardExt;
 import com.github.jf.weixin.entity.request.message.BaseRequestMessage;
 import com.github.jf.weixin.entity.request.message.CustomerServiceMessage;
 import com.github.jf.weixin.entity.request.message.NewsMessage;

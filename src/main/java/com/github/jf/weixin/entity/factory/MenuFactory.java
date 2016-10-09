@@ -1,7 +1,7 @@
 package com.github.jf.weixin.entity.factory;
 
-import com.github.jf.weixin.entity.menu.Menu;
-import com.github.jf.weixin.entity.menu.MenuButton;
+import com.github.jf.weixin.entity.model.menu.Menu;
+import com.github.jf.weixin.entity.model.menu.MenuButton;
 import com.github.jf.weixin.enums.MenuType;
 
 import java.util.List;

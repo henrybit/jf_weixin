@@ -1,7 +1,7 @@
 package com.github.jf.weixin.entity.request.message;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.jf.weixin.entity.card.CardExt;
+import com.github.jf.weixin.entity.model.card.CardExt;
 import com.github.jf.weixin.util.JSONUtil;
 
 import java.util.HashMap;

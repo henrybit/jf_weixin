@@ -83,7 +83,7 @@ public class MediaAPI extends BaseAPI {
     }
 
     /**
-     * 上传群发消息图片素材 or 上传卡券相关的图片<br>
+     * 上传群发消息图片素材 or 上传卡券相关的图片 or 上传门店图片<br>
      * @param file 素材文件
      * @return UploadImgResponse
      */

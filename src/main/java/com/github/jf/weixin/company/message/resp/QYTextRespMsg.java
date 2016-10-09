@@ -1,6 +1,6 @@
 package com.github.jf.weixin.company.message.resp;
 
-import com.github.jf.weixin.entity.message.recevice.ReceviceType;
+import com.github.jf.weixin.entity.model.message.recevice.ReceviceType;
 import com.github.jf.weixin.util.MessageBuilder;
 
 /**

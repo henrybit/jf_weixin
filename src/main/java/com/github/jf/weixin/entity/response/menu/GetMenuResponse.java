@@ -1,7 +1,7 @@
 package com.github.jf.weixin.entity.response.menu;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.jf.weixin.entity.menu.Menu;
+import com.github.jf.weixin.entity.model.menu.Menu;
 import com.github.jf.weixin.entity.response.BaseResponse;
 
 /**

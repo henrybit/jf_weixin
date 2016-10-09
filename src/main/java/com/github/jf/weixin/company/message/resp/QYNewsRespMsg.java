@@ -1,7 +1,7 @@
 package com.github.jf.weixin.company.message.resp;
 
-import com.github.jf.weixin.company.message.QYOldArticle;
-import com.github.jf.weixin.entity.message.recevice.ReceviceType;
+import com.github.jf.weixin.company.message.QYArticle;
+import com.github.jf.weixin.entity.model.message.recevice.ReceviceType;
 import com.github.jf.weixin.util.MessageBuilder;
 
 import java.util.ArrayList;
@@ -22,18 +22,18 @@ public class QYNewsRespMsg extends QYBaseRespMsg {
     private static final int WX_MAX_SIZE = 10;
     private              int maxSize     = WX_MAX_SIZE;
 
-    private List<QYOldArticle> articles;
+    private List<QYArticle> articles;
 
     public QYNewsRespMsg() {
-        articles = new ArrayList<QYOldArticle>(maxSize);
+        articles = new ArrayList<QYArticle>(maxSize);
     }
 
     public QYNewsRespMsg(int maxSize) {
         setMaxSize(maxSize);
-        articles = new ArrayList<QYOldArticle>(maxSize);
+        articles = new ArrayList<QYArticle>(maxSize);
     }
 
-    public QYNewsRespMsg(List<QYOldArticle> articles) {
+    public QYNewsRespMsg(List<QYArticle> articles) {
         this.articles = articles;
     }
 
@@ -50,11 +50,11 @@ public class QYNewsRespMsg extends QYBaseRespMsg {
         }
     }
 
-    public List<QYOldArticle> getArticles() {
+    public List<QYArticle> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<QYOldArticle> articles) {
+    public void setArticles(List<QYArticle> articles) {
         if (articles.size() > this.maxSize) {
             this.articles = articles.subList(0, this.maxSize);
         } else {
@@ -75,10 +75,10 @@ public class QYNewsRespMsg extends QYBaseRespMsg {
     }
 
     public void add(String title, String description, String picUrl, String url) {
-        add(new QYOldArticle(title, description, picUrl, url));
+        add(new QYArticle(title, description, picUrl, url));
     }
 
-    public void add(QYOldArticle article){
+    public void add(QYArticle article){
         if (this.articles.size() < maxSize) {
             this.articles.add(article);
         }
@@ -90,7 +90,7 @@ public class QYNewsRespMsg extends QYBaseRespMsg {
         mb.addData("MsgType", ReceviceType.NEWS);
         mb.addTag("ArticleCount", String.valueOf(articles.size()));
         mb.append("<Articles>\n");
-        for (OldArticle article : articles) {
+        for (QYArticle article : articles) {
             mb.append(article.toXml());
         }
         mb.append("</Articles>\n");

@@ -1,7 +1,7 @@
 package com.github.jf.weixin.entity.response.datacube;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.jf.weixin.entity.model.UserShareHour;
+import com.github.jf.weixin.entity.model.datacube.UserShareHour;
 import com.github.jf.weixin.entity.response.BaseResponse;
 
 import java.util.List;

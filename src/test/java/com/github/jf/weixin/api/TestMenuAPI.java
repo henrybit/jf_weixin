@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.github.jf.weixin.api.menu.MenuAPI;
 import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.menu.Menu;
-import com.github.jf.weixin.entity.menu.MenuButton;
+import com.github.jf.weixin.entity.model.menu.Menu;
+import com.github.jf.weixin.entity.model.menu.MenuButton;
 import com.github.jf.weixin.enums.MenuType;
 
 /**

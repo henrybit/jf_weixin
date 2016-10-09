@@ -2,7 +2,7 @@ package com.github.jf.weixin.entity.request.message;
 
 import java.util.HashMap;
 
-import com.github.jf.weixin.entity.card.CardExt;
+import com.github.jf.weixin.entity.model.card.CardExt;
 import com.github.jf.weixin.enums.MessageType;
 import com.github.jf.weixin.util.JSONUtil;
 

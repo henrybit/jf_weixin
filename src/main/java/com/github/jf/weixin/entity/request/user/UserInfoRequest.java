@@ -2,6 +2,7 @@ package com.github.jf.weixin.entity.request.user;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.github.jf.weixin.entity.model.BaseModel;
+import com.github.jf.weixin.entity.request.BaseRequest;
 
 /**
  * 请求的用户查询信息<br>
@@ -9,7 +10,7 @@ import com.github.jf.weixin.entity.model.BaseModel;
  * @since 2.0
  * @version 2.0
  */
-public class UserInfoRequest extends BaseModel {
+public class UserInfoRequest extends BaseRequest {
     @JSONField(name="openid")
     private String openid;
     @JSONField(name="lang")

@@ -1,7 +1,7 @@
 package com.github.jf.weixin.entity.response.datacube;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.jf.weixin.entity.model.UserSummary;
+import com.github.jf.weixin.entity.model.datacube.UserSummary;
 import com.github.jf.weixin.entity.response.BaseResponse;
 
 import java.util.List;

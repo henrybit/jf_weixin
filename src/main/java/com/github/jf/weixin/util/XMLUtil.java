@@ -1,19 +1,14 @@
 package com.github.jf.weixin.util;
 
-import java.io.File;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.Logger;
 
 import com.github.jf.weixin.annotation.XmlField;
-import com.github.jf.weixin.entity.message.recevice.EventMessage;
-import org.dom4j.Attribute;
+import com.github.jf.weixin.entity.model.message.recevice.EventMessage;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import java.util.logging.Level;
 
 /**
  * XML操作解析工具
