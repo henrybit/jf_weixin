@@ -189,33 +189,77 @@ import com.github.jf.weixin.entity.model.other.SendPicsInfo;
             </xml>
  *         }
  *     </li>
+ *     <li>
+ *     		门店审核事件推送<br>
+ *     		{@code
+ *     		<xml>
+			<ToUserName><![CDATA[toUser]]></ToUserName>
+			<FromUserName><![CDATA[fromUser]]></FromUserName>
+			<CreateTime>1408622107</CreateTime>
+			<MsgType><![CDATA[event]]></MsgType>
+			<Event><![CDATA[poi_check_notify]]></Event>
+			<UniqId><![CDATA[123adb]]></UniqId>
+			<PoiId><![CDATA[123123]]></PoiId>
+			<Result><![CDATA[fail]]></Result>
+			<msg><![CDATA[xxxxxx]]></msg>
+			</xml>
+ *     		}
+ *     </li>
  * </ul>
  * @author henrybit
  * @since 2.0
  * @version 2.0
  */
 public class EventMessage extends BaseRecevice{
-    @XmlField(name="Event")
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1068730539729292563L;
+	/**事件类型*/
+	@XmlField(name="Event")
     protected String event;
+	/**事件子类型*/
     @XmlField(name="EventKey")
     protected String eventKey;
+    /**菜单ID*/
     @XmlField(name="MenuId")
     protected String menuId;
+    /**Ticket*/
     @XmlField(name="Ticket")
     protected String ticket;
+    /**纬度*/
     @XmlField(name="Latitude")
     protected String latitude;
+    /**经度*/
     @XmlField(name="Longitude")
     protected String longitude;
+    /**准确度*/
     @XmlField(name="Precision")
     protected String precision;
+    /**扫码结果*/
     @XmlField(name="ScanCodeInfo")
     protected ScanCodeInfo scanCodeInfo;
+    /**发送的图片集合*/
     @XmlField(name="SendPicsInfo")
     protected SendPicsInfo sendPicsInfo;
+    /**发送的定位信息*/
     @XmlField(name="SendLocationInfo")
     protected SendLocationInfo sendLocationInfo;
-
+    
+    /**商户自己内部ID，即字段中的sid*/
+    @XmlField(name="UniqId")
+    protected String uniqId;
+    /**微信的门店ID，微信内门店唯一标示ID*/
+    @XmlField(name="PoiId")
+    protected String poiId;
+    /**审核结果，成功succ 或失败fail*/
+    @XmlField(name="Result")
+    protected String result;
+    /**成功的通知信息，或审核失败的驳回理由*/
+    @XmlField(name="msg")
+    protected String msg;
+    
+    
     public String getEvent() {
         return event;
     }
@@ -295,4 +339,38 @@ public class EventMessage extends BaseRecevice{
     public void setSendLocationInfo(SendLocationInfo sendLocationInfo) {
         this.sendLocationInfo = sendLocationInfo;
     }
+
+	public String getUniqId() {
+		return uniqId;
+	}
+
+	public void setUniqId(String uniqId) {
+		this.uniqId = uniqId;
+	}
+
+	public String getPoiId() {
+		return poiId;
+	}
+
+	public void setPoiId(String poiId) {
+		this.poiId = poiId;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+    
+    
 }

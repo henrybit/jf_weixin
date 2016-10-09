@@ -1,18 +1,20 @@
 package com.github.jf.weixin.api.poi;
 
-import com.github.jf.weixin.api.BaseAPI;
-import com.github.jf.weixin.config.APIAddress;
-import com.github.jf.weixin.config.ApiConfig;
-import com.github.jf.weixin.entity.model.poi.PoiInfo;
-import com.github.jf.weixin.entity.request.poi.CreatePoiRequest;
-import com.github.jf.weixin.entity.response.BaseResponse;
-import com.github.jf.weixin.enums.ResultType;
-import com.github.jf.weixin.util.JSONUtil;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.github.jf.weixin.api.BaseAPI;
+import com.github.jf.weixin.config.APIAddress;
+import com.github.jf.weixin.config.ApiConfig;
+import com.github.jf.weixin.entity.request.poi.CreatePoiRequest;
+import com.github.jf.weixin.entity.response.BaseResponse;
+import com.github.jf.weixin.entity.response.poi.GetPoiListResponse;
+import com.github.jf.weixin.entity.response.poi.GetPoiResponse;
+import com.github.jf.weixin.enums.ResultType;
+import com.github.jf.weixin.util.JSONUtil;
 
 /**
  * 微信门店API<br>
@@ -57,5 +59,43 @@ public class PoiAPI extends BaseAPI{
             e.printStackTrace();
         }
         return ResultType.SYSTEM_UNKNOW;
+    }
+    
+    /**
+     * 获取门店信息<br>
+     * @param poiId 门店ID
+     * @return GetPoiResponse-门店信息
+     */
+    public GetPoiResponse getPoi(String poiId) {
+    	String url = APIAddress.GET_POI_INFO_API;
+    	try {
+    		Map<String, Object> param = new HashMap<String, Object>();
+            param.put("poi_id", poiId);
+            BaseResponse r = executePost(url, JSONUtil.toJson(param));
+            return (GetPoiResponse)r;
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+    }
+    
+    /**
+     * 获取门店列表<br>
+     * @param begin 开始位置
+     * @param limit 一次查询数量
+     * @return GetPoiListResponse-返回报文
+     */
+    public GetPoiListResponse getPoiList(int begin, int limit) {
+    	String url = APIAddress.GET_POI_LIST_API;
+    	try {
+    		Map<String, Object> param = new HashMap<String, Object>();
+    		param.put("begin", begin);
+    		param.put("limit", limit);
+    		BaseResponse r = executePost(url, JSONUtil.toJson(param));
+            return (GetPoiListResponse)r;
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
     }
 }
