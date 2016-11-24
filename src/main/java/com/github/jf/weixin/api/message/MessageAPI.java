@@ -93,6 +93,10 @@ public class MessageAPI extends BaseAPI {
     public MessageAPI(ApiConfig config) {
         super(config);
     }
+    
+    public MessageAPI(String accessToken) {
+    	super(accessToken);
+    }
 
     /**
      * 发送客服消息<br>

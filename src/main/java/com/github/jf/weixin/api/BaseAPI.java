@@ -6,6 +6,7 @@ import com.github.jf.weixin.entity.response.BaseResponse;
 import com.github.jf.weixin.util.BeanUtil;
 import com.github.jf.weixin.util.CollectionUtil;
 import com.github.jf.weixin.util.NetWorkCenter;
+import com.github.jf.weixin.util.StringUtil;
 
 import java.io.File;
 import java.util.List;
@@ -60,7 +61,7 @@ import java.util.List;
 public abstract class BaseAPI {
 
     protected final ApiConfig config;
-
+    protected String accessToken;
     /**
      * 构造方法，设置apiConfig
      *
@@ -68,6 +69,12 @@ public abstract class BaseAPI {
      */
     protected BaseAPI(ApiConfig config) {
         this.config = config;
+        this.accessToken = "";
+    }
+    
+    protected BaseAPI(String accessToken) {
+    	this.config = null;
+    	this.accessToken = accessToken;
     }
 
 
@@ -98,7 +105,13 @@ public abstract class BaseAPI {
             files = CollectionUtil.newArrayList(file);
         }
         //需要传token
-        String postUrl = url.replace("ACCESS_TOKEN", config.getAccessToken());
+        String postUrl = "";
+        if (StringUtil.isNotBlank(accessToken)) {
+        	postUrl = url.replace("ACCESS_TOKEN", accessToken);
+        } else if (config != null) {
+        	postUrl = url.replace("ACCESS_TOKEN", config.getAccessToken());
+        }
+        if (StringUtil.isBlank(postUrl)) return null;
         response = NetWorkCenter.post(postUrl, json, files);
         return response;
     }
@@ -114,7 +127,13 @@ public abstract class BaseAPI {
         BaseResponse response;
         BeanUtil.requireNonNull(url, "url is null");
         //需要传token
-        String getUrl = url.replace("ACCESS_TOKEN", config.getAccessToken());
+        String getUrl = "";
+        if (StringUtil.isNotBlank(accessToken)) {
+        	getUrl = url.replace("ACCESS_TOKEN", accessToken);
+        } else if (config != null) {
+        	getUrl = url.replace("ACCESS_TOKEN", config.getAccessToken());
+        }
+        if (StringUtil.isBlank(getUrl)) return null;
         response = NetWorkCenter.get(getUrl);
         return response;
     }

@@ -26,9 +26,12 @@ import java.io.File;
 public class TestMessageAPI {
 
 	public static void main(String[] args) throws Exception{
-		String appId = "wxbe7e674c6bfd9b1b";
-		String secret = "2e27fa91a9b2b573d17faeb88d1cae9f";
-		ApiConfig apiConfig = new ApiConfig(appId, secret);
+//		String appId = "wxbe7e674c6bfd9b1b";
+//		String secret = "2e27fa91a9b2b573d17faeb88d1cae9f";
+//		ApiConfig apiConfig = new ApiConfig(appId, secret);
+		
+		String accessToken = "ug94JYOmg8NXZFlPSmTNbrDskqxcsFHRS6OgHAHuwbFT5OI1FmmI8nGLv1lvGQeR-Q3nL58PQQFlB2abGREJOgXb_Yz_kPtJ4B8larLi7J-cqHYwnaFf5CVpLprhNPfGFXSdCDAYQL";
+		
 		//------------客服消息
 		//1.测试文本消息
 		//TestTextMessage(apiConfig);
@@ -41,7 +44,7 @@ public class TestMessageAPI {
 		//5.测试音乐消息
 		//TestMusicMessage(apiConfig);
 		//6.测试图文消息（点击跳转到外链）
-		//TestNewsMessage(apiConfig);
+		TestNewsMessage(accessToken);
 		//7.测试图文消息（点击跳转到图文消息页面）
 		//TestMPNewsMessage(apiConfig);
 		//8.测试卡券消息 TODO
@@ -113,9 +116,16 @@ public class TestMessageAPI {
 		System.out.println(resultType.getDescription());
 	}
 	
-	private static void TestNewsMessage(ApiConfig apiConfig) throws Exception {
-		MessageAPI messageApi = new MessageAPI(apiConfig);
-		String toUser = "oMt1sxK_DNo7CesbmoYs4tNW2rOI";
+	private static void TestNewsMessage(Object obj) throws Exception {
+		MessageAPI messageApi = null;
+		if (obj instanceof ApiConfig) {
+			ApiConfig apiConfig = (ApiConfig)obj;
+			messageApi = new MessageAPI(apiConfig);
+		} else if(obj instanceof String) {
+			String token = (String)obj;
+			messageApi = new MessageAPI(token);
+		}
+		String toUser = "oif2OtxT8YghJp-a958pZgwkn2Vk";
 		CustomerServiceMessage customerServiceMessage = new CustomerServiceMessage(toUser, MessageType.NEWS);
 		String title = "图文消息-内链外跳";
 		String picUrl = "http://img5.imgtn.bdimg.com/it/u=3586233367,3171193232&fm=11&gp=0.jpg";
