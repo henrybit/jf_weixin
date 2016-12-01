@@ -1,15 +1,16 @@
 package com.github.jf.weixin.api.account;
 
+import java.util.HashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.jf.weixin.api.BaseAPI;
 import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
 import com.github.jf.weixin.entity.response.BaseResponse;
 import com.github.jf.weixin.entity.response.account.TransformUrlResponse;
 import com.github.jf.weixin.util.JSONUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
 
 /**
  * 微信URL的相关API<br>
@@ -26,6 +27,10 @@ public class UrlAPI extends BaseAPI {
 
     public UrlAPI(ApiConfig config) {
         super(config);
+    }
+    
+    public UrlAPI(String accessToken) {
+    	super(accessToken);
     }
 
 
@@ -63,8 +68,10 @@ public class UrlAPI extends BaseAPI {
         try {
             params.put("long_url", longUrl);
             params.put("action", action);
-            BaseResponse response = executePost(url, JSONUtil.toJson(params));
-            return (TransformUrlResponse)response;
+            BaseResponse r = executePost(url, JSONUtil.toJson(params));
+            String resultJson = isSuccess(r.getErrcode()) ? r.getErrmsg() : r.toJsonString();
+            TransformUrlResponse response = JSONUtil.parse(resultJson, TransformUrlResponse.class);
+            return response;
         } catch (Exception e) {
             e.printStackTrace();
         }
