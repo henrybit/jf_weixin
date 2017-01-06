@@ -193,7 +193,11 @@ public class APIAddress {
 
 	/**---------------微信卡券接口API start-----------------**/
 	/**创建卡券*/
-	public static final String WX_CARD_CREATE_API = BASE_API_URL+"";
+	public static final String WX_CARD_CREATE_API = BASE_API_URL+"card/create?access_token=ACCESS_TOKEN";
+	/**设置买单接口*/
+	public static final String WX_PAY_CELL_API = BASE_API_URL+"card/paycell/set?access_token=ACCESS_TOKEN";
+	/**设置自助核销接口*/
+	public static final String WX_SELF_CONSUME_API = BASE_API_URL+"card/selfconsumecell/set?access_token=ACCESS_TOKEN";
 	/**---------------微信卡券接口API end-----------------**/
 
 
@@ -212,4 +216,10 @@ public class APIAddress {
 	/**门店类目*/
 	public static final String GET_POI_CATEGORY_API = BASE_API_URL+"cgi-bin/poi/getwxcategory?access_token=ACCESS_TOKEN";
 	/**---------------微信门店接口API end-----------------**/
+
+
+
+	/**---------------微信小店接口API start-----------------**/
+	/**---------------微信小店接口API end-----------------**/
+
 }

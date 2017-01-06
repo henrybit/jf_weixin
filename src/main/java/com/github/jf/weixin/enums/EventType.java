@@ -80,7 +80,12 @@ public enum EventType {
 	/**
 	 * MASSSENDJOBFINISH
 	 */
-	MASSSENDJOBFINISH("MASSSENDJOBFINISH");
+	MASSSENDJOBFINISH("MASSSENDJOBFINISH"),
+
+	/**
+	 * 买单事件推送(微信卡券买单功能-方便消费者买单时,直接输入消费金额,自动使用领到的优惠抵扣,并拉起微信支付快速完成付款)
+	 */
+	USER_PAY_FROM_PAY_CELL("user_pay_from_pay_cell");
 	
 	String value;
 	EventType(String value) {

@@ -14,6 +14,12 @@ public enum ResultType {
      * 未知
      */
     SYSTEM_UNKNOW(-2, "未知状态"),
+
+    /**
+     * 请求参数为空
+     */
+    REQUEST_PARAM_NULL(-3, "请求参数为空"),
+
     /**
      * 系统繁忙
      */
@@ -403,6 +409,16 @@ public enum ResultType {
      * 分组数量超过上限
      */
     GROUP_COUNT_TOO_MANY(45018, "分组数量超过上限"),
+
+    /***
+     *43008为商户没有开通微信支付权限或者没有在商户后台申请微信买单功能
+     */
+    NO_WEIXIN_PAY_OR_PAYCELL_AUTHORITY(43008,"商户没有开通微信支付权限或者没有在商户后台申请微信买单功能"),
+
+    /**
+     *45046为该card_id已经设置了买单功能，不可变更为自助核销功能，设置冲突
+     */
+    CARD_SETTING_SELF_CONSUME_CONFLICT(45046,"卡券已设置买单功能,不可变更为自助核销功能"),
 
     /**
      * 创建的标签数过多，请注意不能超过100个

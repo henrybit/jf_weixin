@@ -205,6 +205,41 @@ import com.github.jf.weixin.entity.model.other.SendPicsInfo;
 			</xml>
  *     		}
  *     </li>
+ *     <li>
+ *       买单事件推送<br>
+         微信买单完成时，微信会把这个事件推送到开发者填写的URL。 推送XML数据包示例：
+        {@code
+         <xml>
+         <ToUserName><![CDATA[gh_e2243xxxxxxx]]></ToUserName>
+         <FromUserName><![CDATA[oo2VNuOUuZGMxxxxxxxx]]></FromUserName>
+         <CreateTime>1442390947</CreateTime>
+         <MsgType><![CDATA[event]]></MsgType>
+         <Event><![CDATA[user_pay_from_pay_cell]]></Event>
+         <CardId><![CDATA[po2VNuCuRo-8sxxxxxxxxxxx]]></CardId>
+         <UserCardCode><![CDATA[38050000000]]></UserCardCode>
+         <TransId><![CDATA[10022403432015000000000]]></TransId>
+         <LocationId>291710000</LocationId>
+         <Fee><![CDATA[10000]]></Fee>
+         <OriginalFee><![CDATA[10000]]> </OriginalFee>
+         </xml>
+        }
+ *     </li>
+ *     <li>
+ *      微小店铺-订单付款通知<br>
+ *     {@code
+ *       <xml>
+         <ToUserName><![CDATA[weixin_media1]]></ToUserName>
+         <FromUserName><![CDATA[oDF3iYyVlek46AyTBbMRVV8VZVlI]]></FromUserName>
+         <CreateTime>1398144192</CreateTime>
+         <MsgType><![CDATA[event]]></MsgType>
+         <Event><![CDATA[merchant_order]]></Event>
+         <OrderId><![CDATA[test_order_id]]></OrderId>
+         <OrderStatus>2</OrderStatus>
+         <ProductId><![CDATA[test_product_id]]></ProductId>
+         <SkuInfo><![CDATA[10001:1000012;10002:100021]]></SkuInfo>
+         </xml>
+        }
+ *     </li>
  * </ul>
  * @author henrybit
  * @since 2.0
@@ -258,7 +293,28 @@ public class EventMessage extends BaseRecevice{
     /**成功的通知信息，或审核失败的驳回理由*/
     @XmlField(name="msg")
     protected String msg;
-    
+
+    /**微信卡券ID*/
+    @XmlField(name="CardId")
+    protected String cardId;
+    /**微信卡券code码*/
+    @XmlField(name="UserCardCode")
+    protected String userCardCode;
+    /**交易订单号*/
+    @XmlField(name="TransId")
+    protected String transId;
+    /**门店ID*/
+    @XmlField(name="LocationId")
+    protected String locationId;
+    /**门店名-通过卡券商户助手和买单核销时才会出现*/
+    @XmlField(name="LocationName")
+    protected String locationName;
+    /**实付金额:单位分*/
+    @XmlField(name="Fee")
+    protected String fee;
+    /**应付金额:单位分*/
+    @XmlField(name="OriginalFee")
+    protected String originalFee;
     
     public String getEvent() {
         return event;
@@ -371,6 +427,64 @@ public class EventMessage extends BaseRecevice{
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-    
-    
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public String getUserCardCode() {
+        return userCardCode;
+    }
+
+    public void setUserCardCode(String userCardCode) {
+        this.userCardCode = userCardCode;
+    }
+
+    public String getTransId() {
+        return transId;
+    }
+
+    public void setTransId(String transId) {
+        this.transId = transId;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getFee() {
+        return fee;
+    }
+
+    public void setFee(String fee) {
+        this.fee = fee;
+    }
+
+    public String getOriginalFee() {
+        return originalFee;
+    }
+
+    public void setOriginalFee(String originalFee) {
+        this.originalFee = originalFee;
+    }
 }
