@@ -25,11 +25,6 @@
 
     <developers>
         <developer>
-            <id>peiyu</id>
-            <name>peiyu</name>
-            <email>125331682@qq.com</email>
-        </developer>
-        <developer>
             <id>henrybit</id>
             <name>henry</name>
             <email>qipenghui3056@sina.com</email>
@@ -45,7 +40,7 @@
     <!-- 声明的常量 标识各个jar版本 -->
     <properties>
         <junit.version>4.12</junit.version>
-        <spring.version>3.2.17.RELEASE</spring.version>
+        <spring.version>4.3.7.RELEASE</spring.version>
     </properties>
 
     <dependencies>

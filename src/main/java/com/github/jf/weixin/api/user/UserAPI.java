@@ -52,6 +52,10 @@ public class UserAPI extends BaseAPI {
         super(config);
     }
 
+    public UserAPI(String accessToken) {
+        super(accessToken);
+    }
+
     /**
      * 获取关注者列表<br>
      * @param nextOpenid 下一个用户的ID(第一个拉取的OPENID，不填默认从头开始拉取)

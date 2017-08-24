@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
+import com.github.jf.weixin.api.material.MediaAPI;
 import com.github.jf.weixin.entity.model.menu.MenuButton;
 import com.github.jf.weixin.entity.model.other.NewsInfo;
 import com.github.jf.weixin.entity.response.menu.GetMenuConfigResponse;
@@ -38,7 +39,7 @@ import com.github.jf.weixin.util.JSONUtil;
  *     <li>获取自定义菜单配置接口(getAllMenu):https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=ACCESS_TOKEN</li>
  * </ul>
  * 1.3.7支持个性化菜单
- * @author peiyu,henrybit
+ * @author henrybit
  * @since 1.2
  * @version 2.0
  */
@@ -51,6 +52,10 @@ public class MenuAPI extends BaseAPI {
 
     public MenuAPI(ApiConfig config) {
         super(config);
+    }
+
+    public MenuAPI(String accessToken) {
+        super(accessToken);
     }
 
     /**

@@ -50,6 +50,10 @@ public class MaterialAPI extends BaseAPI {
         super(config);
     }
 
+    public MaterialAPI(String accessToken) {
+        super(accessToken);
+    }
+
     /**
      * 上传永久素材<br>
      * 只支持Image/Voice/Video/thumb这四种，News的请访问专门的方法uploadMaterialNews

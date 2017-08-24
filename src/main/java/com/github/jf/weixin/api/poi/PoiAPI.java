@@ -48,6 +48,10 @@ public class PoiAPI extends BaseAPI{
         super(config);
     }
 
+    public PoiAPI(String accessToken) {
+        super(accessToken);
+    }
+
 
     /**
      * 创建门店信息<br>

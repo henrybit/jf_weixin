@@ -33,6 +33,10 @@ public class CardAPI extends BaseAPI{
         super(apiConfig);
     }
 
+    public CardAPI(String accessToken) {
+        super(accessToken);
+    }
+
 
     /**
      * 创建卡券<br>

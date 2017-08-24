@@ -48,6 +48,10 @@ public class TagAPI extends BaseAPI {
         super(config);
     }
 
+    public TagAPI(String accessToken) {
+        super(accessToken);
+    }
+
     /**
      * 创建标签<br>
      * <pre>一个公众号，最多可以创建100个标签</pre>

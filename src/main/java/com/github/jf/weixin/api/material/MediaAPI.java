@@ -45,6 +45,10 @@ public class MediaAPI extends BaseAPI {
         super(config);
     }
 
+    public MediaAPI(String accessToken) {
+        super(accessToken);
+    }
+
     /**
      * 上传临时资源，会在微信服务器上保存3天，之后会被删除<br>
      * <ul>

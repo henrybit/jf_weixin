@@ -30,6 +30,10 @@ public class QrcodeAPI extends BaseAPI {
         super(config);
     }
 
+    public QrcodeAPI(String accessToken) {
+        super(accessToken);
+    }
+
     /**
      * 创建二维码<br>
      * <pre>

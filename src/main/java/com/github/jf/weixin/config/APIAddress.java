@@ -220,6 +220,10 @@ public class APIAddress {
 
 
 	/**---------------微信小店接口API start-----------------**/
+	/**新增一个商品接口*/
+	public static final String GOODS_ADD_API = BASE_API_URL+"merchant/create?access_token=ACCESS_TOKEN";
+	/**删除一个商品*/
+	public static final String GOODS_DELETE_API = BASE_API_URL+"merchant/del?access_token=ACCESS_TOKEN";
 	/**---------------微信小店接口API end-----------------**/
 
 }

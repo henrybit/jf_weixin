@@ -3,7 +3,9 @@ package com.github.jf.weixin.entity.response;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * @author peiyu
+ * 网页授权使用的返回报文
+ * @author henrybit
+ * @version 1.0
  */
 public class GetTokenResponse extends BaseResponse {
 

@@ -52,6 +52,10 @@ public class DataCubeAPI extends BaseAPI {
         super(config);
     }
 
+    public DataCubeAPI(String accessToken) {
+        super(accessToken);
+    }
+
     /**
      * 获取用户增减数据，最大跨度为7天<br>
      * <pre>1、接口侧的公众号数据的数据库中仅存储了2014年12月1日之后的数据，将查询不到在此之前的日期，即使有查到，也是不可信的脏数据；

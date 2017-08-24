@@ -1,7 +1,13 @@
 package com.github.jf.weixin.api.merchant;
 
 import com.github.jf.weixin.api.BaseAPI;
+import com.github.jf.weixin.config.APIAddress;
 import com.github.jf.weixin.config.ApiConfig;
+import com.github.jf.weixin.entity.request.merchant.CreateGoodsRequest;
+import com.github.jf.weixin.entity.request.merchant.DeleteGoodsRequest;
+import com.github.jf.weixin.entity.response.BaseResponse;
+import com.github.jf.weixin.entity.response.merchant.CreateGoodsResponse;
+import com.github.jf.weixin.util.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +48,7 @@ import org.slf4j.LoggerFactory;
  *     <li>6.5 关闭订单:https://api.weixin.qq.com/merchant/order/close?access_token=ACCESS_TOKEN</li>
  *     <li>7.1 上传图片:https://api.weixin.qq.com/merchant/common/upload_img?access_token=ACCESS_TOKEN&filename=test.png</li>
  * </ul>
+ * TODO
  * @author henrybit
  * @since 2.0
  * @version 2.0
@@ -54,6 +61,27 @@ public class MerChantAPI extends BaseAPI{
         super(apiConfig);
     }
 
+    public MerChantAPI(String accessToken) {
+        super(accessToken);
+    }
 
+
+    /**
+     * 新增一个商品
+     * @param request
+     * @return response
+     */
+    public CreateGoodsResponse createGoods(CreateGoodsRequest request) {
+        String url = APIAddress.GOODS_ADD_API;
+        BaseResponse response = executePost(url, request.toJson());
+        if (response == null)
+            return null;
+        String resultJson = isSuccess(response.getErrcode()) ? response.getErrmsg() : response.toJsonString();
+        return JSONUtil.parse(resultJson, CreateGoodsResponse.class);
+    }
+
+    public void deleteGoods(DeleteGoodsRequest request) {
+
+    }
 
 }

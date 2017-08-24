@@ -34,6 +34,10 @@ public class SystemAPI extends BaseAPI {
         super(config);
     }
 
+    public SystemAPI(String accessToken) {
+        super(accessToken);
+    }
+
     /**
      * 获取微信服务器IP地址列表<br>
      * @return List-IP地址列表

@@ -3,18 +3,22 @@ package com.github.jf.weixin.entity.response;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * Oauth授权获取token接口响应对象
- * @author peiyu
+ * 网页Oauth授权获取token接口响应对象
+ * @author henrybit
+ * @version 1.0
  */
 public class OauthGetTokenResponse extends GetTokenResponse {
 
     @JSONField(name = "refresh_token")
     private String refreshToken;
 
+    @JSONField(name = "openid")
     private String openid;
 
+    @JSONField(name = "scope")
     private String scope;
 
+    @JSONField(name = "unionid")
     private String unionid;
 
     public String getRefreshToken() {

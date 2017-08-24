@@ -40,6 +40,10 @@ public class CustomerServiceAPI extends BaseAPI {
         super(config);
     }
 
+    public CustomerServiceAPI(String accessToken) {
+        super(accessToken);
+    }
+
     /**
      * 添加客服帐号
      *
